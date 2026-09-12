@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StudyFlow</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="brand">
+    ✦ StudyFlow
+</div>
+
+<nav>
+    <a href="#dashboard">✦ Dashboard</a>
+    <a href="#tasks-section">✓ Tasks</a>
+    <a href="#timetable-section">◷ Timetable</a>
+    <a href="#pomodoro-section">⏱ Pomodoro</a>
+    <a href="#subjects-section">✦ Subjects</a>
+</nav>
+
+</header>
+
+<main>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="dashboard">
+
+    <div class="dashboard-header">
+
+        <div>
+            <p class="dashboard-label">
+                ✦ STUDY DASHBOARD
+            </p>
+
+            <h1>
+                Welcome back
+            </h1>
+
+            <p id="date"></p>
+        </div>
+
+        <div class="focus-badge">
+            Focus Mode
+        </div>
+
+    </div>
+
+    <div class="focus-area">
+
+        <div class="focus-content">
+
+            <span class="focus-label">
+                TODAY'S FOCUS
+            </span>
+
+            <h2>
+                Learn. Focus. Grow.
+            </h2>
+
+            <p>
+                Stay consistent and make progress every day.
+            </p>
+
+        </div>
+
+        <div class="focus-mark">
+            ✦
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TASKS -->
+
+<section id="tasks-section" class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <p class="section-label">
+                ✓ ORGANIZE
+            </p>
+
+            <h2>
+                Tasks
+            </h2>
+
+            <p>
+                Manage your daily study tasks.
+            </p>
+        </div>
+
+        <div class="task-status">
+            ● Organized
+        </div>
+
+    </div>
+
+
+    <div class="task-form">
+
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter your task"
+        >
+
+        <select id="subjectInput">
+
+            <option value="">
+                Select Subject
+            </option>
+
+            <option value="Physics">
+                ⚡ Physics
+            </option>
+
+            <option value="Chemistry">
+                ⚗ Chemistry
+            </option>
+
+            <option value="Mathematics">
+                ∑ Mathematics
+            </option>
+
+            <option value="Computer Science">
+                &lt;/&gt; Computer Science
+            </option>
+
+            <option value="English">
+                ✎ English
+            </option>
+
+        </select>
+
+
+        <select id="priorityInput">
+
+            <option value="High">
+                🔥 High Priority
+            </option>
+
+            <option value="Medium" selected>
+                ◆ Medium Priority
+            </option>
+
+            <option value="Low">
+                ◇ Low Priority
+            </option>
+
+        </select>
+
+
+        <input
+            type="date"
+            id="dateInput"
+        >
+
+        <input
+            type="time"
+            id="timeInput"
+        >
+
+        <button onclick="addTask()">
+            ＋ Add Task
+        </button>
+
+    </div>
+
+
+    <div class="task-list-header">
+
+        <h3>
+            Your Tasks
+        </h3>
+
+        <span id="taskCount">
+            0 tasks
+        </span>
+
+    </div>
+
+    <div id="tasks"></div>
+
+</section>
+
+
+<!-- TIMETABLE -->
+
+<section id="timetable-section" class="section">
+
+    <div class="section-heading">
+
+        <div>
+            <p class="section-label">
+                ◷ PLAN AHEAD
+            </p>
+
+            <h2>
+                Weekly Timetable
+            </h2>
+
+            <p>
+                Plan your study schedule.
+            </p>
+        </div>
+
+        <div class="task-status">
+            ● Planned
+        </div>
+
+    </div>
+
+
+    <div class="task-form">
+
+        <select id="dayInput">
+
+            <option value="">
+                Select Day
+            </option>
+
+            <option value="Monday">
+                Monday
+            </option>
+
+            <option value="Tuesday">
+                Tuesday
+            </option>
+
+            <option value="Wednesday">
+                Wednesday
+            </option>
+
+            <option value="Thursday">
+                Thursday
+            </option>
+
+            <option value="Friday">
+                Friday
+            </option>
+
+            <option value="Saturday">
+                Saturday
+            </option>
+
+            <option value="Sunday">
+                Sunday
+            </option>
+
+        </select>
+
+
+        <select id="timetableSubject">
+
+            <option value="">
+                Select Subject
+            </option>
+
+            <option value="Physics">
+                ⚡ Physics
+            </option>
+
+            <option value="Chemistry">
+                ⚗ Chemistry
+            </option>
+
+            <option value="Mathematics">
+                ∑ Mathematics
+            </option>
+
+            <option value="Computer Science">
+                &lt;/&gt; Computer Science
+            </option>
+
+            <option value="English">
+                ✎ English
+            </option>
+
+        </select>
+
+
+        <input
+            type="time"
+            id="startTime"
+        >
+
+        <input
+            type="time"
+            id="endTime"
+        >
+
+        <button onclick="addSchedule()">
+            ＋ Add Schedule
+        </button>
+
+    </div>
+
+
+    <div class="timetable-header">
+
+        <h3>
+            Your Schedule
+        </h3>
+
+    </div>
+
+    <div
+        id="timetableList"
+        class="timetable-list">
+    </div>
+
+</section>
+
+
+<!-- POMODORO -->
+
+<section id="pomodoro-section" class="section">
+
+    <div class="section-heading pomodoro-heading">
+
+        <div>
+            <p class="section-label">
+                ⏱ FOCUS SESSION
+            </p>
+
+            <h2>
+                Pomodoro Timer
+            </h2>
+
+            <p>
+                Choose your study and break time.
+            </p>
+        </div>
+
+        <div class="timer-status">
+            ● Ready
+        </div>
+
+    </div>
+
+
+    <div class="pomodoro-card">
+
+
+        <!-- TIMER SETTINGS -->
+
+        <div class="timer-settings">
+
+            <div class="timer-setting">
+
+                <label for="studyDuration">
+                    ⏱ Study Time
+                </label>
+
+                <select
+                    id="studyDuration"
+                    onchange="changeStudyDuration()"
+                >
+
+                    <option value="25">
+                        25 minutes
+                    </option>
+
+                    <option value="50">
+                        50 minutes
+                    </option>
+
+                    <option value="60">
+                        60 minutes
+                    </option>
+
+                    <option value="custom">
+                        Custom
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="customStudyTime"
+                    min="1"
+                    max="180"
+                    placeholder="Custom minutes"
+                    style="display:none;"
+                >
+
+            </div>
+
+
+            <div class="timer-setting">
+
+                <label for="breakDuration">
+                    ☕ Break Time
+                </label>
+
+                <select
+                    id="breakDuration"
+                    onchange="changeBreakDuration()"
+                >
+
+                    <option value="5">
+                        5 minutes
+                    </option>
+
+                    <option value="10">
+                        10 minutes
+                    </option>
+
+                    <option value="15">
+                        15 minutes
+                    </option>
+
+                    <option value="custom">
+                        Custom
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="customBreakTime"
+                    min="1"
+                    max="60"
+                    placeholder="Custom minutes"
+                    style="display:none;"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- MODE BUTTONS -->
+
+        <div class="timer-mode-buttons">
+
+            <button
+                id="studyModeButton"
+                class="timer-mode active"
+                onclick="setStudyMode()"
+            >
+                ⏱ Study
+            </button>
+
+
+            <button
+                id="breakModeButton"
+                class="timer-mode"
+                onclick="setBreakMode()"
+            >
+                ☕ Break
+            </button>
+
+        </div>
+
+
+        <!-- TIMER -->
+
+        <div class="timer-display-area">
+
+            <p id="timerMode">
+                Study Session
+            </p>
+
+            <div id="timer">
+                25:00
+            </div>
+
+
+            <div class="timer-progress">
+
+                <div
+                    id="timerProgressFill"
+                    class="timer-progress-fill">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+
+        <div class="timer-controls">
+
+            <button
+                class="timer-start"
+                onclick="startTimer()"
+            >
+                ▶ Start
+            </button>
+
+
+            <button
+                class="timer-pause"
+                onclick="pauseTimer()"
+            >
+                ⏸ Pause
+            </button>
+
+
+            <button
+                class="timer-reset"
+                onclick="resetTimer()"
+            >
+                ↻ Reset
+            </button>
+
+        </div>
+
+
+        <p class="timer-info">
+            Stay focused during study time and take a proper break afterwards.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section id="progress-section" class="section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                ◈ PERFORMANCE
+            </p>
+
+            <h2>
+                Progress Dashboard
+            </h2>
+
+            <p>
+                Track your study performance.
+            </p>
+
+        </div>
+
+        <div class="progress-status">
+            ● Tracking
+        </div>
+
+    </div>
+
+
+    <div class="premium-stats">
+
+        <div class="premium-stat">
+
+            <span>
+                ✓ Completion
+            </span>
+
+            <strong id="progressTasks">
+                0 / 0
+            </strong>
+
+            <small>
+                Tasks completed
+            </small>
+
+        </div>
+
+
+        <div class="premium-stat">
+
+            <span>
+                ◉ Study Time
+            </span>
+
+            <strong id="progressStudyTime">
+                0 min
+            </strong>
+
+            <small>
+                Total study time
+            </small>
+
+        </div>
+
+
+        <div class="premium-stat">
+
+            <span>
+                ◎ Progress
+            </span>
+
+            <strong id="progressPercentage">
+                0%
+            </strong>
+
+            <small>
+                Overall completion
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECT PROGRESS -->
+
+    <div class="subject-progress-card">
+
+        <div class="progress-card-heading">
+
+            <h3>
+                Subject-wise Progress
+            </h3>
+
+            <span>
+                ◈
+            </span>
+
+        </div>
+
+        <div id="subjectProgress">
+        </div>
+
+    </div>
+
+
+    <!-- DAILY SUMMARY -->
+
+    <div class="daily-summary">
+
+        <div class="summary-title">
+            ★ Today's Summary
+        </div>
+
+
+        <div class="summary-grid">
+
+            <div>
+
+                <span>
+                    Completed
+                </span>
+
+                <strong id="todayCompleted">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Study Time
+                </span>
+
+                <strong id="todayStudyTime">
+                    0 min
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Sessions
+                </span>
+
+                <strong id="todaySessions">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUBJECTS -->
+
+<section id="subjects-section" class="section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                ✦ YOUR STUDIES
+            </p>
+
+            <h2>
+                Subjects
+            </h2>
+
+            <p class="subjects-description">
+                Store and manage your study materials by subject.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="subjects-grid">
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">
+                ⚡
+            </div>
+
+            <div class="subject-info">
+
+                <h3>
+                    Physics
+                </h3>
+
+                <span
+                    class="file-count"
+                    id="count-Physics"
+                >
+                    0 files
+                </span>
+
+            </div>
+
+            <button
+                class="study-files-button"
+                onclick="openSubject('Physics')"
+            >
+                Open →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">
+                ⚗
+            </div>
+
+            <div class="subject-info">
+
+                <h3>
+                    Chemistry
+                </h3>
+
+                <span
+                    class="file-count"
+                    id="count-Chemistry"
+                >
+                    0 files
+                </span>
+
+            </div>
+
+            <button
+                class="study-files-button"
+                onclick="openSubject('Chemistry')"
+            >
+                Open →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">
+                ∑
+            </div>
+
+            <div class="subject-info">
+
+                <h3>
+                    Mathematics
+                </h3>
+
+                <span
+                    class="file-count"
+                    id="count-Mathematics"
+                >
+                    0 files
+                </span>
+
+            </div>
+
+            <button
+                class="study-files-button"
+                onclick="openSubject('Mathematics')"
+            >
+                Open →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">
+                &lt;/&gt;
+            </div>
+
+            <div class="subject-info">
+
+                <h3>
+                    Computer Science
+                </h3>
+
+                <span
+                    class="file-count"
+                    id="count-Computer Science"
+                >
+                    0 files
+                </span>
+
+            </div>
+
+            <button
+                class="study-files-button"
+                onclick="openSubject('Computer Science')"
+            >
+                Open →
+            </button>
+
+        </div>
+
+
+        <div class="subject-card">
+
+            <div class="subject-icon">
+                ✎
+            </div>
+
+            <div class="subject-info">
+
+                <h3>
+                    English
+                </h3>
+
+                <span
+                    class="file-count"
+                    id="count-English"
+                >
+                    0 files
+                </span>
+
+            </div>
+
+            <button
+                class="study-files-button"
+                onclick="openSubject('English')"
+            >
+                Open →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- SUBJECT FILE MODAL -->
+
+<div id="subjectModal" class="modal-overlay" >
+
+<div class="subject-modal">
+
+    <button
+        class="modal-close"
+        onclick="closeSubject()"
+    >
+        ×
+    </button>
+
+
+    <div class="modal-header">
+
+        <div>
+
+            <p class="modal-label">
+                YOUR STUDIES
+            </p>
+
+            <h2 id="modalSubjectName">
+                Physics
+            </h2>
+
+            <p>
+                Store and manage your study materials.
+            </p>
+
+        </div>
+
+
+        <div
+            id="modalSubjectIcon"
+            class="modal-subject-icon"
+        >
+            ⚡
+        </div>
+
+    </div>
+
+
+    <div class="file-upload-area">
+
+        <input
+            type="file"
+            id="studyFileInput"
+            multiple
+            hidden
+            onchange="handleFileUpload(event)"
+        >
+
+
+        <button
+            class="upload-button"
+            onclick="document.getElementById('studyFileInput').click()"
+        >
+            ＋ Add Study Files
+        </button>
+
+        <p>
+            Select PDFs, images, documents or other study files.
+        </p>
+
+    </div>
+
+
+    <div class="files-heading">
+
+        <h3>
+            Study Materials
+        </h3>
+<div class="study-search">
+    <span>⌕</span>
+    <input
+        type="text"
+        id="studyFileSearch"
+        placeholder="Search your study files..."
+        oninput="searchStudyFiles()"
+    >
+</div>
+<div id="modalFileCount">0 files</div>
+<div id="subjectFiles"></div>
+
+        <span id="modalFileCount">
+            0 files
+        </span>
+
+    </div>
+
+
+    <div
+        id="subjectFiles"
+        class="subject-files"
+    >
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>
+    ✦ StudyFlow ©
+</p>
+
+<span>
+    Learn • Focus • Grow
+</span>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
