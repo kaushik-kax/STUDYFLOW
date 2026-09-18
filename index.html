@@ -35,6 +35,7 @@
     >
 
     <!-- Open Graph -->
+
     <meta
         property="og:title"
         content="StudyFlow - Your Personal Study Planner"
@@ -55,29 +56,38 @@
         content="https://kaushik-kax.github.io/STUDYFLOW/"
     >
 
+    <!-- Website Icon -->
+
     <link
         rel="icon"
         href="logo.png"
     >
+
+    <!-- PWA -->
 
     <link
         rel="manifest"
         href="manifest.json"
     >
 
+    <!-- CSS -->
+
     <link
         rel="stylesheet"
         href="style.css"
     >
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "StudyFlow",
-    "alternateName": "StudyFlow Study Planner",
-    "url": "https://kaushik-kax.github.io/STUDYFLOW/"
-}
-</script>
+
+    <!-- Google Website Structured Data -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "StudyFlow",
+        "alternateName": "StudyFlow Study Planner",
+        "url": "https://kaushik-kax.github.io/STUDYFLOW/"
+    }
+    </script>
 
 </head>
 
@@ -94,6 +104,7 @@
         <div class="brand">
             ✦ StudyFlow
         </div>
+
 
         <nav>
 
@@ -117,14 +128,6 @@
                 ✦ Subjects
             </a>
 
-            <a href="#following-section">
-                👥 Following
-            </a>
-
-            <a href="#chat-section">
-                💬 Chat
-            </a>
-
             <a href="#settings-section">
                 ⚙️ Settings
             </a>
@@ -141,7 +144,10 @@
              DASHBOARD
         ========================================= -->
 
-        <section id="dashboard" class="dashboard">
+        <section
+            id="dashboard"
+            class="dashboard"
+        >
 
             <div class="dashboard-header">
 
@@ -158,6 +164,7 @@
                     <p id="date"></p>
 
                 </div>
+
 
                 <div class="focus-badge">
                     ✦ Focus Mode
@@ -184,6 +191,7 @@
 
                 </div>
 
+
                 <div class="focus-mark">
                     ✦
                 </div>
@@ -197,7 +205,10 @@
              TASKS
         ========================================= -->
 
-        <section id="tasks-section" class="section">
+        <section
+            id="tasks-section"
+            class="section"
+        >
 
             <div class="section-heading">
 
@@ -217,6 +228,7 @@
 
                 </div>
 
+
                 <div class="task-status">
                     ● Tasks
                 </div>
@@ -229,7 +241,8 @@
                 <input
                     type="text"
                     id="taskInput"
-                    placeholder="Enter task">
+                    placeholder="Enter task"
+                >
 
 
                 <select id="subjectInput">
@@ -280,12 +293,14 @@
 
                 <input
                     type="date"
-                    id="dateInput">
+                    id="dateInput"
+                >
 
 
                 <input
                     type="time"
-                    id="timeInput">
+                    id="timeInput"
+                >
 
 
                 <button onclick="addTask()">
@@ -317,7 +332,10 @@
              TIMETABLE
         ========================================= -->
 
-        <section id="timetable-section" class="section">
+        <section
+            id="timetable-section"
+            class="section"
+        >
 
             <div class="section-heading">
 
@@ -337,6 +355,7 @@
 
                 </div>
 
+
                 <div class="task-status">
                     ● Schedule
                 </div>
@@ -348,13 +367,33 @@
 
                 <select id="dayInput">
 
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
+                    <option>
+                        Monday
+                    </option>
+
+                    <option>
+                        Tuesday
+                    </option>
+
+                    <option>
+                        Wednesday
+                    </option>
+
+                    <option>
+                        Thursday
+                    </option>
+
+                    <option>
+                        Friday
+                    </option>
+
+                    <option>
+                        Saturday
+                    </option>
+
+                    <option>
+                        Sunday
+                    </option>
 
                 </select>
 
@@ -362,17 +401,20 @@
                 <input
                     type="text"
                     id="timetableSubject"
-                    placeholder="Subject">
+                    placeholder="Subject"
+                >
 
 
                 <input
                     type="time"
-                    id="startTime">
+                    id="startTime"
+                >
 
 
                 <input
                     type="time"
-                    id="endTime">
+                    id="endTime"
+                >
 
 
                 <button onclick="addSchedule()">
@@ -393,8 +435,8 @@
 
             <div
                 id="timetableList"
-                class="timetable-list">
-            </div>
+                class="timetable-list"
+            ></div>
 
         </section>
 
@@ -403,7 +445,10 @@
              POMODORO
         ========================================= -->
 
-        <section id="pomodoro-section" class="section">
+        <section
+            id="pomodoro-section"
+            class="section"
+        >
 
             <div class="section-heading">
 
@@ -423,6 +468,7 @@
 
                 </div>
 
+
                 <div class="timer-status">
                     ● Focus Timer
                 </div>
@@ -432,13 +478,16 @@
 
             <div class="pomodoro-card">
 
+
                 <div class="timer-settings">
+
 
                     <div class="timer-setting">
 
                         <label>
                             Study Duration
                         </label>
+
 
                         <select id="studyDuration">
 
@@ -470,7 +519,8 @@
                             id="customStudyTime"
                             placeholder="Custom minutes"
                             min="1"
-                            style="display:none;">
+                            style="display:none;"
+                        >
 
                     </div>
 
@@ -480,6 +530,7 @@
                         <label>
                             Break Duration
                         </label>
+
 
                         <select id="breakDuration">
 
@@ -507,7 +558,8 @@
                             id="customBreakTime"
                             placeholder="Custom minutes"
                             min="1"
-                            style="display:none;">
+                            style="display:none;"
+                        >
 
                     </div>
 
@@ -519,20 +571,18 @@
                     <button
                         id="studyModeButton"
                         class="timer-mode active"
-                        onclick="setStudyMode()">
-
+                        onclick="setStudyMode()"
+                    >
                         Study
-
                     </button>
 
 
                     <button
                         id="breakModeButton"
                         class="timer-mode"
-                        onclick="setBreakMode()">
-
+                        onclick="setBreakMode()"
+                    >
                         Break
-
                     </button>
 
                 </div>
@@ -540,9 +590,11 @@
 
                 <div class="timer-display-area">
 
+
                     <div id="timerMode">
                         STUDY SESSION
                     </div>
+
 
                     <div id="timer">
                         01:00
@@ -553,47 +605,43 @@
 
                         <div
                             id="timerProgressFill"
-                            class="timer-progress-fill">
-                        </div>
+                            class="timer-progress-fill"
+                        ></div>
 
                     </div>
 
 
                     <div class="timer-controls">
 
+
                         <button
                             class="timer-start"
-                            onclick="startTimer()">
-
+                            onclick="startTimer()"
+                        >
                             ▶ Start
-
                         </button>
 
 
                         <button
                             class="timer-pause"
-                            onclick="pauseTimer()">
-
+                            onclick="pauseTimer()"
+                        >
                             ❚❚ Pause
-
                         </button>
 
 
                         <button
                             class="timer-reset"
-                            onclick="resetTimer()">
-
+                            onclick="resetTimer()"
+                        >
                             ↻ Reset
-
                         </button>
 
                     </div>
 
 
                     <div class="timer-info">
-
                         Stay focused. One session at a time.
-
                     </div>
 
                 </div>
@@ -607,7 +655,10 @@
              PROGRESS
         ========================================= -->
 
-        <section id="progress-section" class="section">
+        <section
+            id="progress-section"
+            class="section"
+        >
 
             <div class="section-heading">
 
@@ -627,6 +678,7 @@
 
                 </div>
 
+
                 <div class="progress-status">
                     ● Progress
                 </div>
@@ -635,6 +687,7 @@
 
 
             <div class="premium-stats">
+
 
                 <div class="premium-stat">
 
@@ -699,6 +752,7 @@
 
                 </div>
 
+
                 <div id="subjectProgress"></div>
 
             </div>
@@ -710,7 +764,9 @@
                     Today's Study Sessions
                 </div>
 
+
                 <div class="summary-grid">
+
 
                     <div>
 
@@ -761,7 +817,10 @@
              SUBJECTS
         ========================================= -->
 
-        <section id="subjects-section" class="section">
+        <section
+            id="subjects-section"
+            class="section"
+        >
 
             <div class="section-heading">
 
@@ -781,6 +840,7 @@
 
                 </div>
 
+
                 <div class="task-status">
                     ● Subjects
                 </div>
@@ -790,6 +850,9 @@
 
             <div class="subjects-grid">
 
+
+                <!-- PHYSICS -->
+
                 <div class="subject-card">
 
                     <div class="subject-icon">
@@ -798,28 +861,31 @@
 
                     <div class="subject-info">
 
-                        <h3>Physics</h3>
+                        <h3>
+                            Physics
+                        </h3>
 
                         <span
                             class="file-count"
-                            id="Physics-file-count">
-
+                            id="Physics-file-count"
+                        >
                             0 files
-
                         </span>
 
                     </div>
 
+
                     <button
                         class="study-files-button"
-                        onclick="openSubject('Physics')">
-
+                        onclick="openSubject('Physics')"
+                    >
                         Open →
-
                     </button>
 
                 </div>
 
+
+                <!-- CHEMISTRY -->
 
                 <div class="subject-card">
 
@@ -829,28 +895,31 @@
 
                     <div class="subject-info">
 
-                        <h3>Chemistry</h3>
+                        <h3>
+                            Chemistry
+                        </h3>
 
                         <span
                             class="file-count"
-                            id="Chemistry-file-count">
-
+                            id="Chemistry-file-count"
+                        >
                             0 files
-
                         </span>
 
                     </div>
 
+
                     <button
                         class="study-files-button"
-                        onclick="openSubject('Chemistry')">
-
+                        onclick="openSubject('Chemistry')"
+                    >
                         Open →
-
                     </button>
 
                 </div>
 
+
+                <!-- MATHEMATICS -->
 
                 <div class="subject-card">
 
@@ -860,28 +929,31 @@
 
                     <div class="subject-info">
 
-                        <h3>Mathematics</h3>
+                        <h3>
+                            Mathematics
+                        </h3>
 
                         <span
                             class="file-count"
-                            id="Mathematics-file-count">
-
+                            id="Mathematics-file-count"
+                        >
                             0 files
-
                         </span>
 
                     </div>
 
+
                     <button
                         class="study-files-button"
-                        onclick="openSubject('Mathematics')">
-
+                        onclick="openSubject('Mathematics')"
+                    >
                         Open →
-
                     </button>
 
                 </div>
 
+
+                <!-- COMPUTER SCIENCE -->
 
                 <div class="subject-card">
 
@@ -891,28 +963,31 @@
 
                     <div class="subject-info">
 
-                        <h3>Computer Science</h3>
+                        <h3>
+                            Computer Science
+                        </h3>
 
                         <span
                             class="file-count"
-                            id="Computer Science-file-count">
-
+                            id="Computer Science-file-count"
+                        >
                             0 files
-
                         </span>
 
                     </div>
 
+
                     <button
                         class="study-files-button"
-                        onclick="openSubject('Computer Science')">
-
+                        onclick="openSubject('Computer Science')"
+                    >
                         Open →
-
                     </button>
 
                 </div>
 
+
+                <!-- ENGLISH -->
 
                 <div class="subject-card">
 
@@ -922,203 +997,25 @@
 
                     <div class="subject-info">
 
-                        <h3>English</h3>
+                        <h3>
+                            English
+                        </h3>
 
                         <span
                             class="file-count"
-                            id="English-file-count">
-
+                            id="English-file-count"
+                        >
                             0 files
-
                         </span>
 
                     </div>
+
 
                     <button
                         class="study-files-button"
-                        onclick="openSubject('English')">
-
+                        onclick="openSubject('English')"
+                    >
                         Open →
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             FOLLOWING
-        ========================================= -->
-
-        <section id="following-section" class="section">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ● SOCIAL
-                    </p>
-
-                    <h2>
-                        Following
-                    </h2>
-
-                    <p>
-                        Find other StudyFlow students and follow them.
-                    </p>
-
-                </div>
-
-                <div class="task-status">
-                    ● Following
-                </div>
-
-            </div>
-
-
-            <div class="following-card">
-
-                <div class="following-search">
-
-                    <input
-                        type="text"
-                        id="usernameSearch"
-                        placeholder="Search username">
-
-                    <button onclick="searchUsers()">
-                        🔍 Search
-                    </button>
-
-                </div>
-
-
-                <div id="userSearchResults">
-
-                    <p class="following-empty">
-                        Search for a StudyFlow username.
-                    </p>
-
-                </div>
-
-
-                <div class="following-divider"></div>
-
-
-                <div class="following-list-header">
-
-                    <h3>
-                        People You Follow
-                    </h3>
-
-                    <span id="followingCount">
-                        0
-                    </span>
-
-                </div>
-
-
-                <div id="followingList">
-
-                    <p class="following-empty">
-                        You are not following anyone yet.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             CHAT
-        ========================================= -->
-
-        <section id="chat-section" class="section">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        💬 MESSAGES
-                    </p>
-
-                    <h2>
-                        Chat
-                    </h2>
-
-                    <p>
-                        Chat with people you follow.
-                    </p>
-
-                </div>
-
-                <div class="task-status">
-                    ● Chat
-                </div>
-
-            </div>
-
-
-            <div class="chat-card">
-
-                <div class="chat-header">
-
-                    <button
-                        class="chat-back-button"
-                        onclick="closeChat()">
-
-                        ← Back
-
-                    </button>
-
-
-                    <div>
-
-                        <h3 id="chatUsername">
-                            Select a person
-                        </h3>
-
-                        <span id="chatStatus">
-                            Choose someone from your Following list.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="chatMessages"
-                    class="chat-messages">
-
-                    <div class="chat-empty">
-                        💬 Select someone to start chatting.
-                    </div>
-
-                </div>
-
-
-                <div class="chat-input-area">
-
-                    <input
-                        type="text"
-                        id="chatMessageInput"
-                        placeholder="Type a message..."
-                        disabled>
-
-                    <button
-                        id="chatSendButton"
-                        onclick="sendMessage()"
-                        disabled>
-
-                        Send
-
                     </button>
 
                 </div>
@@ -1132,8 +1029,10 @@
              SETTINGS
         ========================================= -->
 
-        <section id="settings-section"
-            class="section settings-section">
+        <section
+            id="settings-section"
+            class="section settings-section"
+        >
 
             <div class="section-heading">
 
@@ -1153,6 +1052,7 @@
 
                 </div>
 
+
                 <div class="task-status">
                     ● Settings
                 </div>
@@ -1161,6 +1061,9 @@
 
 
             <div class="settings-card">
+
+
+                <!-- DARK MODE -->
 
                 <div class="setting-item">
 
@@ -1183,7 +1086,8 @@
                             type="checkbox"
                             id="darkModeToggle"
                             checked
-                            onchange="toggleDarkMode()">
+                            onchange="toggleDarkMode()"
+                        >
 
                         <span class="slider"></span>
 
@@ -1191,6 +1095,8 @@
 
                 </div>
 
+
+                <!-- NOTIFICATIONS -->
 
                 <div class="setting-item">
 
@@ -1212,7 +1118,8 @@
                         <input
                             type="checkbox"
                             id="notificationToggle"
-                            onchange="toggleNotifications()">
+                            onchange="toggleNotifications()"
+                        >
 
                         <span class="slider"></span>
 
@@ -1220,6 +1127,8 @@
 
                 </div>
 
+
+                <!-- VERSION -->
 
                 <div class="setting-item">
 
@@ -1236,12 +1145,16 @@
                     </div>
 
 
-                    <span style="color:#8994aa;font-size:13px;">
+                    <span
+                        style="color:#8994aa;font-size:13px;"
+                    >
                         v1.0
                     </span>
 
                 </div>
 
+
+                <!-- RESET -->
 
                 <div class="setting-item">
 
@@ -1260,10 +1173,9 @@
 
                     <button
                         class="settings-button danger"
-                        onclick="resetStudyFlow()">
-
+                        onclick="resetStudyFlow()"
+                    >
                         Reset
-
                     </button>
 
                 </div>
@@ -1271,10 +1183,9 @@
 
                 <div
                     class="settings-message"
-                    id="settingsMessage">
-
+                    id="settingsMessage"
+                >
                     Your settings are saved automatically.
-
                 </div>
 
             </div>
@@ -1290,16 +1201,17 @@
 
     <div
         id="subjectModal"
-        class="modal-overlay">
+        class="modal-overlay"
+    >
 
         <div class="subject-modal">
 
+
             <button
                 class="modal-close"
-                onclick="closeSubject()">
-
+                onclick="closeSubject()"
+            >
                 ×
-
             </button>
 
 
@@ -1324,10 +1236,9 @@
 
                 <div
                     class="modal-subject-icon"
-                    id="modalSubjectIcon">
-
+                    id="modalSubjectIcon"
+                >
                     ✦
-
                 </div>
 
             </div>
@@ -1335,18 +1246,22 @@
 
             <div class="file-upload-area">
 
+
                 <input
                     type="file"
-                    id="studyFileInput">
+                    id="studyFileInput"
+                >
 
-                <br><br>
+
+                <br>
+                <br>
+
 
                 <button
                     class="upload-button"
-                    onclick="uploadStudyFile()">
-
+                    onclick="uploadStudyFile()"
+                >
                     Upload File
-
                 </button>
 
 
@@ -1363,6 +1278,7 @@
                     Your Files
                 </h3>
 
+
                 <span id="modalFileCount">
                     0 files
                 </span>
@@ -1376,25 +1292,30 @@
                     ⌕
                 </span>
 
+
                 <input
                     type="text"
                     id="studyFileSearch"
                     placeholder="Search your study files..."
-                    oninput="searchStudyFiles()">
+                    oninput="searchStudyFiles()"
+                >
 
             </div>
 
 
             <div
                 id="subjectFiles"
-                class="subject-files">
-
-            </div>
+                class="subject-files"
+            ></div>
 
         </div>
 
     </div>
 
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
 
     <footer>
 
@@ -1410,13 +1331,6 @@
 
 
     <!-- =========================================
-         MAIN JAVASCRIPT
-    ========================================= -->
-
-    <script src="script.js"></script>
-
-
-    <!-- =========================================
          SUPABASE
     ========================================= -->
 
@@ -1427,6 +1341,7 @@
 
         const SUPABASE_URL =
             "https://xhtbeosrycbzwqpwfsos.supabase.co";
+
 
         const SUPABASE_KEY =
             "sb_publishable_vXqF2_g39FkuJWTGYX5U0Q_4c8zXTyp";
@@ -1446,35 +1361,56 @@
         function toggleDarkMode() {
 
             const toggle =
-                document.getElementById("darkModeToggle");
+                document.getElementById(
+                    "darkModeToggle"
+                );
+
 
             const message =
-                document.getElementById("settingsMessage");
+                document.getElementById(
+                    "settingsMessage"
+                );
 
 
             if (toggle.checked) {
 
-                document.body.classList.remove("light-mode");
+                document.body.classList.remove(
+                    "light-mode"
+                );
+
 
                 localStorage.setItem(
                     "studyflowTheme",
                     "dark"
                 );
 
-                message.textContent =
-                    "Dark Mode is enabled.";
+
+                if (message) {
+
+                    message.textContent =
+                        "Dark Mode is enabled.";
+
+                }
 
             } else {
 
-                document.body.classList.add("light-mode");
+                document.body.classList.add(
+                    "light-mode"
+                );
+
 
                 localStorage.setItem(
                     "studyflowTheme",
                     "light"
                 );
 
-                message.textContent =
-                    "Light Mode is enabled.";
+
+                if (message) {
+
+                    message.textContent =
+                        "Light Mode is enabled.";
+
+                }
 
             }
 
@@ -1488,17 +1424,24 @@
         async function toggleNotifications() {
 
             const toggle =
-                document.getElementById("notificationToggle");
+                document.getElementById(
+                    "notificationToggle"
+                );
+
 
             const message =
-                document.getElementById("settingsMessage");
+                document.getElementById(
+                    "settingsMessage"
+                );
 
 
             if (toggle.checked) {
 
+
                 if (!("Notification" in window)) {
 
                     toggle.checked = false;
+
 
                     message.textContent =
                         "Your browser does not support notifications.";
@@ -1519,8 +1462,10 @@
                         "on"
                     );
 
+
                     message.textContent =
                         "Study notifications are enabled.";
+
 
                     new Notification(
                         "StudyFlow",
@@ -1534,10 +1479,12 @@
 
                     toggle.checked = false;
 
+
                     localStorage.setItem(
                         "studyflowNotifications",
                         "off"
                     );
+
 
                     message.textContent =
                         "Notification permission was not granted.";
@@ -1551,6 +1498,7 @@
                     "off"
                 );
 
+
                 message.textContent =
                     "Study notifications are disabled.";
 
@@ -1563,7 +1511,10 @@
            SEND NOTIFICATION
         ========================================= */
 
-        function sendStudyNotification(title, message) {
+        function sendStudyNotification(
+            title,
+            message
+        ) {
 
             const notificationsEnabled =
                 localStorage.getItem(
@@ -1602,16 +1553,50 @@
 
 
             if (!confirmReset) {
+
                 return;
+
             }
 
 
-            localStorage.removeItem("studyMinutes");
-            localStorage.removeItem("todaySessions");
-            localStorage.removeItem("studyflowTheme");
-            localStorage.removeItem("studyflowNotifications");
-            localStorage.removeItem("tasks");
-            localStorage.removeItem("schedules");
+            localStorage.removeItem(
+                "studyMinutes"
+            );
+
+
+            localStorage.removeItem(
+                "todaySessions"
+            );
+
+
+            localStorage.removeItem(
+                "studyflowTheme"
+            );
+
+
+            localStorage.removeItem(
+                "studyflowNotifications"
+            );
+
+
+            localStorage.removeItem(
+                "tasks"
+            );
+
+
+            localStorage.removeItem(
+                "schedules"
+            );
+
+
+            localStorage.removeItem(
+                "studyTasks"
+            );
+
+
+            localStorage.removeItem(
+                "studyTimetable"
+            );
 
 
             alert(
@@ -1629,27 +1614,41 @@
         ========================================= */
 
         const savedTheme =
-            localStorage.getItem("studyflowTheme");
+            localStorage.getItem(
+                "studyflowTheme"
+            );
 
 
         const darkModeToggle =
-            document.getElementById("darkModeToggle");
+            document.getElementById(
+                "darkModeToggle"
+            );
 
 
         if (savedTheme === "light") {
 
-            document.body.classList.add("light-mode");
+            document.body.classList.add(
+                "light-mode"
+            );
+
 
             if (darkModeToggle) {
+
                 darkModeToggle.checked = false;
+
             }
 
         } else {
 
-            document.body.classList.remove("light-mode");
+            document.body.classList.remove(
+                "light-mode"
+            );
+
 
             if (darkModeToggle) {
+
                 darkModeToggle.checked = true;
+
             }
 
         }
@@ -1676,961 +1675,14 @@
 
         }
 
-
-        /* =========================================
-           FOLLOWING
-        ========================================= */
-
-        let currentUser = null;
-
-
-        async function getCurrentUser() {
-
-            const result =
-                await supabaseClient.auth.getUser();
-
-
-            if (result.error) {
-                return null;
-            }
-
-
-            return result.data.user;
-
-        }
-
-
-        /* =========================================
-           SEARCH USERS
-        ========================================= */
-
-        async function searchUsers() {
-
-            const input =
-                document.getElementById(
-                    "usernameSearch"
-                );
-
-            const results =
-                document.getElementById(
-                    "userSearchResults"
-                );
-
-
-            const username =
-                input.value.trim();
-
-
-            if (!username) {
-
-                results.innerHTML =
-                    '<p class="following-empty">Enter a username to search.</p>';
-
-                return;
-
-            }
-
-
-            results.innerHTML =
-                '<p class="following-empty">Searching...</p>';
-
-
-            currentUser =
-                await getCurrentUser();
-
-
-            if (!currentUser) {
-
-                results.innerHTML =
-                    '<p class="following-empty">Please log in first.</p>';
-
-                return;
-
-            }
-
-
-            const { data, error } =
-                await supabaseClient
-                    .from("profiles")
-                    .select("id, username")
-                    .ilike(
-                        "username",
-                        "%" + username + "%"
-                    )
-                    .limit(10);
-
-
-            if (error) {
-
-                console.error(error);
-
-                results.innerHTML =
-                    '<p class="following-empty">Unable to search users.</p>';
-
-                return;
-
-            }
-
-
-            if (!data || data.length === 0) {
-
-                results.innerHTML =
-                    '<p class="following-empty">No users found.</p>';
-
-                return;
-
-            }
-
-
-            results.innerHTML = "";
-
-
-            for (const user of data) {
-
-                if (user.id === currentUser.id) {
-                    continue;
-                }
-
-
-                const { data: followData } =
-                    await supabaseClient
-                        .from("following")
-                        .select("id")
-                        .eq(
-                            "follower_id",
-                            currentUser.id
-                        )
-                        .eq(
-                            "following_id",
-                            user.id
-                        )
-                        .maybeSingle();
-
-
-                const isFollowing =
-                    !!followData;
-
-
-                const row =
-                    document.createElement("div");
-
-                row.className =
-                    "following-user";
-
-
-                row.innerHTML = `
-
-                    <div class="following-user-info">
-
-                        <div class="following-avatar">
-                            ${user.username.charAt(0).toUpperCase()}
-                        </div>
-
-                        <div class="following-username">
-                            ${user.username}
-                        </div>
-
-                    </div>
-
-                    <div class="follow-actions">
-
-                        ${
-                            isFollowing
-                            ? `
-                                <button
-                                    class="chat-button"
-                                    onclick="openChat('${user.id}', '${user.username.replace(/'/g, "\\'")}')">
-
-                                    💬 Chat
-
-                                </button>
-                            `
-                            : ""
-                        }
-
-                        <button
-                            class="follow-button ${isFollowing ? "unfollow" : ""}"
-                            onclick="toggleFollow('${user.id}', ${isFollowing})">
-
-                            ${isFollowing ? "Unfollow" : "Follow"}
-
-                        </button>
-
-                    </div>
-
-                `;
-
-
-                results.appendChild(row);
-
-            }
-
-        }
-
-
-        /* =========================================
-           FOLLOW / UNFOLLOW
-        ========================================= */
-
-        async function toggleFollow(
-            userId,
-            isFollowing
-        ) {
-
-            currentUser =
-                await getCurrentUser();
-
-
-            if (!currentUser) {
-
-                alert("Please log in first.");
-
-                return;
-
-            }
-
-
-            if (isFollowing) {
-
-                const { error } =
-                    await supabaseClient
-                        .from("following")
-                        .delete()
-                        .eq(
-                            "follower_id",
-                            currentUser.id
-                        )
-                        .eq(
-                            "following_id",
-                            userId
-                        );
-
-
-                if (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Unable to unfollow this user."
-                    );
-
-                    return;
-
-                }
-
-            } else {
-
-                const { error } =
-                    await supabaseClient
-                        .from("following")
-                        .insert({
-                            follower_id:
-                                currentUser.id,
-
-                            following_id:
-                                userId
-                        });
-
-
-                if (error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Unable to follow this user."
-                    );
-
-                    return;
-
-                }
-
-            }
-
-
-            searchUsers();
-
-            loadFollowing();
-
-        }
-
-
-        /* =========================================
-           LOAD FOLLOWING
-        ========================================= */
-
-        async function loadFollowing() {
-
-            const list =
-                document.getElementById(
-                    "followingList"
-                );
-
-            const count =
-                document.getElementById(
-                    "followingCount"
-                );
-
-
-            currentUser =
-                await getCurrentUser();
-
-
-            if (!currentUser) {
-
-                list.innerHTML =
-                    '<p class="following-empty">Please log in to see your following list.</p>';
-
-                count.textContent = "0";
-
-                return;
-
-            }
-
-
-            const { data, error } =
-                await supabaseClient
-                    .from("following")
-                    .select("following_id")
-                    .eq(
-                        "follower_id",
-                        currentUser.id
-                    );
-
-
-            if (error) {
-
-                console.error(error);
-
-                list.innerHTML =
-                    '<p class="following-empty">Unable to load following list.</p>';
-
-                return;
-
-            }
-
-
-            if (!data || data.length === 0) {
-
-                list.innerHTML =
-                    '<p class="following-empty">You are not following anyone yet.</p>';
-
-                count.textContent = "0";
-
-                return;
-
-            }
-
-
-            count.textContent =
-                data.length;
-
-
-            list.innerHTML = "";
-
-
-            for (const follow of data) {
-
-                const { data: profile } =
-                    await supabaseClient
-                        .from("profiles")
-                        .select("id, username")
-                        .eq(
-                            "id",
-                            follow.following_id
-                        )
-                        .maybeSingle();
-
-
-                if (!profile) {
-                    continue;
-                }
-
-
-                const row =
-                    document.createElement("div");
-
-                row.className =
-                    "following-user";
-
-
-                row.innerHTML = `
-
-                    <div class="following-user-info">
-
-                        <div class="following-avatar">
-                            ${profile.username.charAt(0).toUpperCase()}
-                        </div>
-
-                        <div class="following-username">
-                            ${profile.username}
-                        </div>
-
-                    </div>
-
-                    <div class="follow-actions">
-
-                        <button
-                            class="chat-button"
-                            onclick="openChat('${profile.id}', '${profile.username.replace(/'/g, "\\'")}')">
-
-                            💬 Chat
-
-                        </button>
-
-                        <button
-                            class="follow-button unfollow"
-                            onclick="toggleFollow('${profile.id}', true)">
-
-                            Unfollow
-
-                        </button>
-
-                    </div>
-
-                `;
-
-
-                list.appendChild(row);
-
-            }
-
-        }
-
-
-        /* =========================================
-           CHAT
-        ========================================= */
-
-        let activeChatUserId = null;
-
-        let activeChatUsername = null;
-
-        let chatSubscription = null;
-
-
-        /* =========================================
-           OPEN CHAT
-        ========================================= */
-
-        async function openChat(
-            userId,
-            username
-        ) {
-
-            currentUser =
-                await getCurrentUser();
-
-
-            if (!currentUser) {
-
-                alert("Please log in first.");
-
-                return;
-
-            }
-
-
-            activeChatUserId =
-                userId;
-
-            activeChatUsername =
-                username;
-
-
-            document.getElementById(
-                "chatUsername"
-            ).textContent =
-                username;
-
-
-            document.getElementById(
-                "chatStatus"
-            ).textContent =
-                "Online chat";
-
-
-            const messageInput =
-                document.getElementById(
-                    "chatMessageInput"
-                );
-
-
-            const sendButton =
-                document.getElementById(
-                    "chatSendButton"
-                );
-
-
-            messageInput.disabled = false;
-
-            sendButton.disabled = false;
-
-
-            document.getElementById(
-                "chat-section"
-            ).scrollIntoView({
-                behavior: "smooth"
-            });
-
-
-            await loadMessages();
-
-
-            subscribeToMessages();
-
-
-            messageInput.focus();
-
-        }
-
-
-        /* =========================================
-           CLOSE CHAT
-        ========================================= */
-
-        function closeChat() {
-
-            activeChatUserId = null;
-
-            activeChatUsername = null;
-
-
-            if (chatSubscription) {
-
-                supabaseClient
-                    .removeChannel(
-                        chatSubscription
-                    );
-
-                chatSubscription = null;
-
-            }
-
-
-            document.getElementById(
-                "chatUsername"
-            ).textContent =
-                "Select a person";
-
-
-            document.getElementById(
-                "chatStatus"
-            ).textContent =
-                "Choose someone from your Following list.";
-
-
-            document.getElementById(
-                "chatMessages"
-            ).innerHTML =
-                '<div class="chat-empty">💬 Select someone to start chatting.</div>';
-
-
-            document.getElementById(
-                "chatMessageInput"
-            ).value = "";
-
-
-            document.getElementById(
-                "chatMessageInput"
-            ).disabled = true;
-
-
-            document.getElementById(
-                "chatSendButton"
-            ).disabled = true;
-
-        }
-
-
-        /* =========================================
-           LOAD MESSAGES
-        ========================================= */
-
-        async function loadMessages() {
-
-            if (!currentUser || !activeChatUserId) {
-                return;
-            }
-
-
-            const messagesBox =
-                document.getElementById(
-                    "chatMessages"
-                );
-
-
-            messagesBox.innerHTML =
-                '<div class="chat-empty">Loading messages...</div>';
-
-
-            const { data, error } =
-                await supabaseClient
-                    .from("messages")
-                    .select(
-                        "id, sender_id, receiver_id, message, created_at"
-                    )
-                    .or(
-                        "and(sender_id.eq." +
-                        currentUser.id +
-                        ",receiver_id.eq." +
-                        activeChatUserId +
-                        "),and(sender_id.eq." +
-                        activeChatUserId +
-                        ",receiver_id.eq." +
-                        currentUser.id +
-                        ")"
-                    )
-                    .order(
-                        "created_at",
-                        {
-                            ascending: true
-                        }
-                    );
-
-
-            if (error) {
-
-                console.error(error);
-
-                messagesBox.innerHTML =
-                    '<div class="chat-empty">Unable to load messages.</div>';
-
-                return;
-
-            }
-
-
-            if (!data || data.length === 0) {
-
-                messagesBox.innerHTML =
-                    '<div class="chat-empty">No messages yet. Say hello! 👋</div>';
-
-                return;
-
-            }
-
-
-            messagesBox.innerHTML = "";
-
-
-            data.forEach(function(message) {
-
-                displayMessage(message);
-
-            });
-
-
-            scrollChatToBottom();
-
-        }
-
-
-        /* =========================================
-           DISPLAY MESSAGE
-        ========================================= */
-
-        function displayMessage(message) {
-
-            const messagesBox =
-                document.getElementById(
-                    "chatMessages"
-                );
-
-
-            const messageElement =
-                document.createElement("div");
-
-
-            const isSent =
-                message.sender_id === currentUser.id;
-
-
-            messageElement.className =
-                "chat-message " +
-                (isSent ? "sent" : "received");
-
-
-            const time =
-                new Date(
-                    message.created_at
-                ).toLocaleTimeString(
-                    [],
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                );
-
-
-            messageElement.innerHTML = `
-
-                <div>
-                    ${escapeChatMessage(message.message)}
-                </div>
-
-                <span class="chat-time">
-                    ${time}
-                </span>
-
-            `;
-
-
-            messagesBox.appendChild(
-                messageElement
-            );
-
-        }
-
-
-        /* =========================================
-           ESCAPE MESSAGE
-        ========================================= */
-
-        function escapeChatMessage(text) {
-
-            const div =
-                document.createElement("div");
-
-            div.textContent =
-                text;
-
-            return div.innerHTML;
-
-        }
-
-
-        /* =========================================
-           SEND MESSAGE
-        ========================================= */
-
-        async function sendMessage() {
-
-            if (!currentUser || !activeChatUserId) {
-
-                return;
-
-            }
-
-
-            const input =
-                document.getElementById(
-                    "chatMessageInput"
-                );
-
-
-            const text =
-                input.value.trim();
-
-
-            if (!text) {
-                return;
-            }
-
-
-            const sendButton =
-                document.getElementById(
-                    "chatSendButton"
-                );
-
-
-            sendButton.disabled = true;
-
-
-            const { data, error } =
-                await supabaseClient
-                    .from("messages")
-                    .insert({
-                        sender_id:
-                            currentUser.id,
-
-                        receiver_id:
-                            activeChatUserId,
-
-                        message:
-                            text
-                    })
-                    .select()
-                    .single();
-
-
-            if (error) {
-
-                console.error(error);
-
-                alert(
-                    "Unable to send message."
-                );
-
-                sendButton.disabled = false;
-
-                return;
-
-            }
-
-
-            input.value = "";
-
-
-            if (!chatSubscription) {
-
-                displayMessage(data);
-
-                scrollChatToBottom();
-
-            }
-
-
-            sendButton.disabled = false;
-
-            input.focus();
-
-        }
-
-
-        /* =========================================
-           REAL-TIME CHAT
-        ========================================= */
-
-        function subscribeToMessages() {
-
-            if (chatSubscription) {
-
-                supabaseClient
-                    .removeChannel(
-                        chatSubscription
-                    );
-
-                chatSubscription = null;
-
-            }
-
-
-            if (!currentUser || !activeChatUserId) {
-                return;
-            }
-
-
-            chatSubscription =
-                supabaseClient
-                    .channel(
-                        "chat-" +
-                        currentUser.id +
-                        "-" +
-                        activeChatUserId
-                    )
-                    .on(
-                        "postgres_changes",
-                        {
-                            event: "INSERT",
-                            schema: "public",
-                            table: "messages"
-                        },
-                        function(payload) {
-
-                            const message =
-                                payload.new;
-
-
-                            const belongsToChat =
-                                (
-                                    message.sender_id === currentUser.id &&
-                                    message.receiver_id === activeChatUserId
-                                )
-                                ||
-                                (
-                                    message.sender_id === activeChatUserId &&
-                                    message.receiver_id === currentUser.id
-                                );
-
-
-                            if (!belongsToChat) {
-                                return;
-                            }
-
-
-                            displayMessage(message);
-
-                            scrollChatToBottom();
-
-                        }
-                    )
-                    .subscribe();
-
-        }
-
-
-        /* =========================================
-           SCROLL CHAT
-        ========================================= */
-
-        function scrollChatToBottom() {
-
-            const messagesBox =
-                document.getElementById(
-                    "chatMessages"
-                );
-
-
-            messagesBox.scrollTop =
-                messagesBox.scrollHeight;
-
-        }
-
-
-        /* =========================================
-           ENTER TO SEND
-        ========================================= */
-
-        document
-            .getElementById(
-                "chatMessageInput"
-            )
-            .addEventListener(
-                "keydown",
-                function(event) {
-
-                    if (
-                        event.key === "Enter" &&
-                        !event.shiftKey
-                    ) {
-
-                        event.preventDefault();
-
-                        sendMessage();
-
-                    }
-
-                }
-            );
-
-
-        /* =========================================
-           LOAD FOLLOWING
-        ========================================= */
-
-        loadFollowing();
-
-
-        /* =========================================
-           ENTER KEY SEARCH
-        ========================================= */
-
-        document
-            .getElementById("usernameSearch")
-            .addEventListener(
-                "keydown",
-                function(event) {
-
-                    if (event.key === "Enter") {
-
-                        searchUsers();
-
-                    }
-
-                }
-            );
-
     </script>
+
+
+    <!-- =========================================
+         MAIN JAVASCRIPT
+    ========================================= -->
+
+    <script src="script.js"></script>
 
 
     <!-- =========================================
@@ -2667,6 +1719,7 @@
                                 );
 
                             }
+
                         );
 
                 }
