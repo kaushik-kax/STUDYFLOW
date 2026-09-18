@@ -1,1017 +1,2672 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
-<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
 
-<title>StudyFlow</title>
+    <meta charset="UTF-8">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>StudyFlow - Your Personal Study Planner</title>
+
+    <meta
+        name="description"
+        content="StudyFlow is a free student study planner for managing tasks, timetables, study sessions, subjects, files and study progress."
+    >
+
+    <meta
+        name="keywords"
+        content="StudyFlow, study planner, student planner, study timetable, study schedule, Pomodoro timer, student productivity, study app"
+    >
+
+    <meta
+        name="author"
+        content="StudyFlow"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0f17"
+    >
+
+    <!-- Open Graph -->
+    <meta
+        property="og:title"
+        content="StudyFlow - Your Personal Study Planner"
+    >
+
+    <meta
+        property="og:description"
+        content="A free study planner for students to manage tasks, timetables, study sessions and progress."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:url"
+        content="https://kaushik-kax.github.io/STUDYFLOW/"
+    >
+
+    <link
+        rel="icon"
+        href="logo.png"
+    >
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
+
 <body>
 
-<header class="navbar">
 
-<div class="brand">
-    ✦ StudyFlow
-</div>
+    <!-- =========================================
+         NAVBAR
+    ========================================= -->
 
-<nav>
-    <a href="#dashboard">✦ Dashboard</a>
-    <a href="#tasks-section">✓ Tasks</a>
-    <a href="#timetable-section">◷ Timetable</a>
-    <a href="#pomodoro-section">⏱ Pomodoro</a>
-    <a href="#subjects-section">✦ Subjects</a>
-</nav>
+    <header class="navbar">
 
-</header>
-
-<main>
-
-<!-- DASHBOARD -->
-
-<section id="dashboard" class="dashboard">
-
-    <div class="dashboard-header">
-
-        <div>
-            <p class="dashboard-label">
-                ✦ STUDY DASHBOARD
-            </p>
-
-            <h1>
-                Welcome back
-            </h1>
-
-            <p id="date"></p>
+        <div class="brand">
+            ✦ StudyFlow
         </div>
 
-        <div class="focus-badge">
-            Focus Mode
-        </div>
+        <nav>
 
-    </div>
+            <a href="#dashboard">
+                ✦ Dashboard
+            </a>
 
-    <div class="focus-area">
+            <a href="#tasks-section">
+                ✓ Tasks
+            </a>
 
-        <div class="focus-content">
+            <a href="#timetable-section">
+                ◷ Timetable
+            </a>
 
-            <span class="focus-label">
-                TODAY'S FOCUS
-            </span>
+            <a href="#pomodoro-section">
+                ⏱ Pomodoro
+            </a>
 
-            <h2>
-                Learn. Focus. Grow.
-            </h2>
+            <a href="#subjects-section">
+                ✦ Subjects
+            </a>
 
-            <p>
-                Stay consistent and make progress every day.
-            </p>
+            <a href="#following-section">
+                👥 Following
+            </a>
 
-        </div>
+            <a href="#chat-section">
+                💬 Chat
+            </a>
 
-        <div class="focus-mark">
-            ✦
-        </div>
+            <a href="#settings-section">
+                ⚙️ Settings
+            </a>
 
-    </div>
+        </nav>
 
-</section>
+    </header>
 
 
-<!-- TASKS -->
+    <main>
 
-<section id="tasks-section" class="section">
 
-    <div class="section-heading">
+        <!-- =========================================
+             DASHBOARD
+        ========================================= -->
 
-        <div>
-            <p class="section-label">
-                ✓ ORGANIZE
-            </p>
+        <section id="dashboard" class="dashboard">
 
-            <h2>
-                Tasks
-            </h2>
+            <div class="dashboard-header">
 
-            <p>
-                Manage your daily study tasks.
-            </p>
-        </div>
+                <div>
 
-        <div class="task-status">
-            ● Organized
-        </div>
+                    <p class="dashboard-label">
+                        STUDENT PRODUCTIVITY
+                    </p>
 
-    </div>
+                    <h1>
+                        Welcome to StudyFlow
+                    </h1>
 
+                    <p id="date"></p>
 
-    <div class="task-form">
+                </div>
 
-        <input
-            type="text"
-            id="taskInput"
-            placeholder="Enter your task"
-        >
-
-        <select id="subjectInput">
-
-            <option value="">
-                Select Subject
-            </option>
-
-            <option value="Physics">
-                ⚡ Physics
-            </option>
-
-            <option value="Chemistry">
-                ⚗ Chemistry
-            </option>
-
-            <option value="Mathematics">
-                ∑ Mathematics
-            </option>
-
-            <option value="Computer Science">
-                &lt;/&gt; Computer Science
-            </option>
-
-            <option value="English">
-                ✎ English
-            </option>
-
-        </select>
-
-
-        <select id="priorityInput">
-
-            <option value="High">
-                🔥 High Priority
-            </option>
-
-            <option value="Medium" selected>
-                ◆ Medium Priority
-            </option>
-
-            <option value="Low">
-                ◇ Low Priority
-            </option>
-
-        </select>
-
-
-        <input
-            type="date"
-            id="dateInput"
-        >
-
-        <input
-            type="time"
-            id="timeInput"
-        >
-
-        <button onclick="addTask()">
-            ＋ Add Task
-        </button>
-
-    </div>
-
-
-    <div class="task-list-header">
-
-        <h3>
-            Your Tasks
-        </h3>
-
-        <span id="taskCount">
-            0 tasks
-        </span>
-
-    </div>
-
-    <div id="tasks"></div>
-
-</section>
-
-
-<!-- TIMETABLE -->
-
-<section id="timetable-section" class="section">
-
-    <div class="section-heading">
-
-        <div>
-            <p class="section-label">
-                ◷ PLAN AHEAD
-            </p>
-
-            <h2>
-                Weekly Timetable
-            </h2>
-
-            <p>
-                Plan your study schedule.
-            </p>
-        </div>
-
-        <div class="task-status">
-            ● Planned
-        </div>
-
-    </div>
-
-
-    <div class="task-form">
-
-        <select id="dayInput">
-
-            <option value="">
-                Select Day
-            </option>
-
-            <option value="Monday">
-                Monday
-            </option>
-
-            <option value="Tuesday">
-                Tuesday
-            </option>
-
-            <option value="Wednesday">
-                Wednesday
-            </option>
-
-            <option value="Thursday">
-                Thursday
-            </option>
-
-            <option value="Friday">
-                Friday
-            </option>
-
-            <option value="Saturday">
-                Saturday
-            </option>
-
-            <option value="Sunday">
-                Sunday
-            </option>
-
-        </select>
-
-
-        <select id="timetableSubject">
-
-            <option value="">
-                Select Subject
-            </option>
-
-            <option value="Physics">
-                ⚡ Physics
-            </option>
-
-            <option value="Chemistry">
-                ⚗ Chemistry
-            </option>
-
-            <option value="Mathematics">
-                ∑ Mathematics
-            </option>
-
-            <option value="Computer Science">
-                &lt;/&gt; Computer Science
-            </option>
-
-            <option value="English">
-                ✎ English
-            </option>
-
-        </select>
-
-
-        <input
-            type="time"
-            id="startTime"
-        >
-
-        <input
-            type="time"
-            id="endTime"
-        >
-
-        <button onclick="addSchedule()">
-            ＋ Add Schedule
-        </button>
-
-    </div>
-
-
-    <div class="timetable-header">
-
-        <h3>
-            Your Schedule
-        </h3>
-
-    </div>
-
-    <div
-        id="timetableList"
-        class="timetable-list">
-    </div>
-
-</section>
-
-
-<!-- POMODORO -->
-
-<section id="pomodoro-section" class="section">
-
-    <div class="section-heading pomodoro-heading">
-
-        <div>
-            <p class="section-label">
-                ⏱ FOCUS SESSION
-            </p>
-
-            <h2>
-                Pomodoro Timer
-            </h2>
-
-            <p>
-                Choose your study and break time.
-            </p>
-        </div>
-
-        <div class="timer-status">
-            ● Ready
-        </div>
-
-    </div>
-
-
-    <div class="pomodoro-card">
-
-
-        <!-- TIMER SETTINGS -->
-
-        <div class="timer-settings">
-
-            <div class="timer-setting">
-
-                <label for="studyDuration">
-                    ⏱ Study Time
-                </label>
-
-                <select
-                    id="studyDuration"
-                    onchange="changeStudyDuration()"
-                >
-
-                    <option value="25">
-                        25 minutes
-                    </option>
-
-                    <option value="50">
-                        50 minutes
-                    </option>
-
-                    <option value="60">
-                        60 minutes
-                    </option>
-
-                    <option value="custom">
-                        Custom
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="number"
-                    id="customStudyTime"
-                    min="1"
-                    max="180"
-                    placeholder="Custom minutes"
-                    style="display:none;"
-                >
-
-            </div>
-
-
-            <div class="timer-setting">
-
-                <label for="breakDuration">
-                    ☕ Break Time
-                </label>
-
-                <select
-                    id="breakDuration"
-                    onchange="changeBreakDuration()"
-                >
-
-                    <option value="5">
-                        5 minutes
-                    </option>
-
-                    <option value="10">
-                        10 minutes
-                    </option>
-
-                    <option value="15">
-                        15 minutes
-                    </option>
-
-                    <option value="custom">
-                        Custom
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="number"
-                    id="customBreakTime"
-                    min="1"
-                    max="60"
-                    placeholder="Custom minutes"
-                    style="display:none;"
-                >
-
-            </div>
-
-        </div>
-
-
-        <!-- MODE BUTTONS -->
-
-        <div class="timer-mode-buttons">
-
-            <button
-                id="studyModeButton"
-                class="timer-mode active"
-                onclick="setStudyMode()"
-            >
-                ⏱ Study
-            </button>
-
-
-            <button
-                id="breakModeButton"
-                class="timer-mode"
-                onclick="setBreakMode()"
-            >
-                ☕ Break
-            </button>
-
-        </div>
-
-
-        <!-- TIMER -->
-
-        <div class="timer-display-area">
-
-            <p id="timerMode">
-                Study Session
-            </p>
-
-            <div id="timer">
-                25:00
-            </div>
-
-
-            <div class="timer-progress">
-
-                <div
-                    id="timerProgressFill"
-                    class="timer-progress-fill">
+                <div class="focus-badge">
+                    ✦ Focus Mode
                 </div>
 
             </div>
 
-        </div>
+
+            <div class="focus-area">
+
+                <div class="focus-content">
+
+                    <div class="focus-label">
+                        TODAY'S FOCUS
+                    </div>
+
+                    <h2>
+                        Learn • Focus • Grow
+                    </h2>
+
+                    <p>
+                        Organize your studies and stay consistent.
+                    </p>
+
+                </div>
+
+                <div class="focus-mark">
+                    ✦
+                </div>
+
+            </div>
+
+        </section>
 
 
-        <!-- CONTROLS -->
+        <!-- =========================================
+             TASKS
+        ========================================= -->
 
-        <div class="timer-controls">
+        <section id="tasks-section" class="section">
 
-            <button
-                class="timer-start"
-                onclick="startTimer()"
-            >
-                ▶ Start
-            </button>
+            <div class="section-heading">
 
+                <div>
 
-            <button
-                class="timer-pause"
-                onclick="pauseTimer()"
-            >
-                ⏸ Pause
-            </button>
+                    <p class="section-label">
+                        ✓ PRODUCTIVITY
+                    </p>
 
+                    <h2>
+                        Task Manager
+                    </h2>
 
-            <button
-                class="timer-reset"
-                onclick="resetTimer()"
-            >
-                ↻ Reset
-            </button>
+                    <p>
+                        Plan your work and complete your goals.
+                    </p>
 
-        </div>
+                </div>
 
-
-        <p class="timer-info">
-            Stay focused during study time and take a proper break afterwards.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- PROGRESS -->
-
-<section id="progress-section" class="section">
-
-    <div class="section-heading">
-
-        <div>
-
-            <p class="section-label">
-                ◈ PERFORMANCE
-            </p>
-
-            <h2>
-                Progress Dashboard
-            </h2>
-
-            <p>
-                Track your study performance.
-            </p>
-
-        </div>
-
-        <div class="progress-status">
-            ● Tracking
-        </div>
-
-    </div>
-
-
-    <div class="premium-stats">
-
-        <div class="premium-stat">
-
-            <span>
-                ✓ Completion
-            </span>
-
-            <strong id="progressTasks">
-                0 / 0
-            </strong>
-
-            <small>
-                Tasks completed
-            </small>
-
-        </div>
-
-
-        <div class="premium-stat">
-
-            <span>
-                ◉ Study Time
-            </span>
-
-            <strong id="progressStudyTime">
-                0 min
-            </strong>
-
-            <small>
-                Total study time
-            </small>
-
-        </div>
-
-
-        <div class="premium-stat">
-
-            <span>
-                ◎ Progress
-            </span>
-
-            <strong id="progressPercentage">
-                0%
-            </strong>
-
-            <small>
-                Overall completion
-            </small>
-
-        </div>
-
-    </div>
-
-
-    <!-- SUBJECT PROGRESS -->
-
-    <div class="subject-progress-card">
-
-        <div class="progress-card-heading">
-
-            <h3>
-                Subject-wise Progress
-            </h3>
-
-            <span>
-                ◈
-            </span>
-
-        </div>
-
-        <div id="subjectProgress">
-        </div>
-
-    </div>
-
-
-    <!-- DAILY SUMMARY -->
-
-    <div class="daily-summary">
-
-        <div class="summary-title">
-            ★ Today's Summary
-        </div>
-
-
-        <div class="summary-grid">
-
-            <div>
-
-                <span>
-                    Completed
-                </span>
-
-                <strong id="todayCompleted">
-                    0
-                </strong>
+                <div class="task-status">
+                    ● Tasks
+                </div>
 
             </div>
 
 
-            <div>
+            <div class="task-form">
 
-                <span>
-                    Study Time
-                </span>
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter task">
 
-                <strong id="todayStudyTime">
-                    0 min
-                </strong>
+
+                <select id="subjectInput">
+
+                    <option value="">
+                        Subject
+                    </option>
+
+                    <option>
+                        Physics
+                    </option>
+
+                    <option>
+                        Chemistry
+                    </option>
+
+                    <option>
+                        Mathematics
+                    </option>
+
+                    <option>
+                        Computer Science
+                    </option>
+
+                    <option>
+                        English
+                    </option>
+
+                </select>
+
+
+                <select id="priorityInput">
+
+                    <option>
+                        Low
+                    </option>
+
+                    <option selected>
+                        Medium
+                    </option>
+
+                    <option>
+                        High
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="date"
+                    id="dateInput">
+
+
+                <input
+                    type="time"
+                    id="timeInput">
+
+
+                <button onclick="addTask()">
+                    ＋ Add Task
+                </button>
 
             </div>
 
 
-            <div>
-
-                <span>
-                    Sessions
-                </span>
-
-                <strong id="todaySessions">
-                    0
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- SUBJECTS -->
-
-<section id="subjects-section" class="section">
-
-    <div class="section-heading">
-
-        <div>
-
-            <p class="section-label">
-                ✦ YOUR STUDIES
-            </p>
-
-            <h2>
-                Subjects
-            </h2>
-
-            <p class="subjects-description">
-                Store and manage your study materials by subject.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="subjects-grid">
-
-
-        <div class="subject-card">
-
-            <div class="subject-icon">
-                ⚡
-            </div>
-
-            <div class="subject-info">
+            <div class="task-list-header">
 
                 <h3>
-                    Physics
+                    Your Tasks
                 </h3>
 
-                <span
-                    class="file-count"
-                    id="count-Physics"
-                >
-                    0 files
+                <span id="taskCount">
+                    0 tasks
                 </span>
 
             </div>
 
-            <button
-                class="study-files-button"
-                onclick="openSubject('Physics')"
-            >
-                Open →
-            </button>
 
-        </div>
+            <div id="taskList"></div>
+
+        </section>
 
 
-        <div class="subject-card">
+        <!-- =========================================
+             TIMETABLE
+        ========================================= -->
 
-            <div class="subject-icon">
-                ⚗
+        <section id="timetable-section" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ◷ PLANNING
+                    </p>
+
+                    <h2>
+                        Weekly Timetable
+                    </h2>
+
+                    <p>
+                        Build a study routine for every week.
+                    </p>
+
+                </div>
+
+                <div class="task-status">
+                    ● Schedule
+                </div>
+
             </div>
 
-            <div class="subject-info">
+
+            <div class="task-form">
+
+                <select id="dayInput">
+
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+
+                </select>
+
+
+                <input
+                    type="text"
+                    id="timetableSubject"
+                    placeholder="Subject">
+
+
+                <input
+                    type="time"
+                    id="startTime">
+
+
+                <input
+                    type="time"
+                    id="endTime">
+
+
+                <button onclick="addSchedule()">
+                    ＋ Add
+                </button>
+
+            </div>
+
+
+            <div class="timetable-header">
 
                 <h3>
-                    Chemistry
+                    Your Schedule
                 </h3>
 
-                <span
-                    class="file-count"
-                    id="count-Chemistry"
-                >
-                    0 files
-                </span>
+            </div>
+
+
+            <div
+                id="timetableList"
+                class="timetable-list">
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             POMODORO
+        ========================================= -->
+
+        <section id="pomodoro-section" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ⏱ FOCUS
+                    </p>
+
+                    <h2>
+                        Pomodoro Timer
+                    </h2>
+
+                    <p>
+                        Study with focused sessions and breaks.
+                    </p>
+
+                </div>
+
+                <div class="timer-status">
+                    ● Focus Timer
+                </div>
 
             </div>
 
-            <button
-                class="study-files-button"
-                onclick="openSubject('Chemistry')"
-            >
-                Open →
-            </button>
 
-        </div>
+            <div class="pomodoro-card">
+
+                <div class="timer-settings">
+
+                    <div class="timer-setting">
+
+                        <label>
+                            Study Duration
+                        </label>
+
+                        <select id="studyDuration">
+
+                            <option value="1">
+                                1 minute
+                            </option>
+
+                            <option value="25">
+                                25 minutes
+                            </option>
+
+                            <option value="45">
+                                45 minutes
+                            </option>
+
+                            <option value="60">
+                                60 minutes
+                            </option>
+
+                            <option value="custom">
+                                Custom
+                            </option>
+
+                        </select>
 
 
-        <div class="subject-card">
+                        <input
+                            type="number"
+                            id="customStudyTime"
+                            placeholder="Custom minutes"
+                            min="1"
+                            style="display:none;">
 
-            <div class="subject-icon">
-                ∑
+                    </div>
+
+
+                    <div class="timer-setting">
+
+                        <label>
+                            Break Duration
+                        </label>
+
+                        <select id="breakDuration">
+
+                            <option value="5">
+                                5 minutes
+                            </option>
+
+                            <option value="10">
+                                10 minutes
+                            </option>
+
+                            <option value="15">
+                                15 minutes
+                            </option>
+
+                            <option value="custom">
+                                Custom
+                            </option>
+
+                        </select>
+
+
+                        <input
+                            type="number"
+                            id="customBreakTime"
+                            placeholder="Custom minutes"
+                            min="1"
+                            style="display:none;">
+
+                    </div>
+
+                </div>
+
+
+                <div class="timer-mode-buttons">
+
+                    <button
+                        id="studyModeButton"
+                        class="timer-mode active"
+                        onclick="setStudyMode()">
+
+                        Study
+
+                    </button>
+
+
+                    <button
+                        id="breakModeButton"
+                        class="timer-mode"
+                        onclick="setBreakMode()">
+
+                        Break
+
+                    </button>
+
+                </div>
+
+
+                <div class="timer-display-area">
+
+                    <div id="timerMode">
+                        STUDY SESSION
+                    </div>
+
+                    <div id="timer">
+                        01:00
+                    </div>
+
+
+                    <div class="timer-progress">
+
+                        <div
+                            id="timerProgressFill"
+                            class="timer-progress-fill">
+                        </div>
+
+                    </div>
+
+
+                    <div class="timer-controls">
+
+                        <button
+                            class="timer-start"
+                            onclick="startTimer()">
+
+                            ▶ Start
+
+                        </button>
+
+
+                        <button
+                            class="timer-pause"
+                            onclick="pauseTimer()">
+
+                            ❚❚ Pause
+
+                        </button>
+
+
+                        <button
+                            class="timer-reset"
+                            onclick="resetTimer()">
+
+                            ↻ Reset
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="timer-info">
+
+                        Stay focused. One session at a time.
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="subject-info">
-
-                <h3>
-                    Mathematics
-                </h3>
-
-                <span
-                    class="file-count"
-                    id="count-Mathematics"
-                >
-                    0 files
-                </span>
-
-            </div>
-
-            <button
-                class="study-files-button"
-                onclick="openSubject('Mathematics')"
-            >
-                Open →
-            </button>
-
-        </div>
+        </section>
 
 
-        <div class="subject-card">
+        <!-- =========================================
+             PROGRESS
+        ========================================= -->
 
-            <div class="subject-icon">
-                &lt;/&gt;
-            </div>
+        <section id="progress-section" class="section">
 
-            <div class="subject-info">
+            <div class="section-heading">
 
-                <h3>
-                    Computer Science
-                </h3>
+                <div>
 
-                <span
-                    class="file-count"
-                    id="count-Computer Science"
-                >
-                    0 files
-                </span>
+                    <p class="section-label">
+                        ✦ PERFORMANCE
+                    </p>
+
+                    <h2>
+                        Progress Dashboard
+                    </h2>
+
+                    <p>
+                        Track your study consistency.
+                    </p>
+
+                </div>
+
+                <div class="progress-status">
+                    ● Progress
+                </div>
 
             </div>
 
-            <button
-                class="study-files-button"
-                onclick="openSubject('Computer Science')"
-            >
-                Open →
-            </button>
 
-        </div>
+            <div class="premium-stats">
+
+                <div class="premium-stat">
+
+                    <span>
+                        Completed Tasks
+                    </span>
+
+                    <strong id="progressTasks">
+                        0
+                    </strong>
+
+                    <small>
+                        tasks completed
+                    </small>
+
+                </div>
 
 
-        <div class="subject-card">
+                <div class="premium-stat">
 
-            <div class="subject-icon">
-                ✎
+                    <span>
+                        Study Time
+                    </span>
+
+                    <strong id="progressStudyTime">
+                        0 min
+                    </strong>
+
+                    <small>
+                        total focus time
+                    </small>
+
+                </div>
+
+
+                <div class="premium-stat">
+
+                    <span>
+                        Overall Progress
+                    </span>
+
+                    <strong id="progressPercentage">
+                        0%
+                    </strong>
+
+                    <small>
+                        task completion
+                    </small>
+
+                </div>
+
             </div>
 
-            <div class="subject-info">
 
-                <h3>
-                    English
-                </h3>
+            <div class="subject-progress-card">
 
-                <span
-                    class="file-count"
-                    id="count-English"
-                >
-                    0 files
-                </span>
+                <div class="progress-card-heading">
+
+                    <h3>
+                        Subject-wise Progress
+                    </h3>
+
+                </div>
+
+                <div id="subjectProgress"></div>
 
             </div>
 
-            <button
-                class="study-files-button"
-                onclick="openSubject('English')"
-            >
-                Open →
-            </button>
 
-        </div>
+            <div class="daily-summary">
 
-    </div>
+                <div class="summary-title">
+                    Today's Study Sessions
+                </div>
 
-</section>
+                <div class="summary-grid">
 
-</main>
+                    <div>
 
-<!-- SUBJECT FILE MODAL -->
+                        <span>
+                            Completed
+                        </span>
 
-<div id="subjectModal" class="modal-overlay" >
+                        <strong id="todayCompleted">
+                            0
+                        </strong>
 
-<div class="subject-modal">
-
-    <button
-        class="modal-close"
-        onclick="closeSubject()"
-    >
-        ×
-    </button>
+                    </div>
 
 
-    <div class="modal-header">
+                    <div>
 
-        <div>
+                        <span>
+                            Study Time
+                        </span>
 
-            <p class="modal-label">
-                YOUR STUDIES
-            </p>
+                        <strong id="todayStudyTime">
+                            0 min
+                        </strong>
 
-            <h2 id="modalSubjectName">
-                Physics
-            </h2>
-
-            <p>
-                Store and manage your study materials.
-            </p>
-
-        </div>
+                    </div>
 
 
-        <div
-            id="modalSubjectIcon"
-            class="modal-subject-icon"
-        >
-            ⚡
-        </div>
+                    <div>
 
-    </div>
+                        <span>
+                            Sessions
+                        </span>
 
+                        <strong id="todaySessions">
+                            0
+                        </strong>
 
-    <div class="file-upload-area">
+                    </div>
 
-        <input
-            type="file"
-            id="studyFileInput"
-            multiple
-            hidden
-            onchange="handleFileUpload(event)"
-        >
+                </div>
+
+            </div>
+
+        </section>
 
 
-        <button
-            class="upload-button"
-            onclick="document.getElementById('studyFileInput').click()"
-        >
-            ＋ Add Study Files
-        </button>
+        <!-- =========================================
+             SUBJECTS
+        ========================================= -->
 
-        <p>
-            Select PDFs, images, documents or other study files.
-        </p>
+        <section id="subjects-section" class="section">
 
-    </div>
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ✦ MATERIALS
+                    </p>
+
+                    <h2>
+                        Your Studies
+                    </h2>
+
+                    <p>
+                        Keep your study materials organized.
+                    </p>
+
+                </div>
+
+                <div class="task-status">
+                    ● Subjects
+                </div>
+
+            </div>
 
 
-    <div class="files-heading">
+            <div class="subjects-grid">
 
-        <h3>
-            Study Materials
-        </h3>
-<div class="study-search">
-    <span>⌕</span>
-    <input
-        type="text"
-        id="studyFileSearch"
-        placeholder="Search your study files..."
-        oninput="searchStudyFiles()"
-    >
-</div>
-<div id="modalFileCount">0 files</div>
-<div id="subjectFiles"></div>
+                <div class="subject-card">
 
-        <span id="modalFileCount">
-            0 files
-        </span>
+                    <div class="subject-icon">
+                        ⚛
+                    </div>
 
-    </div>
+                    <div class="subject-info">
 
+                        <h3>Physics</h3>
+
+                        <span
+                            class="file-count"
+                            id="Physics-file-count">
+
+                            0 files
+
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="study-files-button"
+                        onclick="openSubject('Physics')">
+
+                        Open →
+
+                    </button>
+
+                </div>
+
+
+                <div class="subject-card">
+
+                    <div class="subject-icon">
+                        🧪
+                    </div>
+
+                    <div class="subject-info">
+
+                        <h3>Chemistry</h3>
+
+                        <span
+                            class="file-count"
+                            id="Chemistry-file-count">
+
+                            0 files
+
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="study-files-button"
+                        onclick="openSubject('Chemistry')">
+
+                        Open →
+
+                    </button>
+
+                </div>
+
+
+                <div class="subject-card">
+
+                    <div class="subject-icon">
+                        ∑
+                    </div>
+
+                    <div class="subject-info">
+
+                        <h3>Mathematics</h3>
+
+                        <span
+                            class="file-count"
+                            id="Mathematics-file-count">
+
+                            0 files
+
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="study-files-button"
+                        onclick="openSubject('Mathematics')">
+
+                        Open →
+
+                    </button>
+
+                </div>
+
+
+                <div class="subject-card">
+
+                    <div class="subject-icon">
+                        💻
+                    </div>
+
+                    <div class="subject-info">
+
+                        <h3>Computer Science</h3>
+
+                        <span
+                            class="file-count"
+                            id="Computer Science-file-count">
+
+                            0 files
+
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="study-files-button"
+                        onclick="openSubject('Computer Science')">
+
+                        Open →
+
+                    </button>
+
+                </div>
+
+
+                <div class="subject-card">
+
+                    <div class="subject-icon">
+                        📖
+                    </div>
+
+                    <div class="subject-info">
+
+                        <h3>English</h3>
+
+                        <span
+                            class="file-count"
+                            id="English-file-count">
+
+                            0 files
+
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="study-files-button"
+                        onclick="openSubject('English')">
+
+                        Open →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             FOLLOWING
+        ========================================= -->
+
+        <section id="following-section" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ● SOCIAL
+                    </p>
+
+                    <h2>
+                        Following
+                    </h2>
+
+                    <p>
+                        Find other StudyFlow students and follow them.
+                    </p>
+
+                </div>
+
+                <div class="task-status">
+                    ● Following
+                </div>
+
+            </div>
+
+
+            <div class="following-card">
+
+                <div class="following-search">
+
+                    <input
+                        type="text"
+                        id="usernameSearch"
+                        placeholder="Search username">
+
+                    <button onclick="searchUsers()">
+                        🔍 Search
+                    </button>
+
+                </div>
+
+
+                <div id="userSearchResults">
+
+                    <p class="following-empty">
+                        Search for a StudyFlow username.
+                    </p>
+
+                </div>
+
+
+                <div class="following-divider"></div>
+
+
+                <div class="following-list-header">
+
+                    <h3>
+                        People You Follow
+                    </h3>
+
+                    <span id="followingCount">
+                        0
+                    </span>
+
+                </div>
+
+
+                <div id="followingList">
+
+                    <p class="following-empty">
+                        You are not following anyone yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             CHAT
+        ========================================= -->
+
+        <section id="chat-section" class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        💬 MESSAGES
+                    </p>
+
+                    <h2>
+                        Chat
+                    </h2>
+
+                    <p>
+                        Chat with people you follow.
+                    </p>
+
+                </div>
+
+                <div class="task-status">
+                    ● Chat
+                </div>
+
+            </div>
+
+
+            <div class="chat-card">
+
+                <div class="chat-header">
+
+                    <button
+                        class="chat-back-button"
+                        onclick="closeChat()">
+
+                        ← Back
+
+                    </button>
+
+
+                    <div>
+
+                        <h3 id="chatUsername">
+                            Select a person
+                        </h3>
+
+                        <span id="chatStatus">
+                            Choose someone from your Following list.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="chatMessages"
+                    class="chat-messages">
+
+                    <div class="chat-empty">
+                        💬 Select someone to start chatting.
+                    </div>
+
+                </div>
+
+
+                <div class="chat-input-area">
+
+                    <input
+                        type="text"
+                        id="chatMessageInput"
+                        placeholder="Type a message..."
+                        disabled>
+
+                    <button
+                        id="chatSendButton"
+                        onclick="sendMessage()"
+                        disabled>
+
+                        Send
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             SETTINGS
+        ========================================= -->
+
+        <section id="settings-section"
+            class="section settings-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="section-label">
+                        ⚙️ CUSTOMIZE
+                    </p>
+
+                    <h2>
+                        Settings
+                    </h2>
+
+                    <p>
+                        Customize your StudyFlow experience.
+                    </p>
+
+                </div>
+
+                <div class="task-status">
+                    ● Settings
+                </div>
+
+            </div>
+
+
+            <div class="settings-card">
+
+                <div class="setting-item">
+
+                    <div class="setting-info">
+
+                        <h3>
+                            🌙 Dark Mode
+                        </h3>
+
+                        <p>
+                            Keep the premium dark StudyFlow theme.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="darkModeToggle"
+                            checked
+                            onchange="toggleDarkMode()">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-item">
+
+                    <div class="setting-info">
+
+                        <h3>
+                            🔔 Study Notifications
+                        </h3>
+
+                        <p>
+                            Get browser notifications when study sessions finish.
+                        </p>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="notificationToggle"
+                            onchange="toggleNotifications()">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="setting-item">
+
+                    <div class="setting-info">
+
+                        <h3>
+                            ✦ StudyFlow
+                        </h3>
+
+                        <p>
+                            Learn • Focus • Grow
+                        </p>
+
+                    </div>
+
+
+                    <span style="color:#8994aa;font-size:13px;">
+                        v1.0
+                    </span>
+
+                </div>
+
+
+                <div class="setting-item">
+
+                    <div class="setting-info">
+
+                        <h3>
+                            🔄 Reset App Data
+                        </h3>
+
+                        <p>
+                            Clear saved StudyFlow data from this browser.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="settings-button danger"
+                        onclick="resetStudyFlow()">
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="settings-message"
+                    id="settingsMessage">
+
+                    Your settings are saved automatically.
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         SUBJECT MODAL
+    ========================================= -->
 
     <div
-        id="subjectFiles"
-        class="subject-files"
-    >
+        id="subjectModal"
+        class="modal-overlay">
+
+        <div class="subject-modal">
+
+            <button
+                class="modal-close"
+                onclick="closeSubject()">
+
+                ×
+
+            </button>
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <div class="modal-label">
+                        STUDY MATERIALS
+                    </div>
+
+                    <h2 id="modalSubjectName">
+                        Subject
+                    </h2>
+
+                    <p>
+                        Manage your study files.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="modal-subject-icon"
+                    id="modalSubjectIcon">
+
+                    ✦
+
+                </div>
+
+            </div>
+
+
+            <div class="file-upload-area">
+
+                <input
+                    type="file"
+                    id="studyFileInput">
+
+                <br><br>
+
+                <button
+                    class="upload-button"
+                    onclick="uploadStudyFile()">
+
+                    Upload File
+
+                </button>
+
+
+                <p>
+                    Store your notes, PDFs and study materials.
+                </p>
+
+            </div>
+
+
+            <div class="files-heading">
+
+                <h3>
+                    Your Files
+                </h3>
+
+                <span id="modalFileCount">
+                    0 files
+                </span>
+
+            </div>
+
+
+            <div class="study-search">
+
+                <span>
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="studyFileSearch"
+                    placeholder="Search your study files..."
+                    oninput="searchStudyFiles()">
+
+            </div>
+
+
+            <div
+                id="subjectFiles"
+                class="subject-files">
+
+            </div>
+
+        </div>
+
     </div>
 
-</div>
 
-</div>
+    <footer>
 
-<footer>
+        <p>
+            ✦ StudyFlow
+        </p>
 
-<p>
-    ✦ StudyFlow ©
-</p>
+        <div>
+            Learn • Focus • Grow
+        </div>
 
-<span>
-    Learn • Focus • Grow
-</span>
+    </footer>
 
-</footer>
 
-<script src="script.js"></script>
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-        navigator.serviceWorker.register("./service-worker.js")
-            .then(function() {
-                console.log("StudyFlow PWA ready");
-            })
-            .catch(function(error) {
-                console.log("PWA error:", error);
+    <!-- =========================================
+         MAIN JAVASCRIPT
+    ========================================= -->
+
+    <script src="script.js"></script>
+
+
+    <!-- =========================================
+         SUPABASE
+    ========================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+    <script>
+
+        const SUPABASE_URL =
+            "https://xhtbeosrycbzwqpwfsos.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_vXqF2_g39FkuJWTGYX5U0Q_4c8zXTyp";
+
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+
+        /* =========================================
+           DARK MODE
+        ========================================= */
+
+        function toggleDarkMode() {
+
+            const toggle =
+                document.getElementById("darkModeToggle");
+
+            const message =
+                document.getElementById("settingsMessage");
+
+
+            if (toggle.checked) {
+
+                document.body.classList.remove("light-mode");
+
+                localStorage.setItem(
+                    "studyflowTheme",
+                    "dark"
+                );
+
+                message.textContent =
+                    "Dark Mode is enabled.";
+
+            } else {
+
+                document.body.classList.add("light-mode");
+
+                localStorage.setItem(
+                    "studyflowTheme",
+                    "light"
+                );
+
+                message.textContent =
+                    "Light Mode is enabled.";
+
+            }
+
+        }
+
+
+        /* =========================================
+           NOTIFICATIONS
+        ========================================= */
+
+        async function toggleNotifications() {
+
+            const toggle =
+                document.getElementById("notificationToggle");
+
+            const message =
+                document.getElementById("settingsMessage");
+
+
+            if (toggle.checked) {
+
+                if (!("Notification" in window)) {
+
+                    toggle.checked = false;
+
+                    message.textContent =
+                        "Your browser does not support notifications.";
+
+                    return;
+
+                }
+
+
+                const permission =
+                    await Notification.requestPermission();
+
+
+                if (permission === "granted") {
+
+                    localStorage.setItem(
+                        "studyflowNotifications",
+                        "on"
+                    );
+
+                    message.textContent =
+                        "Study notifications are enabled.";
+
+                    new Notification(
+                        "StudyFlow",
+                        {
+                            body:
+                                "Study notifications are now enabled."
+                        }
+                    );
+
+                } else {
+
+                    toggle.checked = false;
+
+                    localStorage.setItem(
+                        "studyflowNotifications",
+                        "off"
+                    );
+
+                    message.textContent =
+                        "Notification permission was not granted.";
+
+                }
+
+            } else {
+
+                localStorage.setItem(
+                    "studyflowNotifications",
+                    "off"
+                );
+
+                message.textContent =
+                    "Study notifications are disabled.";
+
+            }
+
+        }
+
+
+        /* =========================================
+           SEND NOTIFICATION
+        ========================================= */
+
+        function sendStudyNotification(title, message) {
+
+            const notificationsEnabled =
+                localStorage.getItem(
+                    "studyflowNotifications"
+                );
+
+
+            if (
+                notificationsEnabled === "on" &&
+                "Notification" in window &&
+                Notification.permission === "granted"
+            ) {
+
+                new Notification(
+                    title,
+                    {
+                        body: message
+                    }
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           RESET APP
+        ========================================= */
+
+        function resetStudyFlow() {
+
+            const confirmReset =
+                confirm(
+                    "Are you sure you want to reset StudyFlow data?"
+                );
+
+
+            if (!confirmReset) {
+                return;
+            }
+
+
+            localStorage.removeItem("studyMinutes");
+            localStorage.removeItem("todaySessions");
+            localStorage.removeItem("studyflowTheme");
+            localStorage.removeItem("studyflowNotifications");
+            localStorage.removeItem("tasks");
+            localStorage.removeItem("schedules");
+
+
+            alert(
+                "StudyFlow data has been reset."
+            );
+
+
+            location.reload();
+
+        }
+
+
+        /* =========================================
+           LOAD SETTINGS
+        ========================================= */
+
+        const savedTheme =
+            localStorage.getItem("studyflowTheme");
+
+
+        const darkModeToggle =
+            document.getElementById("darkModeToggle");
+
+
+        if (savedTheme === "light") {
+
+            document.body.classList.add("light-mode");
+
+            if (darkModeToggle) {
+                darkModeToggle.checked = false;
+            }
+
+        } else {
+
+            document.body.classList.remove("light-mode");
+
+            if (darkModeToggle) {
+                darkModeToggle.checked = true;
+            }
+
+        }
+
+
+        const savedNotifications =
+            localStorage.getItem(
+                "studyflowNotifications"
+            );
+
+
+        const notificationToggle =
+            document.getElementById(
+                "notificationToggle"
+            );
+
+
+        if (
+            savedNotifications === "on" &&
+            notificationToggle
+        ) {
+
+            notificationToggle.checked = true;
+
+        }
+
+
+        /* =========================================
+           FOLLOWING
+        ========================================= */
+
+        let currentUser = null;
+
+
+        async function getCurrentUser() {
+
+            const result =
+                await supabaseClient.auth.getUser();
+
+
+            if (result.error) {
+                return null;
+            }
+
+
+            return result.data.user;
+
+        }
+
+
+        /* =========================================
+           SEARCH USERS
+        ========================================= */
+
+        async function searchUsers() {
+
+            const input =
+                document.getElementById(
+                    "usernameSearch"
+                );
+
+            const results =
+                document.getElementById(
+                    "userSearchResults"
+                );
+
+
+            const username =
+                input.value.trim();
+
+
+            if (!username) {
+
+                results.innerHTML =
+                    '<p class="following-empty">Enter a username to search.</p>';
+
+                return;
+
+            }
+
+
+            results.innerHTML =
+                '<p class="following-empty">Searching...</p>';
+
+
+            currentUser =
+                await getCurrentUser();
+
+
+            if (!currentUser) {
+
+                results.innerHTML =
+                    '<p class="following-empty">Please log in first.</p>';
+
+                return;
+
+            }
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("profiles")
+                    .select("id, username")
+                    .ilike(
+                        "username",
+                        "%" + username + "%"
+                    )
+                    .limit(10);
+
+
+            if (error) {
+
+                console.error(error);
+
+                results.innerHTML =
+                    '<p class="following-empty">Unable to search users.</p>';
+
+                return;
+
+            }
+
+
+            if (!data || data.length === 0) {
+
+                results.innerHTML =
+                    '<p class="following-empty">No users found.</p>';
+
+                return;
+
+            }
+
+
+            results.innerHTML = "";
+
+
+            for (const user of data) {
+
+                if (user.id === currentUser.id) {
+                    continue;
+                }
+
+
+                const { data: followData } =
+                    await supabaseClient
+                        .from("following")
+                        .select("id")
+                        .eq(
+                            "follower_id",
+                            currentUser.id
+                        )
+                        .eq(
+                            "following_id",
+                            user.id
+                        )
+                        .maybeSingle();
+
+
+                const isFollowing =
+                    !!followData;
+
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "following-user";
+
+
+                row.innerHTML = `
+
+                    <div class="following-user-info">
+
+                        <div class="following-avatar">
+                            ${user.username.charAt(0).toUpperCase()}
+                        </div>
+
+                        <div class="following-username">
+                            ${user.username}
+                        </div>
+
+                    </div>
+
+                    <div class="follow-actions">
+
+                        ${
+                            isFollowing
+                            ? `
+                                <button
+                                    class="chat-button"
+                                    onclick="openChat('${user.id}', '${user.username.replace(/'/g, "\\'")}')">
+
+                                    💬 Chat
+
+                                </button>
+                            `
+                            : ""
+                        }
+
+                        <button
+                            class="follow-button ${isFollowing ? "unfollow" : ""}"
+                            onclick="toggleFollow('${user.id}', ${isFollowing})">
+
+                            ${isFollowing ? "Unfollow" : "Follow"}
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                results.appendChild(row);
+
+            }
+
+        }
+
+
+        /* =========================================
+           FOLLOW / UNFOLLOW
+        ========================================= */
+
+        async function toggleFollow(
+            userId,
+            isFollowing
+        ) {
+
+            currentUser =
+                await getCurrentUser();
+
+
+            if (!currentUser) {
+
+                alert("Please log in first.");
+
+                return;
+
+            }
+
+
+            if (isFollowing) {
+
+                const { error } =
+                    await supabaseClient
+                        .from("following")
+                        .delete()
+                        .eq(
+                            "follower_id",
+                            currentUser.id
+                        )
+                        .eq(
+                            "following_id",
+                            userId
+                        );
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Unable to unfollow this user."
+                    );
+
+                    return;
+
+                }
+
+            } else {
+
+                const { error } =
+                    await supabaseClient
+                        .from("following")
+                        .insert({
+                            follower_id:
+                                currentUser.id,
+
+                            following_id:
+                                userId
+                        });
+
+
+                if (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Unable to follow this user."
+                    );
+
+                    return;
+
+                }
+
+            }
+
+
+            searchUsers();
+
+            loadFollowing();
+
+        }
+
+
+        /* =========================================
+           LOAD FOLLOWING
+        ========================================= */
+
+        async function loadFollowing() {
+
+            const list =
+                document.getElementById(
+                    "followingList"
+                );
+
+            const count =
+                document.getElementById(
+                    "followingCount"
+                );
+
+
+            currentUser =
+                await getCurrentUser();
+
+
+            if (!currentUser) {
+
+                list.innerHTML =
+                    '<p class="following-empty">Please log in to see your following list.</p>';
+
+                count.textContent = "0";
+
+                return;
+
+            }
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("following")
+                    .select("following_id")
+                    .eq(
+                        "follower_id",
+                        currentUser.id
+                    );
+
+
+            if (error) {
+
+                console.error(error);
+
+                list.innerHTML =
+                    '<p class="following-empty">Unable to load following list.</p>';
+
+                return;
+
+            }
+
+
+            if (!data || data.length === 0) {
+
+                list.innerHTML =
+                    '<p class="following-empty">You are not following anyone yet.</p>';
+
+                count.textContent = "0";
+
+                return;
+
+            }
+
+
+            count.textContent =
+                data.length;
+
+
+            list.innerHTML = "";
+
+
+            for (const follow of data) {
+
+                const { data: profile } =
+                    await supabaseClient
+                        .from("profiles")
+                        .select("id, username")
+                        .eq(
+                            "id",
+                            follow.following_id
+                        )
+                        .maybeSingle();
+
+
+                if (!profile) {
+                    continue;
+                }
+
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "following-user";
+
+
+                row.innerHTML = `
+
+                    <div class="following-user-info">
+
+                        <div class="following-avatar">
+                            ${profile.username.charAt(0).toUpperCase()}
+                        </div>
+
+                        <div class="following-username">
+                            ${profile.username}
+                        </div>
+
+                    </div>
+
+                    <div class="follow-actions">
+
+                        <button
+                            class="chat-button"
+                            onclick="openChat('${profile.id}', '${profile.username.replace(/'/g, "\\'")}')">
+
+                            💬 Chat
+
+                        </button>
+
+                        <button
+                            class="follow-button unfollow"
+                            onclick="toggleFollow('${profile.id}', true)">
+
+                            Unfollow
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                list.appendChild(row);
+
+            }
+
+        }
+
+
+        /* =========================================
+           CHAT
+        ========================================= */
+
+        let activeChatUserId = null;
+
+        let activeChatUsername = null;
+
+        let chatSubscription = null;
+
+
+        /* =========================================
+           OPEN CHAT
+        ========================================= */
+
+        async function openChat(
+            userId,
+            username
+        ) {
+
+            currentUser =
+                await getCurrentUser();
+
+
+            if (!currentUser) {
+
+                alert("Please log in first.");
+
+                return;
+
+            }
+
+
+            activeChatUserId =
+                userId;
+
+            activeChatUsername =
+                username;
+
+
+            document.getElementById(
+                "chatUsername"
+            ).textContent =
+                username;
+
+
+            document.getElementById(
+                "chatStatus"
+            ).textContent =
+                "Online chat";
+
+
+            const messageInput =
+                document.getElementById(
+                    "chatMessageInput"
+                );
+
+
+            const sendButton =
+                document.getElementById(
+                    "chatSendButton"
+                );
+
+
+            messageInput.disabled = false;
+
+            sendButton.disabled = false;
+
+
+            document.getElementById(
+                "chat-section"
+            ).scrollIntoView({
+                behavior: "smooth"
             });
-    });
-}
-</script>
+
+
+            await loadMessages();
+
+
+            subscribeToMessages();
+
+
+            messageInput.focus();
+
+        }
+
+
+        /* =========================================
+           CLOSE CHAT
+        ========================================= */
+
+        function closeChat() {
+
+            activeChatUserId = null;
+
+            activeChatUsername = null;
+
+
+            if (chatSubscription) {
+
+                supabaseClient
+                    .removeChannel(
+                        chatSubscription
+                    );
+
+                chatSubscription = null;
+
+            }
+
+
+            document.getElementById(
+                "chatUsername"
+            ).textContent =
+                "Select a person";
+
+
+            document.getElementById(
+                "chatStatus"
+            ).textContent =
+                "Choose someone from your Following list.";
+
+
+            document.getElementById(
+                "chatMessages"
+            ).innerHTML =
+                '<div class="chat-empty">💬 Select someone to start chatting.</div>';
+
+
+            document.getElementById(
+                "chatMessageInput"
+            ).value = "";
+
+
+            document.getElementById(
+                "chatMessageInput"
+            ).disabled = true;
+
+
+            document.getElementById(
+                "chatSendButton"
+            ).disabled = true;
+
+        }
+
+
+        /* =========================================
+           LOAD MESSAGES
+        ========================================= */
+
+        async function loadMessages() {
+
+            if (!currentUser || !activeChatUserId) {
+                return;
+            }
+
+
+            const messagesBox =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+
+            messagesBox.innerHTML =
+                '<div class="chat-empty">Loading messages...</div>';
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("messages")
+                    .select(
+                        "id, sender_id, receiver_id, message, created_at"
+                    )
+                    .or(
+                        "and(sender_id.eq." +
+                        currentUser.id +
+                        ",receiver_id.eq." +
+                        activeChatUserId +
+                        "),and(sender_id.eq." +
+                        activeChatUserId +
+                        ",receiver_id.eq." +
+                        currentUser.id +
+                        ")"
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending: true
+                        }
+                    );
+
+
+            if (error) {
+
+                console.error(error);
+
+                messagesBox.innerHTML =
+                    '<div class="chat-empty">Unable to load messages.</div>';
+
+                return;
+
+            }
+
+
+            if (!data || data.length === 0) {
+
+                messagesBox.innerHTML =
+                    '<div class="chat-empty">No messages yet. Say hello! 👋</div>';
+
+                return;
+
+            }
+
+
+            messagesBox.innerHTML = "";
+
+
+            data.forEach(function(message) {
+
+                displayMessage(message);
+
+            });
+
+
+            scrollChatToBottom();
+
+        }
+
+
+        /* =========================================
+           DISPLAY MESSAGE
+        ========================================= */
+
+        function displayMessage(message) {
+
+            const messagesBox =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+
+            const messageElement =
+                document.createElement("div");
+
+
+            const isSent =
+                message.sender_id === currentUser.id;
+
+
+            messageElement.className =
+                "chat-message " +
+                (isSent ? "sent" : "received");
+
+
+            const time =
+                new Date(
+                    message.created_at
+                ).toLocaleTimeString(
+                    [],
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+            messageElement.innerHTML = `
+
+                <div>
+                    ${escapeChatMessage(message.message)}
+                </div>
+
+                <span class="chat-time">
+                    ${time}
+                </span>
+
+            `;
+
+
+            messagesBox.appendChild(
+                messageElement
+            );
+
+        }
+
+
+        /* =========================================
+           ESCAPE MESSAGE
+        ========================================= */
+
+        function escapeChatMessage(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent =
+                text;
+
+            return div.innerHTML;
+
+        }
+
+
+        /* =========================================
+           SEND MESSAGE
+        ========================================= */
+
+        async function sendMessage() {
+
+            if (!currentUser || !activeChatUserId) {
+
+                return;
+
+            }
+
+
+            const input =
+                document.getElementById(
+                    "chatMessageInput"
+                );
+
+
+            const text =
+                input.value.trim();
+
+
+            if (!text) {
+                return;
+            }
+
+
+            const sendButton =
+                document.getElementById(
+                    "chatSendButton"
+                );
+
+
+            sendButton.disabled = true;
+
+
+            const { data, error } =
+                await supabaseClient
+                    .from("messages")
+                    .insert({
+                        sender_id:
+                            currentUser.id,
+
+                        receiver_id:
+                            activeChatUserId,
+
+                        message:
+                            text
+                    })
+                    .select()
+                    .single();
+
+
+            if (error) {
+
+                console.error(error);
+
+                alert(
+                    "Unable to send message."
+                );
+
+                sendButton.disabled = false;
+
+                return;
+
+            }
+
+
+            input.value = "";
+
+
+            if (!chatSubscription) {
+
+                displayMessage(data);
+
+                scrollChatToBottom();
+
+            }
+
+
+            sendButton.disabled = false;
+
+            input.focus();
+
+        }
+
+
+        /* =========================================
+           REAL-TIME CHAT
+        ========================================= */
+
+        function subscribeToMessages() {
+
+            if (chatSubscription) {
+
+                supabaseClient
+                    .removeChannel(
+                        chatSubscription
+                    );
+
+                chatSubscription = null;
+
+            }
+
+
+            if (!currentUser || !activeChatUserId) {
+                return;
+            }
+
+
+            chatSubscription =
+                supabaseClient
+                    .channel(
+                        "chat-" +
+                        currentUser.id +
+                        "-" +
+                        activeChatUserId
+                    )
+                    .on(
+                        "postgres_changes",
+                        {
+                            event: "INSERT",
+                            schema: "public",
+                            table: "messages"
+                        },
+                        function(payload) {
+
+                            const message =
+                                payload.new;
+
+
+                            const belongsToChat =
+                                (
+                                    message.sender_id === currentUser.id &&
+                                    message.receiver_id === activeChatUserId
+                                )
+                                ||
+                                (
+                                    message.sender_id === activeChatUserId &&
+                                    message.receiver_id === currentUser.id
+                                );
+
+
+                            if (!belongsToChat) {
+                                return;
+                            }
+
+
+                            displayMessage(message);
+
+                            scrollChatToBottom();
+
+                        }
+                    )
+                    .subscribe();
+
+        }
+
+
+        /* =========================================
+           SCROLL CHAT
+        ========================================= */
+
+        function scrollChatToBottom() {
+
+            const messagesBox =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+
+            messagesBox.scrollTop =
+                messagesBox.scrollHeight;
+
+        }
+
+
+        /* =========================================
+           ENTER TO SEND
+        ========================================= */
+
+        document
+            .getElementById(
+                "chatMessageInput"
+            )
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter" &&
+                        !event.shiftKey
+                    ) {
+
+                        event.preventDefault();
+
+                        sendMessage();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================================
+           LOAD FOLLOWING
+        ========================================= */
+
+        loadFollowing();
+
+
+        /* =========================================
+           ENTER KEY SEARCH
+        ========================================= */
+
+        document
+            .getElementById("usernameSearch")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        searchUsers();
+
+                    }
+
+                }
+            );
+
+    </script>
+
+
+    <!-- =========================================
+         PWA
+    ========================================= -->
+
+    <script>
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                function() {
+
+                    navigator.serviceWorker
+                        .register(
+                            "./service-worker.js"
+                        )
+                        .then(
+                            function() {
+
+                                console.log(
+                                    "StudyFlow PWA ready"
+                                );
+
+                            }
+                        )
+                        .catch(
+                            function(error) {
+
+                                console.log(
+                                    "PWA error:",
+                                    error
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+
+    </script>
+
 
 </body>
 
