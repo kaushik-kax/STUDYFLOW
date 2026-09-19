@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +7,10 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =========================================
+         SEO
+    ========================================= -->
 
     <title>StudyFlow - Your Personal Study Planner</title>
 
@@ -16,7 +21,7 @@
 
     <meta
         name="keywords"
-        content="StudyFlow, study planner, student planner, study timetable, study schedule, Pomodoro timer, student productivity, study app"
+        content="StudyFlow, study planner, student planner, study timetable, study schedule, Pomodoro timer, student productivity, study app, online study planner"
     >
 
     <meta
@@ -34,7 +39,16 @@
         content="#0b0f17"
     >
 
-    <!-- Open Graph -->
+    <!-- Canonical URL -->
+
+    <link
+        rel="canonical"
+        href="https://kaushik-kax.github.io/STUDYFLOW/"
+    >
+
+    <!-- =========================================
+         OPEN GRAPH
+    ========================================= -->
 
     <meta
         property="og:title"
@@ -56,37 +70,87 @@
         content="https://kaushik-kax.github.io/STUDYFLOW/"
     >
 
-    <!-- Website Icon -->
+    <meta
+        property="og:site_name"
+        content="StudyFlow"
+    >
+
+    <meta
+        property="og:image"
+        content="https://kaushik-kax.github.io/STUDYFLOW/logo.png"
+    >
+
+    <!-- =========================================
+         TWITTER / SOCIAL SHARING
+    ========================================= -->
+
+    <meta
+        name="twitter:card"
+        content="summary"
+    >
+
+    <meta
+        name="twitter:title"
+        content="StudyFlow - Your Personal Study Planner"
+    >
+
+    <meta
+        name="twitter:description"
+        content="A free study planner for students to manage tasks, timetables, study sessions and progress."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://kaushik-kax.github.io/STUDYFLOW/logo.png"
+    >
+
+    <!-- =========================================
+         WEBSITE ICON
+    ========================================= -->
 
     <link
         rel="icon"
         href="logo.png"
     >
 
-    <!-- PWA -->
+    <link
+        rel="apple-touch-icon"
+        href="logo.png"
+    >
+
+    <!-- =========================================
+         PWA
+    ========================================= -->
 
     <link
         rel="manifest"
         href="manifest.json"
     >
 
-    <!-- CSS -->
+    <!-- =========================================
+         CSS
+    ========================================= -->
 
     <link
         rel="stylesheet"
         href="style.css"
     >
 
-    <!-- Google Website Structured Data -->
+    <!-- =========================================
+         GOOGLE STRUCTURED DATA
+    ========================================= -->
 
     <script type="application/ld+json">
+
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "StudyFlow",
         "alternateName": "StudyFlow Study Planner",
-        "url": "https://kaushik-kax.github.io/STUDYFLOW/"
+        "url": "https://kaushik-kax.github.io/STUDYFLOW/",
+        "description": "A free study planner for students to manage tasks, timetables, study sessions and progress."
     }
+
     </script>
 
 </head>
@@ -1686,7 +1750,7 @@
 
 
     <!-- =========================================
-         PWA
+         PWA SERVICE WORKER
     ========================================= -->
 
     <script>
