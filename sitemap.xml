@@ -4,6 +4,14 @@
 
     <url>
         <loc>https://kaushik-kax.github.io/STUDYFLOW/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <url>
+        <loc>https://kaushik-kax.github.io/STUDYFLOW/home.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 
 </urlset>
