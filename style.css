@@ -1597,3 +1597,166 @@ body.light-mode .timer {
         font-size: 13px;
     }
 }
+/* =========================================
+   STUDYFLOW — SMOOTH PREMIUM EXPERIENCE
+========================================= */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Smooth theme and UI transitions */
+body,
+nav,
+section,
+.card,
+.dashboard-card,
+button,
+input,
+select,
+textarea,
+.ai-nav-button {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.25s ease,
+        opacity 0.3s ease;
+}
+
+/* Better buttons */
+button {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Smooth cards */
+.card,
+.dashboard-card {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.3s ease;
+}
+
+.card:hover,
+.dashboard-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Smooth navigation */
+nav a {
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Input focus animation */
+input,
+select,
+textarea {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   AI ASSISTANT PREMIUM GLOW
+========================================= */
+
+.ai-nav-button {
+    animation: aiGlow 3s ease-in-out infinite;
+}
+
+@keyframes aiGlow {
+    0%,
+    100% {
+        box-shadow:
+            0 0 8px rgba(139, 92, 246, 0.35),
+            0 0 20px rgba(99, 102, 241, 0.15);
+    }
+
+    50% {
+        box-shadow:
+            0 0 12px rgba(139, 92, 246, 0.6),
+            0 0 28px rgba(99, 102, 241, 0.3);
+    }
+}
+
+/* =========================================
+   SMOOTH PAGE SECTIONS
+========================================= */
+
+section {
+    scroll-margin-top: 90px;
+}
+
+/* Prevent images from looking harsh while loading */
+img {
+    transition: opacity 0.3s ease;
+}
+
+/* =========================================
+   MOBILE SMOOTHNESS
+========================================= */
+
+@media (max-width: 768px) {
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .card:hover,
+    .dashboard-card:hover {
+        transform: none;
+    }
+
+    button:hover {
+        transform: none;
+    }
+
+    .ai-nav-button {
+        animation-duration: 4s;
+    }
+}
+
+/* =========================================
+   REDUCE MOTION FOR USERS WHO PREFER IT
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
