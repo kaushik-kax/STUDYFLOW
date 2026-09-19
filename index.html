@@ -1,1799 +1,732 @@
-html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- =========================================
-         SEO
-    ========================================= -->
+    <title>StudyFlow – Your Personal Study Planner</title>
+    <meta name="description" content="StudyFlow is a personal study planner with tasks, timetable, Pomodoro timer, progress tracking and study files.">
+    <meta name="theme-color" content="#080b12">
 
-    <title>StudyFlow - Your Personal Study Planner</title>
+    <link rel="manifest" href="manifest.json">
 
-    <meta
-        name="description"
-        content="StudyFlow is a free student study planner for managing tasks, timetables, study sessions, subjects, files and study progress."
-    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <meta
-        name="keywords"
-        content="StudyFlow, study planner, student planner, study timetable, study schedule, Pomodoro timer, student productivity, study app, online study planner"
-    >
-
-    <meta
-        name="author"
-        content="StudyFlow"
-    >
-
-    <meta
-        name="robots"
-        content="index, follow"
-    >
-
-    <meta
-        name="theme-color"
-        content="#0b0f17"
-    >
-
-    <!-- Canonical URL -->
-
-    <link
-        rel="canonical"
-        href="https://kaushik-kax.github.io/STUDYFLOW/"
-    >
-
-    <!-- =========================================
-         OPEN GRAPH
-    ========================================= -->
-
-    <meta
-        property="og:title"
-        content="StudyFlow - Your Personal Study Planner"
-    >
-
-    <meta
-        property="og:description"
-        content="A free study planner for students to manage tasks, timetables, study sessions and progress."
-    >
-
-    <meta
-        property="og:type"
-        content="website"
-    >
-
-    <meta
-        property="og:url"
-        content="https://kaushik-kax.github.io/STUDYFLOW/"
-    >
-
-    <meta
-        property="og:site_name"
-        content="StudyFlow"
-    >
-
-    <meta
-        property="og:image"
-        content="https://kaushik-kax.github.io/STUDYFLOW/logo.png"
-    >
-
-    <!-- =========================================
-         TWITTER / SOCIAL SHARING
-    ========================================= -->
-
-    <meta
-        name="twitter:card"
-        content="summary"
-    >
-
-    <meta
-        name="twitter:title"
-        content="StudyFlow - Your Personal Study Planner"
-    >
-
-    <meta
-        name="twitter:description"
-        content="A free study planner for students to manage tasks, timetables, study sessions and progress."
-    >
-
-    <meta
-        name="twitter:image"
-        content="https://kaushik-kax.github.io/STUDYFLOW/logo.png"
-    >
-
-    <!-- =========================================
-         WEBSITE ICON
-    ========================================= -->
-
-    <link
-        rel="icon"
-        href="logo.png"
-    >
-
-    <link
-        rel="apple-touch-icon"
-        href="logo.png"
-    >
-
-    <!-- =========================================
-         PWA
-    ========================================= -->
-
-    <link
-        rel="manifest"
-        href="manifest.json"
-    >
-
-    <!-- =========================================
-         CSS
-    ========================================= -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-    <!-- =========================================
-         GOOGLE STRUCTURED DATA
-    ========================================= -->
-
-    <script type="application/ld+json">
-
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "StudyFlow",
-        "alternateName": "StudyFlow Study Planner",
-        "url": "https://kaushik-kax.github.io/STUDYFLOW/",
-        "description": "A free study planner for students to manage tasks, timetables, study sessions and progress."
-    }
-
-    </script>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+<!-- ================= NAVBAR ================= -->
 
-    <!-- =========================================
-         NAVBAR
-    ========================================= -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="brand-logo" aria-label="StudyFlow logo">✦</div>
 
-    <header class="navbar">
+        <div>
+            <h1>StudyFlow</h1>
+            <p>Learn • Focus • Grow</p>
+        </div>
+    </div>
 
-        <div class="brand">
-            ✦ StudyFlow
+    <div class="nav-links">
+         <a href="#dashboard">Dashboard</a>
+    <a href="#tasks">Tasks</a>
+    <a href="#timetable">Timetable</a>
+    <a href="#pomodoro">Pomodoro</a>
+    <a href="#subjects">Subjects</a>
+    <a href="#ai-chat" class="ai-nav-button">✦ AI Assistant</a>
+    <a href="#settings">Settings</a>
+    </div>
+</nav>
+
+
+<main>
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="hero-section">
+    <div class="hero-content">
+        <span class="small-label">YOUR PERSONAL STUDY PLANNER</span>
+
+        <h2>Welcome back!</h2>
+
+        <p id="date"></p>
+
+        <p class="hero-description">
+            Plan your studies, stay focused and track your progress with StudyFlow.
+        </p>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="stats-grid">
+
+    <div class="stat-card">
+        <span class="stat-icon">✦</span>
+        <div>
+            <p>Total Tasks</p>
+            <h3 id="totalTasks">0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-icon">✓</span>
+        <div>
+            <p>Completed</p>
+            <h3 id="completedTasks">0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-icon">◉</span>
+        <div>
+            <p>Study Time</p>
+            <h3><span id="todayStudyTime">0</span> min</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-icon">✶</span>
+        <div>
+            <p>Sessions</p>
+            <h3 id="todaySessions">0</h3>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ================= TASKS ================= -->
+
+<section id="tasks" class="section-card">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">TASK MANAGER</span>
+            <h2>✦ My Tasks</h2>
+            <p>Add and manage your study tasks.</p>
+        </div>
+
+        <div class="task-count">
+            <span id="taskCount">0</span> Tasks
+        </div>
+    </div>
+
+
+    <div class="task-form">
+
+        <div class="input-group">
+            <label for="taskInput">Task</label>
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="e.g. Complete Chemistry revision"
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="subjectInput">Subject</label>
+            <input
+                type="text"
+                id="subjectInput"
+                placeholder="e.g. Chemistry"
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="priorityInput">Priority</label>
+
+            <select id="priorityInput">
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="dateInput">Date</label>
+            <input type="date" id="dateInput">
+        </div>
+
+        <div class="input-group">
+            <label for="timeInput">Time</label>
+            <input type="time" id="timeInput">
+        </div>
+
+        <button type="button" class="primary-button" onclick="addTask()">
+            + Add Task
+        </button>
+
+    </div>
+
+
+    <div id="taskList" class="task-list">
+        <div class="empty-state">
+            <span>✧</span>
+            <p>No tasks yet. Add your first task!</p>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ================= TIMETABLE ================= -->
+
+<section id="timetable" class="section-card">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">WEEKLY PLANNER</span>
+            <h2>⬩➤ Weekly Timetable</h2>
+            <p>Create your weekly study schedule.</p>
+        </div>
+    </div>
+
+
+    <div class="task-form">
+
+        <div class="input-group">
+            <label for="dayInput">Day</label>
+
+            <select id="dayInput">
+                <option value="">Select day</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="timetableSubject">Subject</label>
+            <input
+                type="text"
+                id="timetableSubject"
+                placeholder="e.g. Physics"
+            >
+        </div>
+
+        <div class="input-group">
+            <label for="startTime">Start Time</label>
+            <input type="time" id="startTime">
+        </div>
+
+        <div class="input-group">
+            <label for="endTime">End Time</label>
+            <input type="time" id="endTime">
+        </div>
+
+        <button type="button" class="primary-button" onclick="addSchedule()">
+            + Add Session
+        </button>
+
+    </div>
+
+
+    <div id="timetableList" class="timetable-list">
+        <div class="empty-state">
+            <span>●</span>
+            <p>No timetable sessions yet.</p>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ================= POMODORO ================= -->
+
+<section id="pomodoro" class="section-card">
+
+    <div class="section-heading center-heading">
+        <div>
+            <span class="section-label">FOCUS TIMER</span>
+            <h2> Pomodoro Timer</h2>
+            <p>Focus on your studies one session at a time.</p>
+        </div>
+    </div>
+
+
+    <div class="pomodoro-card">
+
+        <div class="timer-mode-buttons">
+
+            <button
+                type="button"
+                id="studyModeButton"
+                class="mode-button active"
+                onclick="setStudyMode()"
+            >
+                ✦ Study
+            </button>
+
+            <button
+                type="button"
+                id="breakModeButton"
+                class="mode-button"
+                onclick="setBreakMode()"
+            >
+                ☕ Break
+            </button>
+
         </div>
 
 
-        <nav>
+        <div id="timerMode" class="timer-mode">
+            ✦ Study Time
+        </div>
 
-            <a href="#dashboard">
-                ✦ Dashboard
-            </a>
+        <div id="timer" class="timer">
+            01:00
+        </div>
 
-            <a href="#tasks-section">
-                ✓ Tasks
-            </a>
+        <div class="timer-progress">
+            <div id="timerProgressFill"></div>
+        </div>
 
-            <a href="#timetable-section">
-                ◷ Timetable
-            </a>
 
-            <a href="#pomodoro-section">
-                ⏱ Pomodoro
-            </a>
-
-            <a href="#subjects-section">
-                ✦ Subjects
-            </a>
-
-            <a href="#settings-section">
-                ⚙️ Settings
-            </a>
-
-        </nav>
-
-    </header>
-
-
-    <main>
-
-
-        <!-- =========================================
-             DASHBOARD
-        ========================================= -->
-
-        <section
-            id="dashboard"
-            class="dashboard"
-        >
-
-            <div class="dashboard-header">
-
-                <div>
-
-                    <p class="dashboard-label">
-                        STUDENT PRODUCTIVITY
-                    </p>
-
-                    <h1>
-                        Welcome to StudyFlow
-                    </h1>
-
-                    <p id="date"></p>
-
-                </div>
-
-
-                <div class="focus-badge">
-                    ✦ Focus Mode
-                </div>
-
-            </div>
-
-
-            <div class="focus-area">
-
-                <div class="focus-content">
-
-                    <div class="focus-label">
-                        TODAY'S FOCUS
-                    </div>
-
-                    <h2>
-                        Learn • Focus • Grow
-                    </h2>
-
-                    <p>
-                        Organize your studies and stay consistent.
-                    </p>
-
-                </div>
-
-
-                <div class="focus-mark">
-                    ✦
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             TASKS
-        ========================================= -->
-
-        <section
-            id="tasks-section"
-            class="section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ✓ PRODUCTIVITY
-                    </p>
-
-                    <h2>
-                        Task Manager
-                    </h2>
-
-                    <p>
-                        Plan your work and complete your goals.
-                    </p>
-
-                </div>
-
-
-                <div class="task-status">
-                    ● Tasks
-                </div>
-
-            </div>
-
-
-            <div class="task-form">
-
-                <input
-                    type="text"
-                    id="taskInput"
-                    placeholder="Enter task"
-                >
-
-
-                <select id="subjectInput">
-
-                    <option value="">
-                        Subject
-                    </option>
-
-                    <option>
-                        Physics
-                    </option>
-
-                    <option>
-                        Chemistry
-                    </option>
-
-                    <option>
-                        Mathematics
-                    </option>
-
-                    <option>
-                        Computer Science
-                    </option>
-
-                    <option>
-                        English
-                    </option>
-
-                </select>
-
-
-                <select id="priorityInput">
-
-                    <option>
-                        Low
-                    </option>
-
-                    <option selected>
-                        Medium
-                    </option>
-
-                    <option>
-                        High
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="date"
-                    id="dateInput"
-                >
-
-
-                <input
-                    type="time"
-                    id="timeInput"
-                >
-
-
-                <button onclick="addTask()">
-                    ＋ Add Task
-                </button>
-
-            </div>
-
-
-            <div class="task-list-header">
-
-                <h3>
-                    Your Tasks
-                </h3>
-
-                <span id="taskCount">
-                    0 tasks
-                </span>
-
-            </div>
-
-
-            <div id="taskList"></div>
-
-        </section>
-
-
-        <!-- =========================================
-             TIMETABLE
-        ========================================= -->
-
-        <section
-            id="timetable-section"
-            class="section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ◷ PLANNING
-                    </p>
-
-                    <h2>
-                        Weekly Timetable
-                    </h2>
-
-                    <p>
-                        Build a study routine for every week.
-                    </p>
-
-                </div>
-
-
-                <div class="task-status">
-                    ● Schedule
-                </div>
-
-            </div>
-
-
-            <div class="task-form">
-
-                <select id="dayInput">
-
-                    <option>
-                        Monday
-                    </option>
-
-                    <option>
-                        Tuesday
-                    </option>
-
-                    <option>
-                        Wednesday
-                    </option>
-
-                    <option>
-                        Thursday
-                    </option>
-
-                    <option>
-                        Friday
-                    </option>
-
-                    <option>
-                        Saturday
-                    </option>
-
-                    <option>
-                        Sunday
-                    </option>
-
-                </select>
-
-
-                <input
-                    type="text"
-                    id="timetableSubject"
-                    placeholder="Subject"
-                >
-
-
-                <input
-                    type="time"
-                    id="startTime"
-                >
-
-
-                <input
-                    type="time"
-                    id="endTime"
-                >
-
-
-                <button onclick="addSchedule()">
-                    ＋ Add
-                </button>
-
-            </div>
-
-
-            <div class="timetable-header">
-
-                <h3>
-                    Your Schedule
-                </h3>
-
-            </div>
-
-
-            <div
-                id="timetableList"
-                class="timetable-list"
-            ></div>
-
-        </section>
-
-
-        <!-- =========================================
-             POMODORO
-        ========================================= -->
-
-        <section
-            id="pomodoro-section"
-            class="section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ⏱ FOCUS
-                    </p>
-
-                    <h2>
-                        Pomodoro Timer
-                    </h2>
-
-                    <p>
-                        Study with focused sessions and breaks.
-                    </p>
-
-                </div>
-
-
-                <div class="timer-status">
-                    ● Focus Timer
-                </div>
-
-            </div>
-
-
-            <div class="pomodoro-card">
-
-
-                <div class="timer-settings">
-
-
-                    <div class="timer-setting">
-
-                        <label>
-                            Study Duration
-                        </label>
-
-
-                        <select id="studyDuration">
-
-                            <option value="1">
-                                1 minute
-                            </option>
-
-                            <option value="25">
-                                25 minutes
-                            </option>
-
-                            <option value="45">
-                                45 minutes
-                            </option>
-
-                            <option value="60">
-                                60 minutes
-                            </option>
-
-                            <option value="custom">
-                                Custom
-                            </option>
-
-                        </select>
-
-
-                        <input
-                            type="number"
-                            id="customStudyTime"
-                            placeholder="Custom minutes"
-                            min="1"
-                            style="display:none;"
-                        >
-
-                    </div>
-
-
-                    <div class="timer-setting">
-
-                        <label>
-                            Break Duration
-                        </label>
-
-
-                        <select id="breakDuration">
-
-                            <option value="5">
-                                5 minutes
-                            </option>
-
-                            <option value="10">
-                                10 minutes
-                            </option>
-
-                            <option value="15">
-                                15 minutes
-                            </option>
-
-                            <option value="custom">
-                                Custom
-                            </option>
-
-                        </select>
-
-
-                        <input
-                            type="number"
-                            id="customBreakTime"
-                            placeholder="Custom minutes"
-                            min="1"
-                            style="display:none;"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="timer-mode-buttons">
-
-                    <button
-                        id="studyModeButton"
-                        class="timer-mode active"
-                        onclick="setStudyMode()"
-                    >
-                        Study
-                    </button>
-
-
-                    <button
-                        id="breakModeButton"
-                        class="timer-mode"
-                        onclick="setBreakMode()"
-                    >
-                        Break
-                    </button>
-
-                </div>
-
-
-                <div class="timer-display-area">
-
-
-                    <div id="timerMode">
-                        STUDY SESSION
-                    </div>
-
-
-                    <div id="timer">
-                        01:00
-                    </div>
-
-
-                    <div class="timer-progress">
-
-                        <div
-                            id="timerProgressFill"
-                            class="timer-progress-fill"
-                        ></div>
-
-                    </div>
-
-
-                    <div class="timer-controls">
-
-
-                        <button
-                            class="timer-start"
-                            onclick="startTimer()"
-                        >
-                            ▶ Start
-                        </button>
-
-
-                        <button
-                            class="timer-pause"
-                            onclick="pauseTimer()"
-                        >
-                            ❚❚ Pause
-                        </button>
-
-
-                        <button
-                            class="timer-reset"
-                            onclick="resetTimer()"
-                        >
-                            ↻ Reset
-                        </button>
-
-                    </div>
-
-
-                    <div class="timer-info">
-                        Stay focused. One session at a time.
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             PROGRESS
-        ========================================= -->
-
-        <section
-            id="progress-section"
-            class="section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ✦ PERFORMANCE
-                    </p>
-
-                    <h2>
-                        Progress Dashboard
-                    </h2>
-
-                    <p>
-                        Track your study consistency.
-                    </p>
-
-                </div>
-
-
-                <div class="progress-status">
-                    ● Progress
-                </div>
-
-            </div>
-
-
-            <div class="premium-stats">
-
-
-                <div class="premium-stat">
-
-                    <span>
-                        Completed Tasks
-                    </span>
-
-                    <strong id="progressTasks">
-                        0
-                    </strong>
-
-                    <small>
-                        tasks completed
-                    </small>
-
-                </div>
-
-
-                <div class="premium-stat">
-
-                    <span>
-                        Study Time
-                    </span>
-
-                    <strong id="progressStudyTime">
-                        0 min
-                    </strong>
-
-                    <small>
-                        total focus time
-                    </small>
-
-                </div>
-
-
-                <div class="premium-stat">
-
-                    <span>
-                        Overall Progress
-                    </span>
-
-                    <strong id="progressPercentage">
-                        0%
-                    </strong>
-
-                    <small>
-                        task completion
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <div class="subject-progress-card">
-
-                <div class="progress-card-heading">
-
-                    <h3>
-                        Subject-wise Progress
-                    </h3>
-
-                </div>
-
-
-                <div id="subjectProgress"></div>
-
-            </div>
-
-
-            <div class="daily-summary">
-
-                <div class="summary-title">
-                    Today's Study Sessions
-                </div>
-
-
-                <div class="summary-grid">
-
-
-                    <div>
-
-                        <span>
-                            Completed
-                        </span>
-
-                        <strong id="todayCompleted">
-                            0
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Study Time
-                        </span>
-
-                        <strong id="todayStudyTime">
-                            0 min
-                        </strong>
-
-                    </div>
-
-
-                    <div>
-
-                        <span>
-                            Sessions
-                        </span>
-
-                        <strong id="todaySessions">
-                            0
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             SUBJECTS
-        ========================================= -->
-
-        <section
-            id="subjects-section"
-            class="section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ✦ MATERIALS
-                    </p>
-
-                    <h2>
-                        Your Studies
-                    </h2>
-
-                    <p>
-                        Keep your study materials organized.
-                    </p>
-
-                </div>
-
-
-                <div class="task-status">
-                    ● Subjects
-                </div>
-
-            </div>
-
-
-            <div class="subjects-grid">
-
-
-                <!-- PHYSICS -->
-
-                <div class="subject-card">
-
-                    <div class="subject-icon">
-                        ⚛
-                    </div>
-
-                    <div class="subject-info">
-
-                        <h3>
-                            Physics
-                        </h3>
-
-                        <span
-                            class="file-count"
-                            id="Physics-file-count"
-                        >
-                            0 files
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="study-files-button"
-                        onclick="openSubject('Physics')"
-                    >
-                        Open →
-                    </button>
-
-                </div>
-
-
-                <!-- CHEMISTRY -->
-
-                <div class="subject-card">
-
-                    <div class="subject-icon">
-                        🧪
-                    </div>
-
-                    <div class="subject-info">
-
-                        <h3>
-                            Chemistry
-                        </h3>
-
-                        <span
-                            class="file-count"
-                            id="Chemistry-file-count"
-                        >
-                            0 files
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="study-files-button"
-                        onclick="openSubject('Chemistry')"
-                    >
-                        Open →
-                    </button>
-
-                </div>
-
-
-                <!-- MATHEMATICS -->
-
-                <div class="subject-card">
-
-                    <div class="subject-icon">
-                        ∑
-                    </div>
-
-                    <div class="subject-info">
-
-                        <h3>
-                            Mathematics
-                        </h3>
-
-                        <span
-                            class="file-count"
-                            id="Mathematics-file-count"
-                        >
-                            0 files
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="study-files-button"
-                        onclick="openSubject('Mathematics')"
-                    >
-                        Open →
-                    </button>
-
-                </div>
-
-
-                <!-- COMPUTER SCIENCE -->
-
-                <div class="subject-card">
-
-                    <div class="subject-icon">
-                        💻
-                    </div>
-
-                    <div class="subject-info">
-
-                        <h3>
-                            Computer Science
-                        </h3>
-
-                        <span
-                            class="file-count"
-                            id="Computer Science-file-count"
-                        >
-                            0 files
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="study-files-button"
-                        onclick="openSubject('Computer Science')"
-                    >
-                        Open →
-                    </button>
-
-                </div>
-
-
-                <!-- ENGLISH -->
-
-                <div class="subject-card">
-
-                    <div class="subject-icon">
-                        📖
-                    </div>
-
-                    <div class="subject-info">
-
-                        <h3>
-                            English
-                        </h3>
-
-                        <span
-                            class="file-count"
-                            id="English-file-count"
-                        >
-                            0 files
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        class="study-files-button"
-                        onclick="openSubject('English')"
-                    >
-                        Open →
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =========================================
-             SETTINGS
-        ========================================= -->
-
-        <section
-            id="settings-section"
-            class="section settings-section"
-        >
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ⚙️ CUSTOMIZE
-                    </p>
-
-                    <h2>
-                        Settings
-                    </h2>
-
-                    <p>
-                        Customize your StudyFlow experience.
-                    </p>
-
-                </div>
-
-
-                <div class="task-status">
-                    ● Settings
-                </div>
-
-            </div>
-
-
-            <div class="settings-card">
-
-
-                <!-- DARK MODE -->
-
-                <div class="setting-item">
-
-                    <div class="setting-info">
-
-                        <h3>
-                            🌙 Dark Mode
-                        </h3>
-
-                        <p>
-                            Keep the premium dark StudyFlow theme.
-                        </p>
-
-                    </div>
-
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="darkModeToggle"
-                            checked
-                            onchange="toggleDarkMode()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                </div>
-
-
-                <!-- NOTIFICATIONS -->
-
-                <div class="setting-item">
-
-                    <div class="setting-info">
-
-                        <h3>
-                            🔔 Study Notifications
-                        </h3>
-
-                        <p>
-                            Get browser notifications when study sessions finish.
-                        </p>
-
-                    </div>
-
-
-                    <label class="switch">
-
-                        <input
-                            type="checkbox"
-                            id="notificationToggle"
-                            onchange="toggleNotifications()"
-                        >
-
-                        <span class="slider"></span>
-
-                    </label>
-
-                </div>
-
-
-                <!-- VERSION -->
-
-                <div class="setting-item">
-
-                    <div class="setting-info">
-
-                        <h3>
-                            ✦ StudyFlow
-                        </h3>
-
-                        <p>
-                            Learn • Focus • Grow
-                        </p>
-
-                    </div>
-
-
-                    <span
-                        style="color:#8994aa;font-size:13px;"
-                    >
-                        v1.0
-                    </span>
-
-                </div>
-
-
-                <!-- RESET -->
-
-                <div class="setting-item">
-
-                    <div class="setting-info">
-
-                        <h3>
-                            🔄 Reset App Data
-                        </h3>
-
-                        <p>
-                            Clear saved StudyFlow data from this browser.
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        class="settings-button danger"
-                        onclick="resetStudyFlow()"
-                    >
-                        Reset
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="settings-message"
-                    id="settingsMessage"
-                >
-                    Your settings are saved automatically.
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =========================================
-         SUBJECT MODAL
-    ========================================= -->
-
-    <div
-        id="subjectModal"
-        class="modal-overlay"
-    >
-
-        <div class="subject-modal">
-
+        <div class="timer-controls">
 
             <button
-                class="modal-close"
-                onclick="closeSubject()"
+                type="button"
+                class="primary-button"
+                onclick="startTimer()"
             >
-                ×
+                ▶ Start
             </button>
 
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="pauseTimer()"
+            >
+                ⏸ Pause
+            </button>
 
-            <div class="modal-header">
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="resetTimer()"
+            >
+                ↻ Reset
+            </button>
 
-                <div>
-
-                    <div class="modal-label">
-                        STUDY MATERIALS
-                    </div>
-
-                    <h2 id="modalSubjectName">
-                        Subject
-                    </h2>
-
-                    <p>
-                        Manage your study files.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="modal-subject-icon"
-                    id="modalSubjectIcon"
-                >
-                    ✦
-                </div>
-
-            </div>
+        </div>
 
 
-            <div class="file-upload-area">
+        <div class="timer-settings">
 
+            <div>
+                <label for="studyDuration">Study Duration</label>
 
-                <input
-                    type="file"
-                    id="studyFileInput"
-                >
-
-
-                <br>
-                <br>
-
-
-                <button
-                    class="upload-button"
-                    onclick="uploadStudyFile()"
-                >
-                    Upload File
-                </button>
-
-
-                <p>
-                    Store your notes, PDFs and study materials.
-                </p>
-
-            </div>
-
-
-            <div class="files-heading">
-
-                <h3>
-                    Your Files
-                </h3>
-
-
-                <span id="modalFileCount">
-                    0 files
-                </span>
-
-            </div>
-
-
-            <div class="study-search">
-
-                <span>
-                    ⌕
-                </span>
-
+                <select id="studyDuration" onchange="changeStudyDuration()">
+                    <option value="1">1 minute</option>
+                    <option value="25">25 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">60 minutes</option>
+                    <option value="custom">Custom</option>
+                </select>
 
                 <input
-                    type="text"
-                    id="studyFileSearch"
-                    placeholder="Search your study files..."
-                    oninput="searchStudyFiles()"
+                    type="number"
+                    id="customStudyTime"
+                    placeholder="Custom minutes"
+                    min="1"
+                    max="180"
+                    style="display:none;"
                 >
-
             </div>
 
 
-            <div
-                id="subjectFiles"
-                class="subject-files"
-            ></div>
+            <div>
+                <label for="breakDuration">Break Duration</label>
+
+                <select id="breakDuration" onchange="changeBreakDuration()">
+                    <option value="5">5 minutes</option>
+                    <option value="10">10 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="custom">Custom</option>
+                </select>
+
+                <input
+                    type="number"
+                    id="customBreakTime"
+                    placeholder="Custom minutes"
+                    min="1"
+                    max="60"
+                    style="display:none;"
+                >
+            </div>
 
         </div>
 
     </div>
 
+</section>
 
-    <!-- =========================================
-         FOOTER
-    ========================================= -->
 
-    <footer>
+<!-- ================= PROGRESS ================= -->
 
-        <p>
-            ✦ StudyFlow
-        </p>
+<section class="section-card">
 
+    <div class="section-heading">
         <div>
-            Learn • Focus • Grow
+            <span class="section-label">YOUR PERFORMANCE</span>
+            <h2>✦ Progress Dashboard</h2>
+            <p>See how your study routine is progressing.</p>
+        </div>
+    </div>
+
+
+    <div class="progress-grid">
+
+        <div class="progress-card">
+            <p>Tasks Completed</p>
+            <h3 id="progressTasks">0 / 0</h3>
         </div>
 
-    </footer>
+        <div class="progress-card">
+            <p>Total Study Time</p>
+            <h3><span id="progressStudyTime">0</span> min</h3>
+        </div>
+
+        <div class="progress-card">
+            <p>Overall Progress</p>
+            <h3><span id="progressPercentage">0</span>%</h3>
+
+            <div class="progress-bar">
+                <div id="progressBarFill"></div>
+            </div>
+        </div>
+
+    </div>
 
 
-    <!-- =========================================
-         SUPABASE
-    ========================================= -->
+    <div class="subject-progress-section">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <h3>Subject Progress</h3>
 
+        <div id="subjectProgress"></div>
 
-    <script>
+    </div>
 
-        const SUPABASE_URL =
-            "https://xhtbeosrycbzwqpwfsos.supabase.co";
+</section>
 
 
-        const SUPABASE_KEY =
-            "sb_publishable_vXqF2_g39FkuJWTGYX5U0Q_4c8zXTyp";
+<!-- ================= SUBJECTS ================= -->
+
+<section id="subjects" class="section-card">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">STUDY MATERIAL</span>
+            <h2>✦ Subjects & Study Files</h2>
+            <p>Organize your study materials by subject.</p>
+        </div>
+    </div>
 
 
-        const supabaseClient =
-            window.supabase.createClient(
+    <div class="subjects-grid">
+
+        <div class="subject-card" onclick="openSubject('Physics')">
+            <div class="subject-icon">⚡</div>
+            <h3>Physics</h3>
+            <p>Notes & materials</p>
+            <span id="count-Physics">0 files</span>
+        </div>
+
+
+        <div class="subject-card" onclick="openSubject('Chemistry')">
+            <div class="subject-icon">✴︎</div>
+            <h3>Chemistry</h3>
+            <p>Notes & materials</p>
+            <span id="count-Chemistry">0 files</span>
+        </div>
+
+
+        <div class="subject-card" onclick="openSubject('Mathematics')">
+            <div class="subject-icon">📐</div>
+            <h3>Mathematics</h3>
+            <p>Notes & materials</p>
+            <span id="count-Mathematics">0 files</span>
+        </div>
+
+
+        <div class="subject-card" onclick="openSubject('Computer Science')">
+            <div class="subject-icon">𑁍</div>
+            <h3>Computer Science</h3>
+            <p>Notes & materials</p>
+            <span id="count-Computer Science">0 files</span>
+        </div>
+
+
+        <div class="subject-card" onclick="openSubject('English')">
+            <div class="subject-icon">◆︎</div>
+            <h3>English</h3>
+            <p>Notes & materials</p>
+            <span id="count-English">0 files</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= AI CHAT ================= -->
+
+<section id="ai-chat" class="section-card">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">STUDY ASSISTANT</span>
+            <h2>✦ AI Study Chat</h2>
+            <p>Ask questions and get help with your studies.</p>
+        </div>
+    </div>
+
+
+    <div class="ai-chat-box">
+
+        <div id="chatMessages" class="chat-messages">
+
+            <div class="chat-message assistant-message">
+                <strong>StudyFlow AI</strong>
+                <p>
+                    Hi! 👋 I'm your StudyFlow study assistant.
+                    Ask me a question about your studies.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Ask a study question..."
+                onkeydown="handleChatKey(event)"
+            >
+
+            <button
+                type="button"
+                class="primary-button"
+                onclick="sendAIMessage()"
+            >
+                Send ➤
+            </button>
+
+        </div>
+
+        <p class="chat-note">
+            AI Chat requires an AI backend/API connection to provide live AI answers.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section id="settings" class="section-card settings-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-label">CUSTOMIZE</span>
+            <h2>⚙️ Settings</h2>
+            <p>Customize your StudyFlow experience.</p>
+        </div>
+    </div>
+
+
+    <div class="settings-card">
+
+        <div class="setting-item">
+
+            <div class="setting-info">
+                <h3>🌙 Dark Mode</h3>
+                <p>Keep the premium dark StudyFlow theme.</p>
+            </div>
+
+            <label class="switch">
+                <input
+                    type="checkbox"
+                    id="darkModeToggle"
+                    checked
+                    onchange="toggleDarkMode()"
+                >
+                <span class="slider"></span>
+            </label>
+
+        </div>
+
+
+        <div class="setting-item">
+
+            <div class="setting-info">
+                <h3>🔔 Study Notifications</h3>
+                <p>Get browser notifications when study sessions finish.</p>
+            </div>
+
+            <label class="switch">
+                <input
+                    type="checkbox"
+                    id="notificationToggle"
+                    onchange="toggleNotifications()"
+                >
+                <span class="slider"></span>
+            </label>
+
+        </div>
+
+
+        <div class="setting-item danger-setting">
+
+            <div class="setting-info">
+                <h3>🗑️ Reset App Data</h3>
+                <p>Delete your tasks, timetable, study time and saved files.</p>
+            </div>
+
+            <button
+                type="button"
+                class="settings-button danger"
+                onclick="resetStudyFlow()"
+            >
+                Reset Data
+            </button>
+
+        </div>
+
+
+        <div id="settingsMessage" class="settings-message"></div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= SUBJECT MODAL ================= -->
+
+<div id="subjectModal" class="modal">
+
+    <div class="modal-content">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeSubject()"
+        >
+            ×
+        </button>
+
+        <div class="modal-header">
+
+            <div id="modalSubjectIcon" class="modal-subject-icon">
+                📚
+            </div>
+
+            <div>
+                <h2 id="modalSubjectName">Subject</h2>
+                <p id="modalFileCount">0 files</p>
+            </div>
+
+        </div>
+
+
+        <div class="file-upload-area">
+
+            <input
+                type="file"
+                id="studyFileInput"
+                hidden
+                onchange="handleFileUpload(event)"
+            >
+
+            <button
+                type="button"
+                class="primary-button"
+                onclick="uploadStudyFile()"
+            >
+                📤 Upload Study File
+            </button>
+
+        </div>
+
+
+        <div class="file-search">
+
+            <input
+                type="text"
+                id="studyFileSearch"
+                placeholder="🔎 Search study files..."
+                oninput="searchStudyFiles()"
+            >
+
+        </div>
+
+
+        <div id="subjectFiles" class="subject-files">
+
+            <div class="empty-state">
+                <span>📂</span>
+                <p>No files uploaded yet.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+    <div class="footer-logo">✦ StudyFlow</div>
+    <p>Learn • Focus • Grow</p>
+    <small>StudyFlow v1.0</small>
+</footer>
+
+
+<!-- ================= SUPABASE ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL =
+        "https://xhtbeosrycbzwqpwfsos.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_vXqF2_g39FkuJWTGYX5U0Q_4c8zXTyp";
+
+    let supabaseClient = null;
+
+    try {
+        if (window.supabase) {
+            supabaseClient = window.supabase.createClient(
                 SUPABASE_URL,
                 SUPABASE_KEY
             );
-
-
-        /* =========================================
-           DARK MODE
-        ========================================= */
-
-        function toggleDarkMode() {
-
-            const toggle =
-                document.getElementById(
-                    "darkModeToggle"
-                );
-
-
-            const message =
-                document.getElementById(
-                    "settingsMessage"
-                );
-
-
-            if (toggle.checked) {
-
-                document.body.classList.remove(
-                    "light-mode"
-                );
-
-
-                localStorage.setItem(
-                    "studyflowTheme",
-                    "dark"
-                );
-
-
-                if (message) {
-
-                    message.textContent =
-                        "Dark Mode is enabled.";
-
-                }
-
-            } else {
-
-                document.body.classList.add(
-                    "light-mode"
-                );
-
-
-                localStorage.setItem(
-                    "studyflowTheme",
-                    "light"
-                );
-
-
-                if (message) {
-
-                    message.textContent =
-                        "Light Mode is enabled.";
-
-                }
-
-            }
-
         }
+    } catch (error) {
+        console.warn("Supabase unavailable:", error);
+    }
+</script>
 
 
-        /* =========================================
-           NOTIFICATIONS
-        ========================================= */
+<!-- MAIN JAVASCRIPT -->
 
-        async function toggleNotifications() {
-
-            const toggle =
-                document.getElementById(
-                    "notificationToggle"
-                );
-
-
-            const message =
-                document.getElementById(
-                    "settingsMessage"
-                );
-
-
-            if (toggle.checked) {
-
-
-                if (!("Notification" in window)) {
-
-                    toggle.checked = false;
-
-
-                    message.textContent =
-                        "Your browser does not support notifications.";
-
-                    return;
-
-                }
-
-
-                const permission =
-                    await Notification.requestPermission();
-
-
-                if (permission === "granted") {
-
-                    localStorage.setItem(
-                        "studyflowNotifications",
-                        "on"
-                    );
-
-
-                    message.textContent =
-                        "Study notifications are enabled.";
-
-
-                    new Notification(
-                        "StudyFlow",
-                        {
-                            body:
-                                "Study notifications are now enabled."
-                        }
-                    );
-
-                } else {
-
-                    toggle.checked = false;
-
-
-                    localStorage.setItem(
-                        "studyflowNotifications",
-                        "off"
-                    );
-
-
-                    message.textContent =
-                        "Notification permission was not granted.";
-
-                }
-
-            } else {
-
-                localStorage.setItem(
-                    "studyflowNotifications",
-                    "off"
-                );
-
-
-                message.textContent =
-                    "Study notifications are disabled.";
-
-            }
-
-        }
-
-
-        /* =========================================
-           SEND NOTIFICATION
-        ========================================= */
-
-        function sendStudyNotification(
-            title,
-            message
-        ) {
-
-            const notificationsEnabled =
-                localStorage.getItem(
-                    "studyflowNotifications"
-                );
-
-
-            if (
-                notificationsEnabled === "on" &&
-                "Notification" in window &&
-                Notification.permission === "granted"
-            ) {
-
-                new Notification(
-                    title,
-                    {
-                        body: message
-                    }
-                );
-
-            }
-
-        }
-
-
-        /* =========================================
-           RESET APP
-        ========================================= */
-
-        function resetStudyFlow() {
-
-            const confirmReset =
-                confirm(
-                    "Are you sure you want to reset StudyFlow data?"
-                );
-
-
-            if (!confirmReset) {
-
-                return;
-
-            }
-
-
-            localStorage.removeItem(
-                "studyMinutes"
-            );
-
-
-            localStorage.removeItem(
-                "todaySessions"
-            );
-
-
-            localStorage.removeItem(
-                "studyflowTheme"
-            );
-
-
-            localStorage.removeItem(
-                "studyflowNotifications"
-            );
-
-
-            localStorage.removeItem(
-                "tasks"
-            );
-
-
-            localStorage.removeItem(
-                "schedules"
-            );
-
-
-            localStorage.removeItem(
-                "studyTasks"
-            );
-
-
-            localStorage.removeItem(
-                "studyTimetable"
-            );
-
-
-            alert(
-                "StudyFlow data has been reset."
-            );
-
-
-            location.reload();
-
-        }
-
-
-        /* =========================================
-           LOAD SETTINGS
-        ========================================= */
-
-        const savedTheme =
-            localStorage.getItem(
-                "studyflowTheme"
-            );
-
-
-        const darkModeToggle =
-            document.getElementById(
-                "darkModeToggle"
-            );
-
-
-        if (savedTheme === "light") {
-
-            document.body.classList.add(
-                "light-mode"
-            );
-
-
-            if (darkModeToggle) {
-
-                darkModeToggle.checked = false;
-
-            }
-
-        } else {
-
-            document.body.classList.remove(
-                "light-mode"
-            );
-
-
-            if (darkModeToggle) {
-
-                darkModeToggle.checked = true;
-
-            }
-
-        }
-
-
-        const savedNotifications =
-            localStorage.getItem(
-                "studyflowNotifications"
-            );
-
-
-        const notificationToggle =
-            document.getElementById(
-                "notificationToggle"
-            );
-
-
-        if (
-            savedNotifications === "on" &&
-            notificationToggle
-        ) {
-
-            notificationToggle.checked = true;
-
-        }
-
-    </script>
-
-
-    <!-- =========================================
-         MAIN JAVASCRIPT
-    ========================================= -->
-
-    <script src="script.js"></script>
-
-
-    <!-- =========================================
-         PWA SERVICE WORKER
-    ========================================= -->
-
-    <script>
-
-        if ("serviceWorker" in navigator) {
-
-            window.addEventListener(
-                "load",
-                function() {
-
-                    navigator.serviceWorker
-                        .register(
-                            "./service-worker.js"
-                        )
-                        .then(
-                            function() {
-
-                                console.log(
-                                    "StudyFlow PWA ready"
-                                );
-
-                            }
-                        )
-                        .catch(
-                            function(error) {
-
-                                console.log(
-                                    "PWA error:",
-                                    error
-                                );
-
-                            }
-
-                        );
-
-                }
-            );
-
-        }
-
-    </script>
-
+<script src="script.js"></script>
 
 </body>
-
 </html>
