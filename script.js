@@ -1,168 +1,219 @@
-/* =========================================
+/* =========================================================
    STUDYFLOW
-   COMPLETE JAVASCRIPT
-========================================= */
+   Tasks + Timetable + Pomodoro + Progress
+   Subjects + Files + Settings + AI Chat UI
+========================================================= */
 
 
-/* =========================================
-   TASK DATA
-========================================= */
+/* =========================================================
+   SAFE LOCAL STORAGE
+========================================================= */
 
-let tasks =
-    JSON.parse(localStorage.getItem("studyTasks")) || [];
+function loadArray(key) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key));
 
-let schedules =
-    JSON.parse(localStorage.getItem("studySchedules")) || [];
+        return Array.isArray(value) ? value : [];
+    } catch (error) {
+        return [];
+    }
+}
 
 
-/* =========================================
-   STUDY PROGRESS
-========================================= */
+function saveJSON(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.error("Could not save:", key, error);
+    }
+}
+
+
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let tasks = loadArray("studyTasks");
+
+let schedules = loadArray("studySchedules");
+
+if (
+    schedules.length === 0 &&
+    localStorage.getItem("studyTimetable")
+) {
+    schedules = loadArray("studyTimetable");
+}
+
 
 let studyMinutes =
     Number(localStorage.getItem("studyMinutes")) || 0;
+
 
 let todaySessions =
     Number(localStorage.getItem("todaySessions")) || 0;
 
 
-/* =========================================
-   POMODORO VARIABLES
-========================================= */
+/*
+    IMPORTANT:
+    Default study duration = 1 minute
+    as requested for testing.
+*/
 
 let studyDuration =
-    Number(localStorage.getItem("studyDuration")) || 25;
+    Number(localStorage.getItem("studyDuration")) || 1;
+
 
 let breakDuration =
     Number(localStorage.getItem("breakDuration")) || 5;
 
+
 let timerInterval = null;
 
-let timerSeconds =
-    studyDuration * 60;
+let timerSeconds = studyDuration * 60;
 
 let isStudyMode = true;
 
 
-/* =========================================
-   INDEXED DB
-========================================= */
+/* =========================================================
+   SUBJECT FILE DATABASE
+========================================================= */
 
 const DB_NAME = "StudyFlowDatabase";
-
 const DB_VERSION = 1;
-
 const STORE_NAME = "studyFiles";
 
 let studyDatabase = null;
-
 let currentSubject = null;
 
 
-/* =========================================
+/* =========================================================
+   PAGE START
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    displayDate();
+
+    displayTasks();
+
+    displaySchedules();
+
+    updateProgress();
+
+    updateStudyTime();
+
+    updateSubjectProgress();
+
+    updateProgressDashboard();
+
+    updateTodaySessions();
+
+    loadPomodoroSettings();
+
+    updateTimerDisplay();
+
+    loadSavedTheme();
+
+    loadSavedSettings();
+
+    openStudyDatabase();
+
+    updateAllFileCounts();
+
+    initializeChat();
+
+});
+
+
+/* =========================================================
    DATE
-========================================= */
+========================================================= */
 
 function displayDate() {
 
-    let dateElement =
-        document.getElementById("date");
+    const dateElement = document.getElementById("date");
 
     if (!dateElement) {
         return;
     }
 
-    let today = new Date();
+    const today = new Date();
 
     dateElement.textContent =
-        today.toLocaleDateString(
-            "en-IN",
-            {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            }
-        );
+        today.toLocaleDateString("en-IN", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
 }
 
 
-/* =========================================
+/* =========================================================
    TASK MANAGER
-========================================= */
+========================================================= */
 
 function addTask() {
 
-    let taskInput =
+    const taskInput =
         document.getElementById("taskInput");
 
-    let subjectInput =
+    const subjectInput =
         document.getElementById("subjectInput");
 
-    let priorityInput =
+    const priorityInput =
         document.getElementById("priorityInput");
 
-    let dateInput =
+    const dateInput =
         document.getElementById("dateInput");
 
-    let timeInput =
+    const timeInput =
         document.getElementById("timeInput");
 
 
-    if (
-        !taskInput ||
-        !subjectInput ||
-        !priorityInput ||
-        !dateInput ||
-        !timeInput
-    ) {
-
+    if (!taskInput || !subjectInput) {
         alert("Task form could not be found.");
-
         return;
     }
 
 
-    let name =
+    const name =
         taskInput.value.trim();
 
-    let subject =
-        subjectInput.value;
+    const subject =
+        subjectInput.value.trim();
 
-    let priority =
-        priorityInput.value;
+    const priority =
+        priorityInput
+            ? priorityInput.value
+            : "Medium";
 
-    let date =
-        dateInput.value;
+    const date =
+        dateInput
+            ? dateInput.value
+            : "";
 
-    let time =
-        timeInput.value;
+    const time =
+        timeInput
+            ? timeInput.value
+            : "";
 
 
-    if (name === "") {
-
+    if (!name) {
         alert("Please enter a task.");
-
+        taskInput.focus();
         return;
     }
 
 
-    if (subject === "") {
-
-        alert("Please select a subject.");
-
+    if (!subject) {
+        alert("Please enter a subject.");
+        subjectInput.focus();
         return;
     }
 
 
-    if (priority === "") {
-
-        priority = "Medium";
-
-    }
-
-
-    let task = {
+    const newTask = {
 
         id: Date.now(),
 
@@ -170,7 +221,7 @@ function addTask() {
 
         subject: subject,
 
-        priority: priority,
+        priority: priority || "Medium",
 
         date: date,
 
@@ -181,24 +232,26 @@ function addTask() {
     };
 
 
-    tasks.push(task);
+    tasks.push(newTask);
 
-
-    localStorage.setItem(
-        "studyTasks",
-        JSON.stringify(tasks)
-    );
+    saveJSON("studyTasks", tasks);
 
 
     taskInput.value = "";
 
     subjectInput.value = "";
 
-    priorityInput.value = "Medium";
+    if (priorityInput) {
+        priorityInput.value = "Medium";
+    }
 
-    dateInput.value = "";
+    if (dateInput) {
+        dateInput.value = "";
+    }
 
-    timeInput.value = "";
+    if (timeInput) {
+        timeInput.value = "";
+    }
 
 
     displayTasks();
@@ -207,317 +260,163 @@ function addTask() {
 
     updateSubjectProgress();
 
+    updateProgressDashboard();
+
+
+    alert("✅ Task added successfully!");
 }
 
-
-/* =========================================
-   DISPLAY TASKS
-========================================= */
 
 function displayTasks() {
 
-    let container =
-        document.getElementById("tasks");
+    const list =
+        document.getElementById("taskList");
 
-    let count =
+    const count =
         document.getElementById("taskCount");
 
 
-    if (!container) {
-
+    if (!list) {
         return;
-
     }
-
-
-    container.innerHTML = "";
 
 
     if (count) {
-
-        count.textContent =
-            tasks.length +
-            (
-                tasks.length === 1
-                    ? " task"
-                    : " tasks"
-            );
-
+        count.textContent = tasks.length;
     }
 
 
-    tasks.forEach(function(task) {
+    if (tasks.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-state">
+                <span>📋</span>
+                <p>No tasks yet. Add your first task!</p>
+            </div>
+        `;
+
+        return;
+    }
 
 
-        /* FIX OLD TASKS */
+    const sortedTasks =
+        [...tasks].sort(function (a, b) {
 
-        if (!task.priority) {
-
-            task.priority = "Medium";
-
-        }
-
-
-        if (typeof task.completed !== "boolean") {
-
-            task.completed = false;
-
-        }
-
-
-        if (!task.subject) {
-
-            task.subject = "General";
-
-        }
-
-
-        let card =
-            document.createElement("div");
-
-
-        card.className =
-            "task-card";
-
-
-        if (task.completed) {
-
-            card.classList.add("completed");
-
-        }
-
-
-        let priorityClass =
-            String(task.priority).toLowerCase();
-
-
-        let dateText = "";
-
-
-        if (task.date) {
-
-            dateText =
-                "📅 " +
-                task.date;
-
-        }
-
-
-        if (task.time) {
-
-            if (dateText !== "") {
-
-                dateText +=
-                    " • ";
-
+            if (a.completed !== b.completed) {
+                return Number(a.completed) -
+                    Number(b.completed);
             }
 
+            if (a.date && b.date) {
+                return a.date.localeCompare(b.date);
+            }
 
-            dateText +=
-                "⏰ " +
-                task.time;
+            return b.id - a.id;
 
-        }
-
-
-        card.innerHTML =
-
-            '<div class="task-check">' +
-
-                (
-                    task.completed
-                        ? "✓"
-                        : ""
-                ) +
-
-            '</div>' +
+        });
 
 
-            '<div class="task-main">' +
+    list.innerHTML =
+        sortedTasks.map(function (task) {
+
+            const priority =
+                task.priority || "Medium";
 
 
-                '<div class="premium-task-title">' +
-
-                    escapeHTML(
-                        task.name
-                    ) +
-
-                '</div>' +
+            const dateText =
+                task.date
+                    ? formatDate(task.date)
+                    : "";
 
 
-                '<div class="task-meta">' +
+            const timeText =
+                task.time
+                    ? formatTime(task.time)
+                    : "";
 
 
-                    '<span class="task-subject">' +
+            return `
 
-                        escapeHTML(
-                            task.subject
-                        ) +
+                <div class="task-card ${task.completed ? "completed" : ""}">
 
-                    '</span>' +
+                    <div class="task-main">
 
+                        <div class="task-name">
+                            ${escapeHTML(task.name)}
+                        </div>
 
-                    '<span class="task-priority ' +
+                        <div class="task-meta">
 
-                        priorityClass +
+                            <span>
+                                📚 ${escapeHTML(task.subject)}
+                            </span>
 
-                    '">' +
+                            <span class="priority-${priority.toLowerCase()}">
+                                ${escapeHTML(priority)}
+                            </span>
 
-                        getPriorityIcon(
-                            task.priority
-                        ) +
-
-                        " " +
-
-                        escapeHTML(
-                            task.priority
-                        ) +
-
-                    '</span>' +
-
-
-                '</div>' +
-
-
-                (
-                    dateText !== ""
-                        ?
-
-                        '<div class="task-date">' +
-
-                            escapeHTML(
+                            ${
                                 dateText
-                            ) +
+                                ? `<span>📅 ${dateText}</span>`
+                                : ""
+                            }
 
-                        '</div>'
+                            ${
+                                timeText
+                                ? `<span>⏰ ${timeText}</span>`
+                                : ""
+                            }
 
-                        :
+                        </div>
 
-                        ""
-                ) +
-
-
-            '</div>' +
-
-
-            '<div class="task-actions">' +
-
-
-                '<button onclick="completeTask(' +
-
-                    task.id +
-
-                ')">' +
-
-                    (
-                        task.completed
-                            ? "Undo"
-                            : "Complete"
-                    ) +
-
-                '</button>' +
+                    </div>
 
 
-                '<button onclick="deleteTask(' +
+                    <div class="task-actions">
 
-                    task.id +
+                        <button
+                            type="button"
+                            onclick="completeTask(${task.id})"
+                        >
+                            ${task.completed ? "↩ Undo" : "✓ Done"}
+                        </button>
 
-                ')">' +
+                        <button
+                            type="button"
+                            class="delete-button"
+                            onclick="deleteTask(${task.id})"
+                        >
+                            🗑 Delete
+                        </button>
 
-                    "Delete" +
+                    </div>
 
-                '</button>' +
+                </div>
 
+            `;
 
-            '</div>';
-
-
-        container.appendChild(card);
-
-    });
-
-
-    /* Save repaired old tasks */
-
-    localStorage.setItem(
-        "studyTasks",
-        JSON.stringify(tasks)
-    );
-
+        }).join("");
 }
 
-
-/* =========================================
-   PRIORITY ICON
-========================================= */
-
-function getPriorityIcon(priority) {
-
-    if (priority === "High") {
-
-        return "🔥";
-
-    }
-
-
-    if (priority === "Low") {
-
-        return "◇";
-
-    }
-
-
-    return "◆";
-
-}
-
-
-/* =========================================
-   ESCAPE HTML
-========================================= */
-
-function escapeHTML(text) {
-
-    let div =
-        document.createElement("div");
-
-
-    div.textContent =
-        text;
-
-
-    return div.innerHTML;
-
-}
-
-
-/* =========================================
-   COMPLETE TASK
-========================================= */
 
 function completeTask(id) {
 
-    tasks =
-        tasks.map(function(task) {
-
-            if (task.id === id) {
-
-                task.completed =
-                    !task.completed;
-
-            }
-
-
-            return task;
-
+    const task =
+        tasks.find(function (item) {
+            return item.id === id;
         });
 
 
-    localStorage.setItem(
-        "studyTasks",
-        JSON.stringify(tasks)
-    );
+    if (!task) {
+        return;
+    }
 
+
+    task.completed =
+        !task.completed;
+
+
+    saveJSON("studyTasks", tasks);
 
     displayTasks();
 
@@ -525,41 +424,28 @@ function completeTask(id) {
 
     updateSubjectProgress();
 
+    updateProgressDashboard();
 }
 
-
-/* =========================================
-   DELETE TASK
-========================================= */
 
 function deleteTask(id) {
 
-    let confirmed =
-        confirm(
-            "Delete this task?"
-        );
+    const confirmed =
+        confirm("Delete this task?");
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
     tasks =
-        tasks.filter(function(task) {
-
+        tasks.filter(function (task) {
             return task.id !== id;
-
         });
 
 
-    localStorage.setItem(
-        "studyTasks",
-        JSON.stringify(tasks)
-    );
-
+    saveJSON("studyTasks", tasks);
 
     displayTasks();
 
@@ -567,307 +453,78 @@ function deleteTask(id) {
 
     updateSubjectProgress();
 
+    updateProgressDashboard();
 }
 
 
-/* =========================================
-   PROGRESS
-========================================= */
-
-function updateProgress() {
-
-    let total =
-        tasks.length;
-
-
-    let completed =
-        tasks.filter(function(task) {
-
-            return task.completed === true;
-
-        }).length;
-
-
-    let percentage = 0;
-
-
-    if (total > 0) {
-
-        percentage =
-            Math.round(
-                (completed / total) * 100
-            );
-
-    }
-
-
-    let progressTasks =
-        document.getElementById(
-            "progressTasks"
-        );
-
-
-    let progressPercentage =
-        document.getElementById(
-            "progressPercentage"
-        );
-
-
-    let todayCompleted =
-        document.getElementById(
-            "todayCompleted"
-        );
-
-
-    if (progressTasks) {
-
-        progressTasks.textContent =
-            completed +
-            " / " +
-            total;
-
-    }
-
-
-    if (progressPercentage) {
-
-        progressPercentage.textContent =
-            percentage +
-            "%";
-
-    }
-
-
-    if (todayCompleted) {
-
-        todayCompleted.textContent =
-            completed;
-
-    }
-
-
-    updateStudyTime();
-
-}
-
-
-/* =========================================
-   STUDY TIME
-========================================= */
-
-function updateStudyTime() {
-
-    let element =
-        document.getElementById(
-            "progressStudyTime"
-        );
-
-
-    let todayElement =
-        document.getElementById(
-            "todayStudyTime"
-        );
-
-
-    if (element) {
-
-        element.textContent =
-            studyMinutes +
-            " min";
-
-    }
-
-
-    if (todayElement) {
-
-        todayElement.textContent =
-            studyMinutes +
-            " min";
-
-    }
-
-}
-
-
-/* =========================================
-   SUBJECT PROGRESS
-========================================= */
-
-function updateSubjectProgress() {
-
-    let subjects = [
-
-        "Physics",
-
-        "Chemistry",
-
-        "Mathematics",
-
-        "Computer Science",
-
-        "English"
-
-    ];
-
-
-    let container =
-        document.getElementById(
-            "subjectProgress"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    subjects.forEach(function(subject) {
-
-
-        let total =
-            tasks.filter(function(task) {
-
-                return task.subject === subject;
-
-            }).length;
-
-
-        let completed =
-            tasks.filter(function(task) {
-
-                return (
-                    task.subject === subject &&
-                    task.completed === true
-                );
-
-            }).length;
-
-
-        let percentage = 0;
-
-
-        if (total > 0) {
-
-            percentage =
-                Math.round(
-                    (completed / total) * 100
-                );
-
-        }
-
-
-        let item =
-            document.createElement("div");
-
-
-        item.className =
-            "subject-progress-item";
-
-
-        item.innerHTML =
-
-            '<div class="subject-progress-top">' +
-
-                '<span class="subject-progress-name">' +
-
-                    escapeHTML(
-                        subject
-                    ) +
-
-                '</span>' +
-
-
-                '<span class="subject-progress-percent">' +
-
-                    completed +
-
-                    " / " +
-
-                    total +
-
-                    " • " +
-
-                    percentage +
-
-                    "%" +
-
-                '</span>' +
-
-            '</div>' +
-
-
-            '<div class="subject-progress-bar">' +
-
-                '<div class="subject-progress-fill" style="width:' +
-
-                    percentage +
-
-                    '%' +
-
-                '"></div>' +
-
-            '</div>';
-
-
-        container.appendChild(item);
-
-    });
-
-}
-
-
-/* =========================================
+/* =========================================================
    TIMETABLE
-========================================= */
+========================================================= */
 
 function addSchedule() {
 
-    let day =
-        document.getElementById(
-            "dayInput"
-        ).value;
+    const dayInput =
+        document.getElementById("dayInput");
+
+    const subjectInput =
+        document.getElementById("timetableSubject");
+
+    const startInput =
+        document.getElementById("startTime");
+
+    const endInput =
+        document.getElementById("endTime");
 
 
-    let subject =
-        document.getElementById(
-            "timetableSubject"
-        ).value;
+    if (!dayInput ||
+        !subjectInput ||
+        !startInput ||
+        !endInput) {
 
-
-    let startTime =
-        document.getElementById(
-            "startTime"
-        ).value;
-
-
-    let endTime =
-        document.getElementById(
-            "endTime"
-        ).value;
-
-
-    if (
-        day === "" ||
-        subject === "" ||
-        startTime === "" ||
-        endTime === ""
-    ) {
-
-        alert(
-            "Please complete the timetable details."
-        );
-
+        alert("Timetable form could not be found.");
         return;
-
     }
 
 
-    let schedule = {
+    const day =
+        dayInput.value;
+
+    const subject =
+        subjectInput.value.trim();
+
+    const startTime =
+        startInput.value;
+
+    const endTime =
+        endInput.value;
+
+
+    if (!day) {
+        alert("Please select a day.");
+        return;
+    }
+
+
+    if (!subject) {
+        alert("Please enter a subject.");
+        subjectInput.focus();
+        return;
+    }
+
+
+    if (!startTime || !endTime) {
+        alert("Please select start and end time.");
+        return;
+    }
+
+
+    if (startTime >= endTime) {
+        alert("End time must be after start time.");
+        return;
+    }
+
+
+    const schedule = {
 
         id: Date.now(),
 
@@ -885,342 +542,517 @@ function addSchedule() {
     schedules.push(schedule);
 
 
-    localStorage.setItem(
+    saveJSON(
         "studySchedules",
-        JSON.stringify(schedules)
+        schedules
     );
 
 
-    document.getElementById(
-        "dayInput"
-    ).value = "";
+    saveJSON(
+        "studyTimetable",
+        schedules
+    );
 
 
-    document.getElementById(
-        "timetableSubject"
-    ).value = "";
+    dayInput.value = "";
 
+    subjectInput.value = "";
 
-    document.getElementById(
-        "startTime"
-    ).value = "";
+    startInput.value = "";
 
-
-    document.getElementById(
-        "endTime"
-    ).value = "";
+    endInput.value = "";
 
 
     displaySchedules();
 
     updateTodaySessions();
 
+
+    alert("✅ Study session added!");
 }
 
-
-/* =========================================
-   DISPLAY SCHEDULES
-========================================= */
 
 function displaySchedules() {
 
-    let container =
-        document.getElementById(
-            "timetableList"
-        );
+    const list =
+        document.getElementById("timetableList");
 
 
-    if (!container) {
-
+    if (!list) {
         return;
-
     }
 
 
-    container.innerHTML = "";
+    if (schedules.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-state">
+                <span>📅</span>
+                <p>No timetable sessions yet.</p>
+            </div>
+        `;
+
+        return;
+    }
 
 
-    schedules.forEach(function(schedule) {
+    const dayOrder = {
+
+        Monday: 1,
+        Tuesday: 2,
+        Wednesday: 3,
+        Thursday: 4,
+        Friday: 5,
+        Saturday: 6,
+        Sunday: 7
+
+    };
 
 
-        let card =
-            document.createElement("div");
+    const sortedSchedules =
+        [...schedules].sort(function (a, b) {
+
+            const dayA =
+                dayOrder[a.day] || 99;
+
+            const dayB =
+                dayOrder[b.day] || 99;
 
 
-        card.className =
-            "schedule-card";
+            if (dayA !== dayB) {
+                return dayA - dayB;
+            }
 
 
-        card.innerHTML =
+            const startA =
+                a.startTime || a.start || "";
 
-            '<div class="schedule-info">' +
-
-                '<span class="schedule-day">' +
-
-                    escapeHTML(
-                        schedule.day
-                    ) +
-
-                '</span>' +
+            const startB =
+                b.startTime || b.start || "";
 
 
-                '<span class="schedule-subject">' +
-
-                    escapeHTML(
-                        schedule.subject
-                    ) +
-
-                '</span>' +
-
-
-                '<span class="schedule-time">' +
-
-                    "⏰ " +
-
-                    escapeHTML(
-                        schedule.startTime
-                    ) +
-
-                    " – " +
-
-                    escapeHTML(
-                        schedule.endTime
-                    ) +
-
-                '</span>' +
-
-            '</div>' +
-
-
-            '<button onclick="deleteSchedule(' +
-
-                schedule.id +
-
-            ')">' +
-
-                "Delete" +
-
-            '</button>';
-
-
-        container.appendChild(card);
-
-    });
-
-}
-
-
-/* =========================================
-   DELETE SCHEDULE
-========================================= */
-
-function deleteSchedule(id) {
-
-    schedules =
-        schedules.filter(function(schedule) {
-
-            return schedule.id !== id;
+            return startA.localeCompare(startB);
 
         });
 
 
-    localStorage.setItem(
+    list.innerHTML =
+        sortedSchedules.map(function (schedule) {
+
+            const start =
+                schedule.startTime ||
+                schedule.start ||
+                "";
+
+            const end =
+                schedule.endTime ||
+                schedule.end ||
+                "";
+
+
+            return `
+
+                <div class="schedule-card">
+
+                    <div class="schedule-left">
+
+                        <div class="schedule-day">
+                            ${escapeHTML(schedule.day)}
+                        </div>
+
+                        <div>
+
+                            <div class="schedule-subject">
+                                📚 ${escapeHTML(schedule.subject)}
+                            </div>
+
+                            <div class="schedule-time">
+                                ⏰ ${formatTime(start)}
+                                –
+                                ${formatTime(end)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="schedule-delete"
+                        onclick="deleteSchedule(${schedule.id})"
+                        title="Delete session"
+                    >
+                        🗑
+                    </button>
+
+                </div>
+
+            `;
+
+        }).join("");
+}
+
+
+function deleteSchedule(id) {
+
+    if (!confirm("Delete this study session?")) {
+        return;
+    }
+
+
+    schedules =
+        schedules.filter(function (item) {
+            return item.id !== id;
+        });
+
+
+    saveJSON(
         "studySchedules",
-        JSON.stringify(schedules)
+        schedules
+    );
+
+
+    saveJSON(
+        "studyTimetable",
+        schedules
     );
 
 
     displaySchedules();
 
     updateTodaySessions();
-
 }
 
 
-/* =========================================
-   TODAY'S SESSIONS
-========================================= */
+/* =========================================================
+   PROGRESS
+========================================================= */
 
-function updateTodaySessions() {
+function updateProgress() {
 
-    let days = [
-
-        "Sunday",
-
-        "Monday",
-
-        "Tuesday",
-
-        "Wednesday",
-
-        "Thursday",
-
-        "Friday",
-
-        "Saturday"
-
-    ];
+    const total =
+        tasks.length;
 
 
-    let today =
-        days[new Date().getDay()];
-
-
-    let count =
-        schedules.filter(function(schedule) {
-
-            return schedule.day === today;
-
+    const completed =
+        tasks.filter(function (task) {
+            return task.completed;
         }).length;
 
 
-    let element =
-        document.getElementById(
-            "todaySessions"
-        );
+    const totalElement =
+        document.getElementById("totalTasks");
+
+    const completedElement =
+        document.getElementById("completedTasks");
 
 
-    if (element) {
-
-        element.textContent =
-            count;
-
+    if (totalElement) {
+        totalElement.textContent = total;
     }
 
+
+    if (completedElement) {
+        completedElement.textContent = completed;
+    }
+
+
+    const progress =
+        total === 0
+            ? 0
+            : Math.round((completed / total) * 100);
+
+
+    const progressElement =
+        document.getElementById("progressPercentage");
+
+
+    const progressFill =
+        document.getElementById("progressBarFill");
+
+
+    if (progressElement) {
+        progressElement.textContent = progress;
+    }
+
+
+    if (progressFill) {
+        progressFill.style.width =
+            progress + "%";
+    }
 }
 
 
-/* =========================================
+function updateStudyTime() {
+
+    const element =
+        document.getElementById("todayStudyTime");
+
+
+    if (element) {
+        element.textContent =
+            studyMinutes;
+    }
+}
+
+
+function updateProgressDashboard() {
+
+    const completed =
+        tasks.filter(function (task) {
+            return task.completed;
+        }).length;
+
+
+    const total =
+        tasks.length;
+
+
+    const tasksElement =
+        document.getElementById("progressTasks");
+
+
+    const studyElement =
+        document.getElementById("progressStudyTime");
+
+
+    const percentageElement =
+        document.getElementById("progressPercentage");
+
+
+    const progressFill =
+        document.getElementById("progressBarFill");
+
+
+    if (tasksElement) {
+        tasksElement.textContent =
+            `${completed} / ${total}`;
+    }
+
+
+    if (studyElement) {
+        studyElement.textContent =
+            studyMinutes;
+    }
+
+
+    const percentage =
+        total === 0
+            ? 0
+            : Math.round(
+                (completed / total) * 100
+            );
+
+
+    if (percentageElement) {
+        percentageElement.textContent =
+            percentage;
+    }
+
+
+    if (progressFill) {
+        progressFill.style.width =
+            percentage + "%";
+    }
+}
+
+
+function updateSubjectProgress() {
+
+    const container =
+        document.getElementById("subjectProgress");
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const subjects = [
+        "Physics",
+        "Chemistry",
+        "Mathematics",
+        "Computer Science",
+        "English"
+    ];
+
+
+    container.innerHTML =
+        subjects.map(function (subject) {
+
+            const subjectTasks =
+                tasks.filter(function (task) {
+
+                    return task.subject
+                        .toLowerCase()
+                        .trim() ===
+                        subject.toLowerCase();
+
+                });
+
+
+            const total =
+                subjectTasks.length;
+
+
+            const completed =
+                subjectTasks.filter(function (task) {
+                    return task.completed;
+                }).length;
+
+
+            const percentage =
+                total === 0
+                    ? 0
+                    : Math.round(
+                        (completed / total) * 100
+                    );
+
+
+            return `
+
+                <div class="subject-progress-row">
+
+                    <div class="subject-progress-header">
+
+                        <span>
+                            ${escapeHTML(subject)}
+                        </span>
+
+                        <span>
+                            ${percentage}%
+                        </span>
+
+                    </div>
+
+
+                    <div class="subject-progress-bar">
+
+                        <div
+                            class="subject-progress-fill"
+                            style="width:${percentage}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+}
+
+
+function updateTodaySessions() {
+
+    const element =
+        document.getElementById("todaySessions");
+
+
+    if (element) {
+        element.textContent =
+            todaySessions;
+    }
+}
+
+
+/* =========================================================
    POMODORO
-========================================= */
+========================================================= */
 
 function getStudyDuration() {
 
-    let select =
-        document.getElementById(
-            "studyDuration"
-        );
+    const select =
+        document.getElementById("studyDuration");
 
 
     if (!select) {
-
-        return 25;
-
+        return studyDuration;
     }
 
 
     if (select.value === "custom") {
 
-        let customInput =
-            document.getElementById(
-                "customStudyTime"
-            );
-
-
-        let custom =
+        const custom =
             Number(
-                customInput.value
+                document.getElementById(
+                    "customStudyTime"
+                )?.value
             );
 
 
-        if (custom > 0) {
-
-            return custom;
-
-        }
-
-
-        return studyDuration;
-
+        return custom > 0
+            ? custom
+            : studyDuration;
     }
 
 
-    return Number(
-        select.value
-    );
-
+    return Number(select.value);
 }
 
 
 function getBreakDuration() {
 
-    let select =
-        document.getElementById(
-            "breakDuration"
-        );
+    const select =
+        document.getElementById("breakDuration");
 
 
     if (!select) {
-
-        return 5;
-
+        return breakDuration;
     }
 
 
     if (select.value === "custom") {
 
-        let customInput =
-            document.getElementById(
-                "customBreakTime"
-            );
-
-
-        let custom =
+        const custom =
             Number(
-                customInput.value
+                document.getElementById(
+                    "customBreakTime"
+                )?.value
             );
 
 
-        if (custom > 0) {
-
-            return custom;
-
-        }
-
-
-        return breakDuration;
-
+        return custom > 0
+            ? custom
+            : breakDuration;
     }
 
 
-    return Number(
-        select.value
-    );
-
+    return Number(select.value);
 }
 
 
 function changeStudyDuration() {
 
-    let select =
-        document.getElementById(
-            "studyDuration"
-        );
+    const select =
+        document.getElementById("studyDuration");
+
+    const customInput =
+        document.getElementById("customStudyTime");
 
 
-    let customInput =
-        document.getElementById(
-            "customStudyTime"
-        );
+    if (!select) {
+        return;
+    }
 
 
     if (select.value === "custom") {
 
-        customInput.style.display =
-            "block";
-
-        customInput.focus();
+        if (customInput) {
+            customInput.style.display = "block";
+            customInput.focus();
+        }
 
     } else {
 
-        customInput.style.display =
-            "none";
+        if (customInput) {
+            customInput.style.display = "none";
+        }
 
 
         studyDuration =
-            Number(
-                select.value
-            );
+            Number(select.value);
 
 
         localStorage.setItem(
@@ -1230,47 +1062,43 @@ function changeStudyDuration() {
 
 
         if (isStudyMode) {
-
             resetTimer();
-
         }
 
     }
-
 }
 
 
 function changeBreakDuration() {
 
-    let select =
-        document.getElementById(
-            "breakDuration"
-        );
+    const select =
+        document.getElementById("breakDuration");
+
+    const customInput =
+        document.getElementById("customBreakTime");
 
 
-    let customInput =
-        document.getElementById(
-            "customBreakTime"
-        );
+    if (!select) {
+        return;
+    }
 
 
     if (select.value === "custom") {
 
-        customInput.style.display =
-            "block";
-
-        customInput.focus();
+        if (customInput) {
+            customInput.style.display = "block";
+            customInput.focus();
+        }
 
     } else {
 
-        customInput.style.display =
-            "none";
+        if (customInput) {
+            customInput.style.display = "none";
+        }
 
 
         breakDuration =
-            Number(
-                select.value
-            );
+            Number(select.value);
 
 
         localStorage.setItem(
@@ -1280,259 +1108,178 @@ function changeBreakDuration() {
 
 
         if (!isStudyMode) {
-
             resetTimer();
-
         }
 
     }
-
 }
 
 
 function setStudyMode() {
 
-    pauseTimer();
-
+    isStudyMode = true;
 
     studyDuration =
         getStudyDuration();
-
-
-    localStorage.setItem(
-        "studyDuration",
-        studyDuration
-    );
-
-
-    isStudyMode = true;
 
 
     timerSeconds =
         studyDuration * 60;
 
 
-    let mode =
-        document.getElementById(
-            "timerMode"
-        );
+    clearInterval(timerInterval);
+
+    timerInterval = null;
 
 
-    if (mode) {
-
-        mode.textContent =
-            "Study Session";
-
-    }
-
-
-    let studyButton =
+    const studyButton =
         document.getElementById(
             "studyModeButton"
         );
 
 
-    let breakButton =
+    const breakButton =
         document.getElementById(
             "breakModeButton"
         );
 
 
-    if (studyButton) {
-
-        studyButton.classList.add(
-            "active"
+    const mode =
+        document.getElementById(
+            "timerMode"
         );
 
+
+    if (studyButton) {
+        studyButton.classList.add("active");
     }
 
 
     if (breakButton) {
+        breakButton.classList.remove("active");
+    }
 
-        breakButton.classList.remove(
-            "active"
-        );
 
+    if (mode) {
+        mode.textContent =
+            "📚 Study Time";
     }
 
 
     updateTimerDisplay();
-
-    updateTimerProgress();
-
 }
 
 
 function setBreakMode() {
 
-    pauseTimer();
-
+    isStudyMode = false;
 
     breakDuration =
         getBreakDuration();
-
-
-    localStorage.setItem(
-        "breakDuration",
-        breakDuration
-    );
-
-
-    isStudyMode = false;
 
 
     timerSeconds =
         breakDuration * 60;
 
 
-    let mode =
-        document.getElementById(
-            "timerMode"
-        );
+    clearInterval(timerInterval);
+
+    timerInterval = null;
 
 
-    if (mode) {
-
-        mode.textContent =
-            "Break Time";
-
-    }
-
-
-    let studyButton =
+    const studyButton =
         document.getElementById(
             "studyModeButton"
         );
 
 
-    let breakButton =
+    const breakButton =
         document.getElementById(
             "breakModeButton"
         );
 
 
-    if (studyButton) {
-
-        studyButton.classList.remove(
-            "active"
+    const mode =
+        document.getElementById(
+            "timerMode"
         );
 
+
+    if (studyButton) {
+        studyButton.classList.remove("active");
     }
 
 
     if (breakButton) {
+        breakButton.classList.add("active");
+    }
 
-        breakButton.classList.add(
-            "active"
-        );
 
+    if (mode) {
+        mode.textContent =
+            "☕ Break Time";
     }
 
 
     updateTimerDisplay();
-
-    updateTimerProgress();
-
 }
 
 
 function startTimer() {
 
     if (timerInterval !== null) {
-
         return;
+    }
+
+
+    if (timerSeconds <= 0) {
+
+        if (isStudyMode) {
+            timerSeconds =
+                getStudyDuration() * 60;
+        } else {
+            timerSeconds =
+                getBreakDuration() * 60;
+        }
 
     }
 
 
     timerInterval =
-        setInterval(function() {
+        setInterval(function () {
+
+            timerSeconds--;
+
+            updateTimerDisplay();
 
 
-            if (timerSeconds > 0) {
+            if (timerSeconds <= 0) {
 
-                timerSeconds--;
+                clearInterval(timerInterval);
 
-                updateTimerDisplay();
+                timerInterval = null;
 
-                updateTimerProgress();
-
-            } else {
-
-
-                clearInterval(
-                    timerInterval
-                );
-
-
-                timerInterval =
-                    null;
-
-
-                if (isStudyMode) {
-
-
-                    studyMinutes =
-                        studyMinutes +
-                        studyDuration;
-
-
-                    localStorage.setItem(
-                        "studyMinutes",
-                        studyMinutes
-                    );
-
-
-                    updateStudyTime();
-
-
-                    alert(
-                        "🎉 Study session complete! Time for a break."
-                    );
-
-
-                    setBreakMode();
-
-
-                } else {
-
-
-                    alert(
-                        "☕ Break complete! Ready to study?"
-                    );
-
-
-                    setStudyMode();
-
-                }
+                finishTimerSession();
 
             }
 
-
         }, 1000);
-
 }
 
 
 function pauseTimer() {
 
-    if (timerInterval !== null) {
+    clearInterval(timerInterval);
 
-        clearInterval(
-            timerInterval
-        );
-
-        timerInterval =
-            null;
-
-    }
-
+    timerInterval = null;
 }
 
 
 function resetTimer() {
 
-    pauseTimer();
+    clearInterval(timerInterval);
+
+    timerInterval = null;
 
 
     if (isStudyMode) {
@@ -1557,115 +1304,150 @@ function resetTimer() {
 
 
     updateTimerDisplay();
+}
 
-    updateTimerProgress();
 
+function finishTimerSession() {
+
+    if (isStudyMode) {
+
+        studyMinutes +=
+            studyDuration;
+
+
+        todaySessions++;
+
+
+        localStorage.setItem(
+            "studyMinutes",
+            studyMinutes
+        );
+
+
+        localStorage.setItem(
+            "todaySessions",
+            todaySessions
+        );
+
+
+        updateStudyTime();
+
+        updateProgressDashboard();
+
+        updateTodaySessions();
+
+
+        sendStudyNotification(
+            "Study session complete! 🎉",
+            "Time for your break."
+        );
+
+
+        alert(
+            "🎉 Study session complete! Time for a " +
+            breakDuration +
+            "-minute break."
+        );
+
+
+        setBreakMode();
+
+    } else {
+
+        sendStudyNotification(
+            "Break finished! ☕",
+            "Ready for another study session?"
+        );
+
+
+        alert(
+            "☕ Break finished! Ready for another study session?"
+        );
+
+
+        setStudyMode();
+
+    }
 }
 
 
 function updateTimerDisplay() {
 
-    let minutes =
-        Math.floor(
-            timerSeconds / 60
-        );
-
-
-    let seconds =
-        timerSeconds % 60;
-
-
-    let timer =
-        document.getElementById(
-            "timer"
-        );
+    const timer =
+        document.getElementById("timer");
 
 
     if (!timer) {
-
         return;
-
     }
 
 
+    const minutes =
+        Math.floor(timerSeconds / 60);
+
+
+    const seconds =
+        timerSeconds % 60;
+
+
     timer.textContent =
-
-        String(minutes).padStart(
-            2,
-            "0"
-        ) +
-
+        String(minutes).padStart(2, "0") +
         ":" +
+        String(seconds).padStart(2, "0");
 
-        String(seconds).padStart(
-            2,
-            "0"
-        );
 
+    updateTimerProgress();
 }
 
 
 function updateTimerProgress() {
 
-    let progress =
+    const fill =
         document.getElementById(
             "timerProgressFill"
         );
 
 
-    if (!progress) {
-
+    if (!fill) {
         return;
-
     }
 
 
-    let totalSeconds;
+    const totalSeconds =
+        (
+            isStudyMode
+                ? getStudyDuration()
+                : getBreakDuration()
+        ) * 60;
 
 
-    if (isStudyMode) {
-
-        totalSeconds =
-            studyDuration * 60;
-
-    } else {
-
-        totalSeconds =
-            breakDuration * 60;
-
-    }
-
-
-    let percentage =
-
-        (timerSeconds / totalSeconds) *
-        100;
+    const percentage =
+        totalSeconds <= 0
+            ? 0
+            : Math.max(
+                0,
+                Math.min(
+                    100,
+                    (timerSeconds /
+                        totalSeconds) * 100
+                )
+            );
 
 
-    progress.style.width =
-
-        Math.max(
-            0,
-            Math.min(
-                100,
-                percentage
-            )
-        ) +
-
-        "%";
-
+    fill.style.width =
+        percentage + "%";
 }
 
 
 function loadPomodoroSettings() {
 
-    let studySelect =
+    const studySelect =
         document.getElementById(
             "studyDuration"
         );
 
 
-    let breakSelect =
+    const breakSelect =
         document.getElementById(
             "breakDuration"
         );
@@ -1673,21 +1455,18 @@ function loadPomodoroSettings() {
 
     if (studySelect) {
 
+        const allowedStudy =
+            ["1", "25", "45", "60"];
+
 
         if (
-
-            studyDuration === 25 ||
-
-            studyDuration === 50 ||
-
-            studyDuration === 60
-
+            allowedStudy.includes(
+                String(studyDuration)
+            )
         ) {
 
             studySelect.value =
-                String(
-                    studyDuration
-                );
+                String(studyDuration);
 
         } else {
 
@@ -1695,45 +1474,37 @@ function loadPomodoroSettings() {
                 "custom";
 
 
-            let customStudy =
+            const custom =
                 document.getElementById(
                     "customStudyTime"
                 );
 
 
-            if (customStudy) {
-
-                customStudy.style.display =
+            if (custom) {
+                custom.style.display =
                     "block";
 
-
-                customStudy.value =
+                custom.value =
                     studyDuration;
-
             }
-
         }
-
     }
 
 
     if (breakSelect) {
 
+        const allowedBreak =
+            ["5", "10", "15"];
+
 
         if (
-
-            breakDuration === 5 ||
-
-            breakDuration === 10 ||
-
-            breakDuration === 15
-
+            allowedBreak.includes(
+                String(breakDuration)
+            )
         ) {
 
             breakSelect.value =
-                String(
-                    breakDuration
-                );
+                String(breakDuration);
 
         } else {
 
@@ -1741,139 +1512,177 @@ function loadPomodoroSettings() {
                 "custom";
 
 
-            let customBreak =
+            const custom =
                 document.getElementById(
                     "customBreakTime"
                 );
 
 
-            if (customBreak) {
-
-                customBreak.style.display =
+            if (custom) {
+                custom.style.display =
                     "block";
 
-
-                customBreak.value =
+                custom.value =
                     breakDuration;
-
             }
-
         }
-
     }
-
 }
 
 
-/* =========================================
-   INDEXED DB — STUDY FILES
-========================================= */
+/* =========================================================
+   SUBJECT FILES - INDEXEDDB
+========================================================= */
 
 function openStudyDatabase() {
 
-    return new Promise(function(
-        resolve,
-        reject
-    ) {
+    if (!window.indexedDB) {
+        console.warn(
+            "IndexedDB is not supported."
+        );
+        return;
+    }
 
 
-        let request =
-            indexedDB.open(
-                DB_NAME,
-                DB_VERSION
-            );
+    const request =
+        indexedDB.open(
+            DB_NAME,
+            DB_VERSION
+        );
 
 
-        request.onupgradeneeded =
-            function(event) {
+    request.onupgradeneeded =
+        function (event) {
 
-                let db =
-                    event.target.result;
-
-
-                if (
-                    !db.objectStoreNames.contains(
-                        STORE_NAME
-                    )
-                ) {
+            const db =
+                event.target.result;
 
 
-                    let store =
-                        db.createObjectStore(
-                            STORE_NAME,
-                            {
-                                keyPath: "id",
-                                autoIncrement: true
-                            }
-                        );
+            if (
+                !db.objectStoreNames.contains(
+                    STORE_NAME
+                )
+            ) {
 
-
-                    store.createIndex(
-                        "subject",
-                        "subject",
+                const store =
+                    db.createObjectStore(
+                        STORE_NAME,
                         {
-                            unique: false
+                            keyPath: "id",
+                            autoIncrement: true
                         }
                     );
 
-                }
 
-            };
-
-
-        request.onsuccess =
-            function(event) {
-
-                studyDatabase =
-                    event.target.result;
-
-
-                resolve(
-                    studyDatabase
+                store.createIndex(
+                    "subject",
+                    "subject",
+                    { unique: false }
                 );
+            }
+        };
 
-            };
+
+    request.onsuccess =
+        function (event) {
+
+            studyDatabase =
+                event.target.result;
 
 
-        request.onerror =
-            function(event) {
+            updateAllFileCounts();
 
-                reject(
-                    event.target.error
-                );
+            if (currentSubject) {
+                displaySubjectFiles();
+            }
 
-            };
+        };
 
-    });
 
+    request.onerror =
+        function (event) {
+
+            console.error(
+                "Database error:",
+                event.target.error
+            );
+
+        };
 }
 
 
-function saveStudyFile(
-    subject,
-    file
-) {
+function uploadStudyFile() {
 
-    return new Promise(function(
-        resolve,
-        reject
-    ) {
+    const input =
+        document.getElementById(
+            "studyFileInput"
+        );
 
 
-        let transaction =
-            studyDatabase.transaction(
-                STORE_NAME,
-                "readwrite"
-            );
+    if (input) {
+        input.click();
+    }
+}
 
 
-        let store =
-            transaction.objectStore(
-                STORE_NAME
-            );
+function handleFileUpload(event) {
+
+    const file =
+        event.target.files?.[0];
 
 
-        let fileData = {
+    if (!file) {
+        return;
+    }
+
+
+    if (!currentSubject) {
+
+        alert(
+            "Please open a subject first."
+        );
+
+        return;
+    }
+
+
+    saveStudyFile(
+        file,
+        currentSubject
+    );
+
+
+    event.target.value = "";
+}
+
+
+function saveStudyFile(file, subject) {
+
+    if (!studyDatabase) {
+
+        alert(
+            "Study file storage is still loading. Please try again."
+        );
+
+        return;
+    }
+
+
+    const transaction =
+        studyDatabase.transaction(
+            STORE_NAME,
+            "readwrite"
+        );
+
+
+    const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+
+
+    const request =
+        store.add({
 
             subject: subject,
 
@@ -1883,840 +1692,349 @@ function saveStudyFile(
 
             size: file.size,
 
-            file: file,
+            data: file,
 
-            addedAt:
-                new Date().toISOString()
+            createdAt: new Date().toISOString()
+
+        });
+
+
+    request.onsuccess =
+        function () {
+
+            displaySubjectFiles();
+
+            updateAllFileCounts();
+
+            alert(
+                "📚 Study file uploaded successfully!"
+            );
 
         };
 
 
-        let request =
-            store.add(
-                fileData
+    request.onerror =
+        function () {
+
+            alert(
+                "Could not save this file."
             );
 
-
-        request.onsuccess =
-            function() {
-
-                resolve();
-
-            };
-
-
-        request.onerror =
-            function(event) {
-
-                reject(
-                    event.target.error
-                );
-
-            };
-
-    });
-
+        };
 }
 
 
 function getSubjectFiles(subject) {
 
-    return new Promise(function(
+    return new Promise(function (
         resolve,
         reject
     ) {
 
-
         if (!studyDatabase) {
-
             resolve([]);
-
             return;
-
         }
 
 
-        let transaction =
+        const transaction =
             studyDatabase.transaction(
                 STORE_NAME,
                 "readonly"
             );
 
 
-        let store =
+        const store =
             transaction.objectStore(
                 STORE_NAME
             );
 
 
-        let index =
-            store.index(
-                "subject"
-            );
+        const index =
+            store.index("subject");
 
 
-        let request =
-            index.getAll(
-                subject
-            );
+        const request =
+            index.getAll(subject);
 
 
         request.onsuccess =
-            function() {
-
+            function () {
                 resolve(
-                    request.result
+                    request.result || []
                 );
-
             };
 
 
         request.onerror =
-            function(event) {
-
+            function () {
                 reject(
-                    event.target.error
+                    request.error
                 );
-
             };
 
     });
-
 }
 
 
-function deleteStudyFile(id) {
-
-    return new Promise(function(
-        resolve,
-        reject
-    ) {
-
-
-        let transaction =
-            studyDatabase.transaction(
-                STORE_NAME,
-                "readwrite"
-            );
-
-
-        let store =
-            transaction.objectStore(
-                STORE_NAME
-            );
-
-
-        let request =
-            store.delete(
-                id
-            );
-
-
-        request.onsuccess =
-            function() {
-
-                resolve();
-
-            };
-
-
-        request.onerror =
-            function(event) {
-
-                reject(
-                    event.target.error
-                );
-
-            };
-
-    });
-
-}
-
-
-/* =========================================
-   SUBJECT MODAL
-========================================= */
-
-function openSubject(subject) {
+async function openSubject(subject) {
 
     currentSubject =
         subject;
 
 
-    let modal =
+    const modal =
         document.getElementById(
             "subjectModal"
         );
 
 
-    let name =
+    const name =
         document.getElementById(
             "modalSubjectName"
         );
 
 
-    let icon =
+    const icon =
         document.getElementById(
             "modalSubjectIcon"
         );
 
 
-    if (!modal || !name || !icon) {
+    const icons = {
 
-        return;
+        Physics: "⚡",
 
-    }
+        Chemistry: "🧪",
 
+        Mathematics: "📐",
 
-    name.textContent =
-        subject;
+        "Computer Science": "💻",
 
-
-    let icons = {
-
-        "Physics": "⚡",
-
-        "Chemistry": "⚗",
-
-        "Mathematics": "∑",
-
-        "Computer Science": "</>",
-
-        "English": "✎"
+        English: "📖"
 
     };
 
 
-    icon.textContent =
-        icons[subject] || "✦";
-
-
-    modal.classList.add(
-        "show"
-    );
-
-
-    let searchInput =
-        document.getElementById(
-            "studyFileSearch"
-        );
-
-
-    if (searchInput) {
-
-        searchInput.value = "";
-
+    if (name) {
+        name.textContent =
+            subject;
     }
 
 
-    displaySubjectFiles();
+    if (icon) {
+        icon.textContent =
+            icons[subject] || "📚";
+    }
 
+
+    if (modal) {
+        modal.classList.add("show");
+    }
+
+
+    await displaySubjectFiles();
 }
 
 
 function closeSubject() {
 
-    let modal =
+    const modal =
         document.getElementById(
             "subjectModal"
         );
 
 
     if (modal) {
-
-        modal.classList.remove(
-            "show"
-        );
-
+        modal.classList.remove("show");
     }
 
 
-    currentSubject =
-        null;
-
+    currentSubject = null;
 }
 
-
-/* =========================================
-   FILE UPLOAD
-========================================= */
-
-async function handleFileUpload(event) {
-
-    let files =
-        event.target.files;
-
-
-    if (
-        !files ||
-        files.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    if (!currentSubject) {
-
-        alert(
-            "Please select a subject first."
-        );
-
-        return;
-
-    }
-
-
-    if (!studyDatabase) {
-
-        alert(
-            "Study storage is still loading. Please try again."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-
-        for (
-            let i = 0;
-            i < files.length;
-            i++
-        ) {
-
-            await saveStudyFile(
-                currentSubject,
-                files[i]
-            );
-
-        }
-
-
-        event.target.value =
-            "";
-
-
-        await displaySubjectFiles();
-
-        await updateAllFileCounts();
-
-
-    } catch (error) {
-
-
-        console.error(
-            "File save error:",
-            error
-        );
-
-
-        alert(
-            "Could not save the study file."
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   DISPLAY SUBJECT FILES
-========================================= */
 
 async function displaySubjectFiles() {
 
-    if (!currentSubject) {
-
-        return;
-
-    }
-
-
-    let container =
+    const container =
         document.getElementById(
             "subjectFiles"
         );
 
 
-    let count =
-        document.getElementById(
-            "modalFileCount"
-        );
-
-
-    if (!container) {
-
+    if (!container || !currentSubject) {
         return;
-
     }
 
 
-    let files =
+    const files =
         await getSubjectFiles(
             currentSubject
         );
 
 
-    container.innerHTML =
-        "";
+    const count =
+        document.getElementById(
+            "modalFileCount"
+        );
 
 
     if (count) {
 
         count.textContent =
-
             files.length +
-
-            (
-                files.length === 1
-                    ? " file"
-                    : " files"
-            );
+            (files.length === 1
+                ? " file"
+                : " files");
 
     }
 
 
     if (files.length === 0) {
 
-        container.innerHTML =
-
-            '<div class="no-files">' +
-
-                "No study files added yet." +
-
-            '</div>';
+        container.innerHTML = `
+            <div class="empty-state">
+                <span>📂</span>
+                <p>No files uploaded yet.</p>
+            </div>
+        `;
 
         return;
-
     }
 
 
-    files.forEach(function(fileData) {
+    container.innerHTML =
+        files.map(function (file) {
+
+            return `
+
+                <div
+                    class="file-card"
+                    data-file-name="${escapeHTML(file.name.toLowerCase())}"
+                >
+
+                    <div class="file-info">
+
+                        <div class="file-name">
+                            ${getFileIcon(file.type)}
+                            ${escapeHTML(file.name)}
+                        </div>
+
+                        <div class="file-size">
+                            ${formatFileSize(file.size)}
+                        </div>
+
+                    </div>
 
 
-        let item =
-            document.createElement(
-                "div"
-            );
+                    <div class="file-actions">
 
+                        <button
+                            type="button"
+                            onclick="openStudyFile(${file.id})"
+                        >
+                            Open
+                        </button>
 
-        /* IMPORTANT:
-           This class allows the search
-           function to find each file.
-        */
+                        <button
+                            type="button"
+                            onclick="downloadStudyFile(${file.id})"
+                        >
+                            Save
+                        </button>
 
-        item.className =
-            "file-item study-file-item";
+                        <button
+                            type="button"
+                            class="remove-file"
+                            onclick="removeStudyFile(${file.id})"
+                        >
+                            Delete
+                        </button>
 
+                    </div>
 
-        item.innerHTML =
+                </div>
 
-            '<div class="file-icon">' +
+            `;
 
-                getFileIcon(
-                    fileData.name,
-                    fileData.type
-                ) +
-
-            '</div>' +
-
-
-            '<div class="file-details">' +
-
-                '<div class="file-name">' +
-
-                    escapeHTML(
-                        fileData.name
-                    ) +
-
-                '</div>' +
-
-
-                '<div class="file-size">' +
-
-                    formatFileSize(
-                        fileData.size
-                    ) +
-
-                '</div>' +
-
-            '</div>' +
-
-
-            '<div class="file-actions">' +
-
-
-                '<button onclick="openStudyFile(' +
-
-                    fileData.id +
-
-                ')">' +
-
-                    "Open" +
-
-                '</button>' +
-
-
-                '<button onclick="downloadStudyFile(' +
-
-                    fileData.id +
-
-                ')">' +
-
-                    "Save" +
-
-                '</button>' +
-
-
-                '<button onclick="removeStudyFile(' +
-
-                    fileData.id +
-
-                ')">' +
-
-                    "Delete" +
-
-                '</button>' +
-
-
-            '</div>';
-
-
-        container.appendChild(
-            item
-        );
-
-    });
-
-
-    /* Apply current search */
-
-    searchStudyFiles();
-
+        }).join("");
 }
 
 
-/* =========================================
-   STUDY FILE SEARCH
-========================================= */
-
 function searchStudyFiles() {
 
-    let searchInput =
+    const searchInput =
         document.getElementById(
             "studyFileSearch"
         );
 
 
-    let fileContainer =
-        document.getElementById(
-            "subjectFiles"
-        );
-
-
-    if (
-        !searchInput ||
-        !fileContainer
-    ) {
-
-        return;
-
-    }
-
-
-    let searchText =
-        searchInput.value
+    const search =
+        (searchInput?.value || "")
             .toLowerCase()
             .trim();
 
 
-    let files =
-        Array.from(
-            fileContainer.querySelectorAll(
-                ".study-file-item"
-            )
+    const cards =
+        document.querySelectorAll(
+            ".file-card"
         );
 
 
-    let visibleCount = 0;
+    cards.forEach(function (card) {
+
+        const name =
+            card.dataset.fileName || "";
 
 
-    files.forEach(function(file) {
-
-        let fileName =
-            file.textContent
-                .toLowerCase();
-
-
-        if (
-            fileName.includes(
-                searchText
-            )
-        ) {
-
-            file.style.display =
-                "";
-
-            visibleCount++;
-
-        } else {
-
-            file.style.display =
-                "none";
-
-        }
+        card.style.display =
+            name.includes(search)
+                ? "flex"
+                : "none";
 
     });
-
-
-    let noResult =
-        document.getElementById(
-            "studyFileNoResult"
-        );
-
-
-    if (noResult) {
-
-        noResult.remove();
-
-    }
-
-
-    if (
-        files.length > 0 &&
-        visibleCount === 0
-    ) {
-
-        let message =
-            document.createElement(
-                "div"
-            );
-
-
-        message.id =
-            "studyFileNoResult";
-
-
-        message.className =
-            "study-file-no-result";
-
-
-        message.textContent =
-            "⌕ No files found";
-
-
-        fileContainer.appendChild(
-            message
-        );
-
-    }
-
 }
 
-
-/* =========================================
-   FILE ICON
-========================================= */
-
-function getFileIcon(
-    fileName,
-    fileType
-) {
-
-    let name =
-        fileName.toLowerCase();
-
-
-    if (
-        fileType.includes("pdf") ||
-        name.endsWith(".pdf")
-    ) {
-
-        return "📕";
-
-    }
-
-
-    if (
-        fileType.includes("image") ||
-        name.endsWith(".png") ||
-        name.endsWith(".jpg") ||
-        name.endsWith(".jpeg") ||
-        name.endsWith(".webp")
-    ) {
-
-        return "🖼️";
-
-    }
-
-
-    if (
-        fileType.includes("word") ||
-        name.endsWith(".doc") ||
-        name.endsWith(".docx")
-    ) {
-
-        return "📘";
-
-    }
-
-
-    if (
-        fileType.includes("sheet") ||
-        name.endsWith(".xls") ||
-        name.endsWith(".xlsx")
-    ) {
-
-        return "📗";
-
-    }
-
-
-    if (
-        fileType.includes("presentation") ||
-        name.endsWith(".ppt") ||
-        name.endsWith(".pptx")
-    ) {
-
-        return "📙";
-
-    }
-
-
-    if (
-        name.endsWith(".txt")
-    ) {
-
-        return "📄";
-
-    }
-
-
-    return "📁";
-
-}
-
-
-/* =========================================
-   FILE SIZE
-========================================= */
-
-function formatFileSize(bytes) {
-
-    if (bytes === 0) {
-
-        return "0 Bytes";
-
-    }
-
-
-    let units = [
-
-        "Bytes",
-
-        "KB",
-
-        "MB",
-
-        "GB"
-
-    ];
-
-
-    let index =
-        Math.floor(
-            Math.log(bytes) /
-            Math.log(1024)
-        );
-
-
-    index =
-        Math.min(
-            index,
-            units.length - 1
-        );
-
-
-    return (
-
-        parseFloat(
-
-            (
-                bytes /
-                Math.pow(
-                    1024,
-                    index
-                )
-            ).toFixed(2)
-
-        ) +
-
-        " " +
-
-        units[index]
-
-    );
-
-}
-
-
-/* =========================================
-   OPEN FILE
-========================================= */
 
 function openStudyFile(id) {
 
     if (!studyDatabase) {
-
-        alert(
-            "Study storage is not ready."
-        );
-
         return;
-
     }
 
 
-    let transaction =
+    const transaction =
         studyDatabase.transaction(
             STORE_NAME,
             "readonly"
         );
 
 
-    let store =
+    const store =
         transaction.objectStore(
             STORE_NAME
         );
 
 
-    let request =
+    const request =
         store.get(id);
 
 
     request.onsuccess =
-        function() {
+        function () {
 
-
-            let fileData =
+            const file =
                 request.result;
 
 
-            if (!fileData) {
-
+            if (!file || !file.data) {
                 return;
-
             }
 
 
-            let url =
+            const url =
                 URL.createObjectURL(
-                    fileData.file
+                    file.data
                 );
 
 
@@ -2726,207 +2044,144 @@ function openStudyFile(id) {
             );
 
 
-            setTimeout(
-                function() {
+            setTimeout(function () {
 
-                    URL.revokeObjectURL(
-                        url
-                    );
+                URL.revokeObjectURL(url);
 
-                },
-                10000
-            );
+            }, 60000);
 
         };
-
 }
 
-
-/* =========================================
-   DOWNLOAD FILE
-========================================= */
 
 function downloadStudyFile(id) {
 
     if (!studyDatabase) {
-
-        alert(
-            "Study storage is not ready."
-        );
-
         return;
-
     }
 
 
-    let transaction =
+    const transaction =
         studyDatabase.transaction(
             STORE_NAME,
             "readonly"
         );
 
 
-    let store =
+    const store =
         transaction.objectStore(
             STORE_NAME
         );
 
 
-    let request =
+    const request =
         store.get(id);
 
 
     request.onsuccess =
-        function() {
+        function () {
 
-
-            let fileData =
+            const file =
                 request.result;
 
 
-            if (!fileData) {
-
+            if (!file || !file.data) {
                 return;
-
             }
 
 
-            let url =
+            const url =
                 URL.createObjectURL(
-                    fileData.file
+                    file.data
                 );
 
 
-            let link =
-                document.createElement(
-                    "a"
-                );
+            const link =
+                document.createElement("a");
 
 
-            link.href =
-                url;
-
+            link.href = url;
 
             link.download =
-                fileData.name;
+                file.name;
 
 
-            document.body.appendChild(
-                link
-            );
-
+            document.body.appendChild(link);
 
             link.click();
-
 
             link.remove();
 
 
-            setTimeout(
-                function() {
+            setTimeout(function () {
 
-                    URL.revokeObjectURL(
-                        url
-                    );
+                URL.revokeObjectURL(url);
 
-                },
-                10000
-            );
+            }, 1000);
 
         };
-
 }
 
 
-/* =========================================
-   DELETE STUDY FILE
-========================================= */
+function removeStudyFile(id) {
 
-async function removeStudyFile(id) {
-
-    let confirmed =
-        confirm(
-            "Delete this study file?"
-        );
-
-
-    if (!confirmed) {
-
+    if (!confirm("Delete this study file?")) {
         return;
-
     }
 
-
-    try {
-
-        await deleteStudyFile(id);
-
-        await displaySubjectFiles();
-
-        await updateAllFileCounts();
-
-    } catch (error) {
-
-        console.error(
-            "Delete file error:",
-            error
-        );
-
-        alert(
-            "Could not delete the file."
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   UPDATE FILE COUNTS
-========================================= */
-
-async function updateAllFileCounts() {
 
     if (!studyDatabase) {
-
         return;
-
     }
 
 
-    let subjects = [
+    const transaction =
+        studyDatabase.transaction(
+            STORE_NAME,
+            "readwrite"
+        );
 
+
+    const store =
+        transaction.objectStore(
+            STORE_NAME
+        );
+
+
+    store.delete(id);
+
+
+    transaction.oncomplete =
+        function () {
+
+            displaySubjectFiles();
+
+            updateAllFileCounts();
+
+        };
+}
+
+
+function updateAllFileCounts() {
+
+    const subjects = [
         "Physics",
-
         "Chemistry",
-
         "Mathematics",
-
         "Computer Science",
-
         "English"
-
     ];
 
 
-    for (
-        let i = 0;
-        i < subjects.length;
-        i++
-    ) {
+    subjects.forEach(async function (subject) {
 
-
-        let subject =
-            subjects[i];
-
-
-        let files =
+        const files =
             await getSubjectFiles(
                 subject
             );
 
 
-        let element =
+        const element =
             document.getElementById(
                 "count-" + subject
             );
@@ -2935,31 +2190,801 @@ async function updateAllFileCounts() {
         if (element) {
 
             element.textContent =
-
                 files.length +
-
-                (
-                    files.length === 1
-                        ? " file"
-                        : " files"
-                );
+                (files.length === 1
+                    ? " file"
+                    : " files");
 
         }
 
-    }
-
+    });
 }
 
 
-/* =========================================
-   CLOSE MODAL OUTSIDE CLICK
-========================================= */
+function clearStudyFiles() {
+
+    return new Promise(function (
+        resolve
+    ) {
+
+        if (!studyDatabase) {
+            resolve();
+            return;
+        }
+
+
+        const transaction =
+            studyDatabase.transaction(
+                STORE_NAME,
+                "readwrite"
+            );
+
+
+        const store =
+            transaction.objectStore(
+                STORE_NAME
+            );
+
+
+        store.clear();
+
+
+        transaction.oncomplete =
+            function () {
+                resolve();
+            };
+
+
+        transaction.onerror =
+            function () {
+                resolve();
+            };
+
+    });
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function toggleDarkMode() {
+
+    const toggle =
+        document.getElementById(
+            "darkModeToggle"
+        );
+
+
+    const isDark =
+        toggle
+            ? toggle.checked
+            : true;
+
+
+    document.body.classList.toggle(
+        "light-mode",
+        !isDark
+    );
+
+
+    localStorage.setItem(
+        "darkMode",
+        isDark
+            ? "true"
+            : "false"
+    );
+
+
+    showSettingsMessage(
+        isDark
+            ? "🌙 Dark Mode enabled."
+            : "☀️ Light Mode enabled."
+    );
+}
+
+
+function loadSavedTheme() {
+
+    const saved =
+        localStorage.getItem(
+            "darkMode"
+        );
+
+
+    const toggle =
+        document.getElementById(
+            "darkModeToggle"
+        );
+
+
+    if (saved === "false") {
+
+        document.body.classList.add(
+            "light-mode"
+        );
+
+
+        if (toggle) {
+            toggle.checked = false;
+        }
+
+    } else {
+
+        document.body.classList.remove(
+            "light-mode"
+        );
+
+
+        if (toggle) {
+            toggle.checked = true;
+        }
+    }
+}
+
+
+function toggleNotifications() {
+
+    const toggle =
+        document.getElementById(
+            "notificationToggle"
+        );
+
+
+    const enabled =
+        toggle
+            ? toggle.checked
+            : false;
+
+
+    localStorage.setItem(
+        "notifications",
+        enabled
+            ? "true"
+            : "false"
+    );
+
+
+    if (
+        enabled &&
+        "Notification" in window &&
+        Notification.permission !== "granted"
+    ) {
+
+        Notification.requestPermission()
+            .then(function (permission) {
+
+                if (permission !== "granted") {
+
+                    if (toggle) {
+                        toggle.checked = false;
+                    }
+
+
+                    localStorage.setItem(
+                        "notifications",
+                        "false"
+                    );
+
+
+                    showSettingsMessage(
+                        "🔔 Notification permission was not granted."
+                    );
+
+                } else {
+
+                    showSettingsMessage(
+                        "🔔 Notifications enabled."
+                    );
+
+                }
+
+            });
+
+    } else {
+
+        showSettingsMessage(
+            enabled
+                ? "🔔 Notifications enabled."
+                : "🔕 Notifications disabled."
+        );
+    }
+}
+
+
+function loadSavedSettings() {
+
+    const saved =
+        localStorage.getItem(
+            "notifications"
+        );
+
+
+    const toggle =
+        document.getElementById(
+            "notificationToggle"
+        );
+
+
+    if (toggle) {
+
+        toggle.checked =
+            saved === "true";
+
+    }
+}
+
+
+function sendStudyNotification(
+    title,
+    message
+) {
+
+    const enabled =
+        localStorage.getItem(
+            "notifications"
+        ) === "true";
+
+
+    if (
+        enabled &&
+        "Notification" in window &&
+        Notification.permission === "granted"
+    ) {
+
+        new Notification(
+            title,
+            {
+                body: message,
+                icon: "icon-192.png"
+            }
+        );
+
+    }
+}
+
+
+async function resetStudyFlow() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to reset all StudyFlow data?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.clear();
+
+
+    try {
+        await clearStudyFiles();
+    } catch (error) {
+        console.warn(
+            "Could not clear study files:",
+            error
+        );
+    }
+
+
+    alert(
+        "🗑️ StudyFlow data has been reset."
+    );
+
+
+    location.reload();
+}
+
+
+function showSettingsMessage(message) {
+
+    const element =
+        document.getElementById(
+            "settingsMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    setTimeout(function () {
+
+        element.textContent = "";
+
+    }, 3000);
+}
+
+
+/* =========================================================
+   AI CHAT UI
+========================================================= */
+
+function initializeChat() {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
+
+    input.addEventListener(
+        "keydown",
+        handleChatKey
+    );
+}
+
+
+function handleChatKey(event) {
+
+    if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        sendAIMessage();
+
+    }
+}
+
+
+function sendAIMessage() {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!input || !container) {
+        return;
+    }
+
+
+    const message =
+        input.value.trim();
+
+
+    if (!message) {
+        return;
+    }
+
+
+    const userMessage =
+        document.createElement("div");
+
+
+    userMessage.className =
+        "chat-message user-message";
+
+
+    userMessage.innerHTML = `
+        <strong>You</strong>
+        <p>${escapeHTML(message)}</p>
+    `;
+
+
+    container.appendChild(
+        userMessage
+    );
+
+
+    input.value = "";
+
+
+    const assistantMessage =
+        document.createElement("div");
+
+
+    assistantMessage.className =
+        "chat-message assistant-message";
+
+
+    assistantMessage.innerHTML = `
+        <strong>StudyFlow AI</strong>
+        <p>
+            AI Chat is ready in the StudyFlow interface,
+            but a secure AI backend still needs to be connected
+            before I can generate live AI answers.
+        </p>
+    `;
+
+
+    container.appendChild(
+        assistantMessage
+    );
+
+
+    container.scrollTop =
+        container.scrollHeight;
+}
+
+
+/* =========================================================
+   SUPABASE HUMAN CHAT SUPPORT
+   Kept for compatibility with your existing project.
+========================================================= */
+
+let activeChatUser = null;
+
+
+async function getChatCurrentUser() {
+
+    if (!supabaseClient) {
+        return null;
+    }
+
+
+    try {
+
+        const result =
+            await supabaseClient.auth.getUser();
+
+
+        return result.data?.user || null;
+
+    } catch (error) {
+
+        console.warn(
+            "Supabase user unavailable:",
+            error
+        );
+
+
+        return null;
+    }
+}
+
+
+async function openChat(
+    userId,
+    username
+) {
+
+    activeChatUser = {
+
+        id: userId,
+
+        username: username
+
+    };
+
+
+    console.log(
+        "Chat opened with:",
+        username
+    );
+
+
+    if (
+        typeof loadMessages ===
+        "function"
+    ) {
+
+        await loadMessages();
+
+    }
+}
+
+
+async function loadMessages() {
+
+    if (
+        !supabaseClient ||
+        !activeChatUser
+    ) {
+        return [];
+    }
+
+
+    const currentUser =
+        await getChatCurrentUser();
+
+
+    if (!currentUser) {
+        return [];
+    }
+
+
+    try {
+
+        const result =
+            await supabaseClient
+                .from("messages")
+                .select("*")
+                .or(
+                    `and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUser.id}),and(sender_id.eq.${activeChatUser.id},receiver_id.eq.${currentUser.id})`
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (result.error) {
+            console.warn(
+                result.error
+            );
+
+            return [];
+        }
+
+
+        return result.data || [];
+
+    } catch (error) {
+
+        console.warn(
+            "Could not load messages:",
+            error
+        );
+
+        return [];
+    }
+}
+
+
+async function sendMessage(message) {
+
+    if (
+        !supabaseClient ||
+        !activeChatUser
+    ) {
+        return;
+    }
+
+
+    const currentUser =
+        await getChatCurrentUser();
+
+
+    if (!currentUser) {
+        alert(
+            "Please sign in before using user chat."
+        );
+
+        return;
+    }
+
+
+    const text =
+        String(message || "").trim();
+
+
+    if (!text) {
+        return;
+    }
+
+
+    try {
+
+        const result =
+            await supabaseClient
+                .from("messages")
+                .insert({
+
+                    sender_id:
+                        currentUser.id,
+
+                    receiver_id:
+                        activeChatUser.id,
+
+                    message:
+                        text
+
+                });
+
+
+        if (result.error) {
+
+            console.error(
+                result.error
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Could not send message:",
+            error
+        );
+
+    }
+}
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "";
+    }
+
+
+    try {
+
+        return new Date(
+            dateString + "T00:00:00"
+        ).toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    } catch (error) {
+
+        return dateString;
+
+    }
+}
+
+
+function formatTime(time) {
+
+    if (!time) {
+        return "";
+    }
+
+
+    const parts =
+        time.split(":");
+
+
+    let hour =
+        Number(parts[0]);
+
+
+    const minute =
+        parts[1] || "00";
+
+
+    const suffix =
+        hour >= 12
+            ? "PM"
+            : "AM";
+
+
+    hour =
+        hour % 12 || 12;
+
+
+    return (
+        hour +
+        ":" +
+        minute +
+        " " +
+        suffix
+    );
+}
+
+
+function formatFileSize(bytes) {
+
+    if (!bytes) {
+        return "0 Bytes";
+    }
+
+
+    const units = [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+
+    const index =
+        Math.floor(
+            Math.log(bytes) /
+            Math.log(1024)
+        );
+
+
+    return (
+        parseFloat(
+            (
+                bytes /
+                Math.pow(1024, index)
+            ).toFixed(2)
+        ) +
+        " " +
+        units[index]
+    );
+}
+
+
+function getFileIcon(type) {
+
+    if (!type) {
+        return "📄";
+    }
+
+
+    if (type.includes("pdf")) {
+        return "📕";
+    }
+
+
+    if (type.includes("image")) {
+        return "🖼️";
+    }
+
+
+    if (
+        type.includes("word") ||
+        type.includes("document")
+    ) {
+        return "📘";
+    }
+
+
+    if (
+        type.includes("sheet") ||
+        type.includes("excel")
+    ) {
+        return "📗";
+    }
+
+
+    if (
+        type.includes("presentation") ||
+        type.includes("powerpoint")
+    ) {
+        return "📙";
+    }
+
+
+    return "📄";
+}
+
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
 
 document.addEventListener(
     "click",
-    function(event) {
+    function (event) {
 
-        let modal =
+        const modal =
             document.getElementById(
                 "subjectModal"
             );
@@ -2978,66 +3003,119 @@ document.addEventListener(
 );
 
 
-/* =========================================
-   ESCAPE KEY
-========================================= */
+/* =========================================================
+   MAKE INLINE HTML BUTTONS WORK
+   This is important for onclick="..."
+========================================================= */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+window.addTask =
+    addTask;
 
-        if (
-            event.key === "Escape"
-        ) {
+window.completeTask =
+    completeTask;
 
-            closeSubject();
+window.deleteTask =
+    deleteTask;
+
+window.addSchedule =
+    addSchedule;
+
+window.deleteSchedule =
+    deleteSchedule;
+
+window.startTimer =
+    startTimer;
+
+window.pauseTimer =
+    pauseTimer;
+
+window.resetTimer =
+    resetTimer;
+
+window.setStudyMode =
+    setStudyMode;
+
+window.setBreakMode =
+    setBreakMode;
+
+window.changeStudyDuration =
+    changeStudyDuration;
+
+window.changeBreakDuration =
+    changeBreakDuration;
+
+window.openSubject =
+    openSubject;
+
+window.closeSubject =
+    closeSubject;
+
+window.uploadStudyFile =
+    uploadStudyFile;
+
+window.handleFileUpload =
+    handleFileUpload;
+
+window.openStudyFile =
+    openStudyFile;
+
+window.downloadStudyFile =
+    downloadStudyFile;
+
+window.removeStudyFile =
+    removeStudyFile;
+
+window.searchStudyFiles =
+    searchStudyFiles;
+
+window.toggleDarkMode =
+    toggleDarkMode;
+
+window.toggleNotifications =
+    toggleNotifications;
+
+window.resetStudyFlow =
+    resetStudyFlow;
+
+window.sendStudyNotification =
+    sendStudyNotification;
+
+window.sendAIMessage =
+    sendAIMessage;
+
+window.handleChatKey =
+    handleChatKey;
+
+window.openChat =
+    openChat;
+
+window.loadMessages =
+    loadMessages;
+
+window.sendMessage =
+    sendMessage;
+
+
+/* =========================================================
+   SERVICE WORKER
+========================================================= */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            navigator.serviceWorker
+                .register("service-worker.js")
+                .catch(function (error) {
+
+                    console.log(
+                        "Service worker not available yet."
+                    );
+
+                });
 
         }
-
-    }
-);
-
-
-/* =========================================
-   START STUDY DATABASE
-========================================= */
-
-openStudyDatabase()
-
-    .then(function() {
-
-        updateAllFileCounts();
-
-    })
-
-    .catch(function(error) {
-
-        console.error(
-            "Study file database error:",
-            error
-        );
-
-    });
-
-
-/* =========================================
-   INITIALIZE STUDYFLOW
-========================================= */
-
-displayDate();
-
-displayTasks();
-
-displaySchedules();
-
-updateProgress();
-
-updateSubjectProgress();
-
-updateStudyTime();
-
-updateTodaySessions();
-
-loadPomodoroSettings();
-
-setStudyMode();
+    );
+}
