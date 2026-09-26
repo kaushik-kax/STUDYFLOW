@@ -1,7 +1,7 @@
 /* =========================================================
    STUDYFLOW
    Tasks + Timetable + Pomodoro + Progress
-   Subjects + Files + Settings + AI Chat UI
+   Subjects + Files + Settings + REAL AI Chat
 ========================================================= */
 
 
@@ -84,6 +84,13 @@ const STORE_NAME = "studyFiles";
 
 let studyDatabase = null;
 let currentSubject = null;
+
+
+/* =========================================================
+   AI CHAT DATA
+========================================================= */
+
+let studyFlowAIHistory = [];
 
 
 /* =========================================================
@@ -172,7 +179,9 @@ function addTask() {
 
 
     if (!taskInput || !subjectInput) {
+
         alert("Task form could not be found.");
+
         return;
     }
 
@@ -200,15 +209,21 @@ function addTask() {
 
 
     if (!name) {
+
         alert("Please enter a task.");
+
         taskInput.focus();
+
         return;
     }
 
 
     if (!subject) {
+
         alert("Please enter a subject.");
+
         subjectInput.focus();
+
         return;
     }
 
@@ -221,7 +236,7 @@ function addTask() {
 
         subject: subject,
 
-        priority: priority || "Medium",
+        priority: priority,
 
         date: date,
 
@@ -241,13 +256,16 @@ function addTask() {
 
     subjectInput.value = "";
 
+
     if (priorityInput) {
         priorityInput.value = "Medium";
     }
 
+
     if (dateInput) {
         dateInput.value = "";
     }
+
 
     if (timeInput) {
         timeInput.value = "";
@@ -303,13 +321,19 @@ function displayTasks() {
         [...tasks].sort(function (a, b) {
 
             if (a.completed !== b.completed) {
+
                 return Number(a.completed) -
                     Number(b.completed);
+
             }
 
+
             if (a.date && b.date) {
+
                 return a.date.localeCompare(b.date);
+
             }
+
 
             return b.id - a.id;
 
@@ -357,14 +381,14 @@ function displayTasks() {
 
                             ${
                                 dateText
-                                ? `<span>📅 ${dateText}</span>`
-                                : ""
+                                    ? `<span>📅 ${dateText}</span>`
+                                    : ""
                             }
 
                             ${
                                 timeText
-                                ? `<span>⏰ ${timeText}</span>`
-                                : ""
+                                    ? `<span>⏰ ${timeText}</span>`
+                                    : ""
                             }
 
                         </div>
@@ -476,12 +500,15 @@ function addSchedule() {
         document.getElementById("endTime");
 
 
-    if (!dayInput ||
+    if (
+        !dayInput ||
         !subjectInput ||
         !startInput ||
-        !endInput) {
+        !endInput
+    ) {
 
         alert("Timetable form could not be found.");
+
         return;
     }
 
@@ -500,26 +527,35 @@ function addSchedule() {
 
 
     if (!day) {
+
         alert("Please select a day.");
+
         return;
     }
 
 
     if (!subject) {
+
         alert("Please enter a subject.");
+
         subjectInput.focus();
+
         return;
     }
 
 
     if (!startTime || !endTime) {
+
         alert("Please select start and end time.");
+
         return;
     }
 
 
     if (startTime >= endTime) {
+
         alert("End time must be after start time.");
+
         return;
     }
 
@@ -767,7 +803,6 @@ function updateProgress() {
     const progressElement =
         document.getElementById("progressPercentage");
 
-
     const progressFill =
         document.getElementById("progressBarFill");
 
@@ -791,8 +826,10 @@ function updateStudyTime() {
 
 
     if (element) {
+
         element.textContent =
             studyMinutes;
+
     }
 }
 
@@ -826,14 +863,18 @@ function updateProgressDashboard() {
 
 
     if (tasksElement) {
+
         tasksElement.textContent =
             `${completed} / ${total}`;
+
     }
 
 
     if (studyElement) {
+
         studyElement.textContent =
             studyMinutes;
+
     }
 
 
@@ -846,14 +887,18 @@ function updateProgressDashboard() {
 
 
     if (percentageElement) {
+
         percentageElement.textContent =
             percentage;
+
     }
 
 
     if (progressFill) {
+
         progressFill.style.width =
             percentage + "%";
+
     }
 }
 
@@ -870,11 +915,13 @@ function updateSubjectProgress() {
 
 
     const subjects = [
+
         "Physics",
         "Chemistry",
         "Mathematics",
         "Computer Science",
         "English"
+
     ];
 
 
@@ -884,10 +931,12 @@ function updateSubjectProgress() {
             const subjectTasks =
                 tasks.filter(function (task) {
 
-                    return task.subject
-                        .toLowerCase()
-                        .trim() ===
-                        subject.toLowerCase();
+                    return (
+                        String(task.subject || "")
+                            .toLowerCase()
+                            .trim() ===
+                        subject.toLowerCase()
+                    );
 
                 });
 
@@ -951,8 +1000,10 @@ function updateTodaySessions() {
 
 
     if (element) {
+
         element.textContent =
             todaySessions;
+
     }
 }
 
@@ -1040,14 +1091,21 @@ function changeStudyDuration() {
     if (select.value === "custom") {
 
         if (customInput) {
-            customInput.style.display = "block";
+
+            customInput.style.display =
+                "block";
+
             customInput.focus();
+
         }
 
     } else {
 
         if (customInput) {
-            customInput.style.display = "none";
+
+            customInput.style.display =
+                "none";
+
         }
 
 
@@ -1086,14 +1144,21 @@ function changeBreakDuration() {
     if (select.value === "custom") {
 
         if (customInput) {
-            customInput.style.display = "block";
+
+            customInput.style.display =
+                "block";
+
             customInput.focus();
+
         }
 
     } else {
 
         if (customInput) {
-            customInput.style.display = "none";
+
+            customInput.style.display =
+                "none";
+
         }
 
 
@@ -1151,18 +1216,24 @@ function setStudyMode() {
 
 
     if (studyButton) {
+
         studyButton.classList.add("active");
+
     }
 
 
     if (breakButton) {
+
         breakButton.classList.remove("active");
+
     }
 
 
     if (mode) {
+
         mode.textContent =
             "📚 Study Time";
+
     }
 
 
@@ -1206,18 +1277,24 @@ function setBreakMode() {
 
 
     if (studyButton) {
+
         studyButton.classList.remove("active");
+
     }
 
 
     if (breakButton) {
+
         breakButton.classList.add("active");
+
     }
 
 
     if (mode) {
+
         mode.textContent =
             "☕ Break Time";
+
     }
 
 
@@ -1235,11 +1312,15 @@ function startTimer() {
     if (timerSeconds <= 0) {
 
         if (isStudyMode) {
+
             timerSeconds =
                 getStudyDuration() * 60;
+
         } else {
+
             timerSeconds =
                 getBreakDuration() * 60;
+
         }
 
     }
@@ -1287,7 +1368,6 @@ function resetTimer() {
         studyDuration =
             getStudyDuration();
 
-
         timerSeconds =
             studyDuration * 60;
 
@@ -1295,7 +1375,6 @@ function resetTimer() {
 
         breakDuration =
             getBreakDuration();
-
 
         timerSeconds =
             breakDuration * 60;
@@ -1428,8 +1507,10 @@ function updateTimerProgress() {
                 0,
                 Math.min(
                     100,
-                    (timerSeconds /
-                        totalSeconds) * 100
+                    (
+                        timerSeconds /
+                        totalSeconds
+                    ) * 100
                 )
             );
 
@@ -1481,11 +1562,13 @@ function loadPomodoroSettings() {
 
 
             if (custom) {
+
                 custom.style.display =
                     "block";
 
                 custom.value =
                     studyDuration;
+
             }
         }
     }
@@ -1519,11 +1602,13 @@ function loadPomodoroSettings() {
 
 
             if (custom) {
+
                 custom.style.display =
                     "block";
 
                 custom.value =
                     breakDuration;
+
             }
         }
     }
@@ -1537,9 +1622,11 @@ function loadPomodoroSettings() {
 function openStudyDatabase() {
 
     if (!window.indexedDB) {
+
         console.warn(
             "IndexedDB is not supported."
         );
+
         return;
     }
 
@@ -1577,7 +1664,9 @@ function openStudyDatabase() {
                 store.createIndex(
                     "subject",
                     "subject",
-                    { unique: false }
+                    {
+                        unique: false
+                    }
                 );
             }
         };
@@ -1592,8 +1681,11 @@ function openStudyDatabase() {
 
             updateAllFileCounts();
 
+
             if (currentSubject) {
+
                 displaySubjectFiles();
+
             }
 
         };
@@ -1620,7 +1712,9 @@ function uploadStudyFile() {
 
 
     if (input) {
+
         input.click();
+
     }
 }
 
@@ -1694,7 +1788,8 @@ function saveStudyFile(file, subject) {
 
             data: file,
 
-            createdAt: new Date().toISOString()
+            createdAt:
+                new Date().toISOString()
 
         });
 
@@ -1705,6 +1800,7 @@ function saveStudyFile(file, subject) {
             displaySubjectFiles();
 
             updateAllFileCounts();
+
 
             alert(
                 "📚 Study file uploaded successfully!"
@@ -1732,7 +1828,9 @@ function getSubjectFiles(subject) {
     ) {
 
         if (!studyDatabase) {
+
             resolve([]);
+
             return;
         }
 
@@ -1760,17 +1858,21 @@ function getSubjectFiles(subject) {
 
         request.onsuccess =
             function () {
+
                 resolve(
                     request.result || []
                 );
+
             };
 
 
         request.onerror =
             function () {
+
                 reject(
                     request.error
                 );
+
             };
 
     });
@@ -1817,19 +1919,25 @@ async function openSubject(subject) {
 
 
     if (name) {
+
         name.textContent =
             subject;
+
     }
 
 
     if (icon) {
+
         icon.textContent =
             icons[subject] || "📚";
+
     }
 
 
     if (modal) {
+
         modal.classList.add("show");
+
     }
 
 
@@ -1846,7 +1954,9 @@ function closeSubject() {
 
 
     if (modal) {
+
         modal.classList.remove("show");
+
     }
 
 
@@ -1862,7 +1972,11 @@ async function displaySubjectFiles() {
         );
 
 
-    if (!container || !currentSubject) {
+    if (
+        !container ||
+        !currentSubject
+    ) {
+
         return;
     }
 
@@ -1883,9 +1997,11 @@ async function displaySubjectFiles() {
 
         count.textContent =
             files.length +
-            (files.length === 1
-                ? " file"
-                : " files");
+            (
+                files.length === 1
+                    ? " file"
+                    : " files"
+            );
 
     }
 
@@ -1910,7 +2026,9 @@ async function displaySubjectFiles() {
 
                 <div
                     class="file-card"
-                    data-file-name="${escapeHTML(file.name.toLowerCase())}"
+                    data-file-name="${escapeHTML(
+                        file.name.toLowerCase()
+                    )}"
                 >
 
                     <div class="file-info">
@@ -1970,7 +2088,9 @@ function searchStudyFiles() {
 
 
     const search =
-        (searchInput?.value || "")
+        (
+            searchInput?.value || ""
+        )
             .toLowerCase()
             .trim();
 
@@ -2027,8 +2147,13 @@ function openStudyFile(id) {
                 request.result;
 
 
-            if (!file || !file.data) {
+            if (
+                !file ||
+                !file.data
+            ) {
+
                 return;
+
             }
 
 
@@ -2085,8 +2210,13 @@ function downloadStudyFile(id) {
                 request.result;
 
 
-            if (!file || !file.data) {
+            if (
+                !file ||
+                !file.data
+            ) {
+
                 return;
+
             }
 
 
@@ -2102,13 +2232,16 @@ function downloadStudyFile(id) {
 
             link.href = url;
 
+
             link.download =
                 file.name;
 
 
             document.body.appendChild(link);
 
+
             link.click();
+
 
             link.remove();
 
@@ -2125,8 +2258,14 @@ function downloadStudyFile(id) {
 
 function removeStudyFile(id) {
 
-    if (!confirm("Delete this study file?")) {
+    if (
+        !confirm(
+            "Delete this study file?"
+        )
+    ) {
+
         return;
+
     }
 
 
@@ -2165,39 +2304,45 @@ function removeStudyFile(id) {
 function updateAllFileCounts() {
 
     const subjects = [
+
         "Physics",
         "Chemistry",
         "Mathematics",
         "Computer Science",
         "English"
+
     ];
 
 
-    subjects.forEach(async function (subject) {
+    subjects.forEach(
+        async function (subject) {
 
-        const files =
-            await getSubjectFiles(
-                subject
-            );
-
-
-        const element =
-            document.getElementById(
-                "count-" + subject
-            );
+            const files =
+                await getSubjectFiles(
+                    subject
+                );
 
 
-        if (element) {
+            const element =
+                document.getElementById(
+                    "count-" + subject
+                );
 
-            element.textContent =
-                files.length +
-                (files.length === 1
-                    ? " file"
-                    : " files");
+
+            if (element) {
+
+                element.textContent =
+                    files.length +
+                    (
+                        files.length === 1
+                            ? " file"
+                            : " files"
+                    );
+
+            }
 
         }
-
-    });
+    );
 }
 
 
@@ -2208,8 +2353,11 @@ function clearStudyFiles() {
     ) {
 
         if (!studyDatabase) {
+
             resolve();
+
             return;
+
         }
 
 
@@ -2231,13 +2379,17 @@ function clearStudyFiles() {
 
         transaction.oncomplete =
             function () {
+
                 resolve();
+
             };
 
 
         transaction.onerror =
             function () {
+
                 resolve();
+
             };
 
     });
@@ -2306,7 +2458,9 @@ function loadSavedTheme() {
 
 
         if (toggle) {
+
             toggle.checked = false;
+
         }
 
     } else {
@@ -2317,7 +2471,9 @@ function loadSavedTheme() {
 
 
         if (toggle) {
+
             toggle.checked = true;
+
         }
     }
 }
@@ -2357,7 +2513,9 @@ function toggleNotifications() {
                 if (permission !== "granted") {
 
                     if (toggle) {
+
                         toggle.checked = false;
+
                     }
 
 
@@ -2388,6 +2546,7 @@ function toggleNotifications() {
                 ? "🔔 Notifications enabled."
                 : "🔕 Notifications disabled."
         );
+
     }
 }
 
@@ -2461,12 +2620,16 @@ async function resetStudyFlow() {
 
 
     try {
+
         await clearStudyFiles();
+
     } catch (error) {
+
         console.warn(
             "Could not clear study files:",
             error
         );
+
     }
 
 
@@ -2505,8 +2668,24 @@ function showSettingsMessage(message) {
 
 
 /* =========================================================
-   AI CHAT UI
+   REAL STUDYFLOW AI ASSISTANT
 ========================================================= */
+
+/*
+    IMPORTANT
+
+    The OpenAI API key is NOT stored here.
+
+    Browser
+       ↓
+    Supabase Edge Function
+       ↓
+    OpenAI API
+
+    The OpenAI secret stays safely inside
+    Supabase Edge Function secrets.
+*/
+
 
 function initializeChat() {
 
@@ -2530,7 +2709,10 @@ function initializeChat() {
 
 function handleChatKey(event) {
 
-    if (event.key === "Enter") {
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
 
         event.preventDefault();
 
@@ -2540,7 +2722,7 @@ function handleChatKey(event) {
 }
 
 
-function sendAIMessage() {
+async function sendAIMessage() {
 
     const input =
         document.getElementById(
@@ -2555,6 +2737,11 @@ function sendAIMessage() {
 
 
     if (!input || !container) {
+
+        console.error(
+            "AI chat HTML elements were not found."
+        );
+
         return;
     }
 
@@ -2568,53 +2755,345 @@ function sendAIMessage() {
     }
 
 
-    const userMessage =
-        document.createElement("div");
+    /* -----------------------------------------
+       DISPLAY USER MESSAGE
+    ----------------------------------------- */
 
-
-    userMessage.className =
-        "chat-message user-message";
-
-
-    userMessage.innerHTML = `
-        <strong>You</strong>
-        <p>${escapeHTML(message)}</p>
-    `;
-
-
-    container.appendChild(
-        userMessage
+    addChatMessage(
+        "You",
+        message,
+        "user-message"
     );
 
+
+    /* -----------------------------------------
+       SAVE USER MESSAGE TO HISTORY
+    ----------------------------------------- */
+
+    studyFlowAIHistory.push({
+
+        role: "user",
+
+        content: message
+
+    });
+
+
+    /* -----------------------------------------
+       CLEAR INPUT
+    ----------------------------------------- */
 
     input.value = "";
 
 
-    const assistantMessage =
+    input.disabled = true;
+
+
+    const loadingMessage =
+        addChatMessage(
+            "StudyFlow AI",
+            "Thinking...",
+            "assistant-message ai-loading"
+        );
+
+
+    try {
+
+        /* -----------------------------------------
+           CHECK SUPABASE
+        ----------------------------------------- */
+
+        if (
+            typeof supabaseClient === "undefined" ||
+            !supabaseClient
+        ) {
+
+            throw new Error(
+                "Supabase is not connected."
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           CHECK LOGIN SESSION
+        ----------------------------------------- */
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (
+            sessionError ||
+            !sessionData ||
+            !sessionData.session
+        ) {
+
+            throw new Error(
+                "Please log in to use StudyFlow AI."
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           SEND MESSAGE TO SUPABASE EDGE FUNCTION
+        ----------------------------------------- */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.functions.invoke(
+                "studyflow-ai",
+                {
+                    body: {
+
+                        message: message,
+
+                        history:
+                            studyFlowAIHistory.slice(-10)
+
+                    }
+                }
+            );
+
+
+        /* -----------------------------------------
+           CHECK EDGE FUNCTION ERROR
+        ----------------------------------------- */
+
+        if (error) {
+
+            console.error(
+                "StudyFlow AI Edge Function error:",
+                error
+            );
+
+
+            throw new Error(
+                error.message ||
+                "Could not connect to StudyFlow AI."
+            );
+
+        }
+
+
+        /* -----------------------------------------
+           REMOVE LOADING MESSAGE
+        ----------------------------------------- */
+
+        if (loadingMessage) {
+
+            loadingMessage.remove();
+
+        }
+
+
+        /* -----------------------------------------
+           CHECK AI RESPONSE
+        ----------------------------------------- */
+
+        if (
+            !data ||
+            typeof data.answer !== "string" ||
+            !data.answer.trim()
+        ) {
+
+            console.error(
+                "Invalid AI response:",
+                data
+            );
+
+
+            throw new Error(
+                "StudyFlow AI returned no answer."
+            );
+
+        }
+
+
+        const answer =
+            data.answer.trim();
+
+
+        /* -----------------------------------------
+           DISPLAY AI ANSWER
+        ----------------------------------------- */
+
+        addChatMessage(
+            "StudyFlow AI",
+            answer,
+            "assistant-message"
+        );
+
+
+        /* -----------------------------------------
+           SAVE AI ANSWER TO HISTORY
+        ----------------------------------------- */
+
+        studyFlowAIHistory.push({
+
+            role: "assistant",
+
+            content: answer
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "StudyFlow AI error:",
+            error
+        );
+
+
+        if (loadingMessage) {
+
+            loadingMessage.remove();
+
+        }
+
+
+        let errorMessage =
+            "Something went wrong while connecting to StudyFlow AI.";
+
+
+        if (
+            error &&
+            error.message
+        ) {
+
+            errorMessage =
+                error.message;
+
+        }
+
+
+        addChatMessage(
+            "StudyFlow AI",
+            "⚠️ " + errorMessage,
+            "assistant-message error-message"
+        );
+
+    } finally {
+
+        input.disabled = false;
+
+        input.focus();
+
+    }
+}
+
+
+/* =========================================================
+   ADD AI CHAT MESSAGE
+========================================================= */
+
+function addChatMessage(
+    sender,
+    message,
+    className
+) {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!container) {
+
+        return null;
+
+    }
+
+
+    const messageElement =
         document.createElement("div");
 
 
-    assistantMessage.className =
-        "chat-message assistant-message";
+    messageElement.className =
+        "chat-message " +
+        className;
 
 
-    assistantMessage.innerHTML = `
-        <strong>StudyFlow AI</strong>
-        <p>
-            AI Chat is ready in the StudyFlow interface,
-            but a secure AI backend still needs to be connected
-            before I can generate live AI answers.
-        </p>
-    `;
+    const strong =
+        document.createElement("strong");
+
+
+    strong.textContent =
+        sender;
+
+
+    const paragraph =
+        document.createElement("p");
+
+
+    paragraph.textContent =
+        message;
+
+
+    messageElement.appendChild(
+        strong
+    );
+
+
+    messageElement.appendChild(
+        paragraph
+    );
 
 
     container.appendChild(
-        assistantMessage
+        messageElement
     );
 
 
     container.scrollTop =
         container.scrollHeight;
+
+
+    return messageElement;
+}
+
+
+/* =========================================================
+   CLEAR AI CHAT
+========================================================= */
+
+function clearAIChat() {
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    studyFlowAIHistory = [];
+
+
+    container.innerHTML = `
+        <div class="chat-message assistant-message">
+            <strong>StudyFlow AI</strong>
+            <p>
+                Hello! 👋 I'm StudyFlow AI.
+                Ask me about Physics, Chemistry,
+                Mathematics, Computer Science,
+                English, study planning,
+                revision or exam preparation.
+            </p>
+        </div>
+    `;
+
 }
 
 
@@ -2641,6 +3120,7 @@ async function getChatCurrentUser() {
 
         return result.data?.user || null;
 
+
     } catch (error) {
 
         console.warn(
@@ -2650,6 +3130,7 @@ async function getChatCurrentUser() {
 
 
         return null;
+
     }
 }
 
@@ -2691,7 +3172,9 @@ async function loadMessages() {
         !supabaseClient ||
         !activeChatUser
     ) {
+
         return [];
+
     }
 
 
@@ -2700,7 +3183,9 @@ async function loadMessages() {
 
 
     if (!currentUser) {
+
         return [];
+
     }
 
 
@@ -2722,15 +3207,19 @@ async function loadMessages() {
 
 
         if (result.error) {
+
             console.warn(
                 result.error
             );
 
+
             return [];
+
         }
 
 
         return result.data || [];
+
 
     } catch (error) {
 
@@ -2739,7 +3228,9 @@ async function loadMessages() {
             error
         );
 
+
         return [];
+
     }
 }
 
@@ -2750,7 +3241,9 @@ async function sendMessage(message) {
         !supabaseClient ||
         !activeChatUser
     ) {
+
         return;
+
     }
 
 
@@ -2759,11 +3252,14 @@ async function sendMessage(message) {
 
 
     if (!currentUser) {
+
         alert(
             "Please sign in before using user chat."
         );
 
+
         return;
+
     }
 
 
@@ -2772,7 +3268,9 @@ async function sendMessage(message) {
 
 
     if (!text) {
+
         return;
+
     }
 
 
@@ -2802,6 +3300,7 @@ async function sendMessage(message) {
             );
 
         }
+
 
     } catch (error) {
 
@@ -2837,6 +3336,7 @@ function formatDate(dateString) {
                 year: "numeric"
             }
         );
+
 
     } catch (error) {
 
@@ -2893,10 +3393,12 @@ function formatFileSize(bytes) {
 
 
     const units = [
+
         "Bytes",
         "KB",
         "MB",
         "GB"
+
     ];
 
 
@@ -2941,7 +3443,9 @@ function getFileIcon(type) {
         type.includes("word") ||
         type.includes("document")
     ) {
+
         return "📘";
+
     }
 
 
@@ -2949,7 +3453,9 @@ function getFileIcon(type) {
         type.includes("sheet") ||
         type.includes("excel")
     ) {
+
         return "📗";
+
     }
 
 
@@ -2957,7 +3463,9 @@ function getFileIcon(type) {
         type.includes("presentation") ||
         type.includes("powerpoint")
     ) {
+
         return "📙";
+
     }
 
 
@@ -3005,92 +3513,131 @@ document.addEventListener(
 
 /* =========================================================
    MAKE INLINE HTML BUTTONS WORK
-   This is important for onclick="..."
 ========================================================= */
 
 window.addTask =
     addTask;
 
+
 window.completeTask =
     completeTask;
+
 
 window.deleteTask =
     deleteTask;
 
+
 window.addSchedule =
     addSchedule;
+
 
 window.deleteSchedule =
     deleteSchedule;
 
+
 window.startTimer =
     startTimer;
+
 
 window.pauseTimer =
     pauseTimer;
 
+
 window.resetTimer =
     resetTimer;
+
 
 window.setStudyMode =
     setStudyMode;
 
+
 window.setBreakMode =
     setBreakMode;
+
 
 window.changeStudyDuration =
     changeStudyDuration;
 
+
 window.changeBreakDuration =
     changeBreakDuration;
+
 
 window.openSubject =
     openSubject;
 
+
 window.closeSubject =
     closeSubject;
+
 
 window.uploadStudyFile =
     uploadStudyFile;
 
+
 window.handleFileUpload =
     handleFileUpload;
+
 
 window.openStudyFile =
     openStudyFile;
 
+
 window.downloadStudyFile =
     downloadStudyFile;
+
 
 window.removeStudyFile =
     removeStudyFile;
 
+
 window.searchStudyFiles =
     searchStudyFiles;
+
 
 window.toggleDarkMode =
     toggleDarkMode;
 
+
 window.toggleNotifications =
     toggleNotifications;
+
 
 window.resetStudyFlow =
     resetStudyFlow;
 
+
 window.sendStudyNotification =
     sendStudyNotification;
+
+
+/* REAL AI FUNCTIONS */
 
 window.sendAIMessage =
     sendAIMessage;
 
+
 window.handleChatKey =
     handleChatKey;
+
+
+window.initializeChat =
+    initializeChat;
+
+
+window.clearAIChat =
+    clearAIChat;
+
+
+/* HUMAN CHAT */
 
 window.openChat =
     openChat;
 
+
 window.loadMessages =
     loadMessages;
+
 
 window.sendMessage =
     sendMessage;
@@ -3107,7 +3654,7 @@ if ("serviceWorker" in navigator) {
         function () {
 
             navigator.serviceWorker
-                .register("service-worker.js")
+                .register("serviceWorker.js")
                 .catch(function (error) {
 
                     console.log(
@@ -3118,4 +3665,5 @@ if ("serviceWorker" in navigator) {
 
         }
     );
+
 }
